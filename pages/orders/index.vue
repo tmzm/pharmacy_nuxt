@@ -1,0 +1,3 @@
+<template>
+  <orders-list />
+</template>
