@@ -12,6 +12,8 @@ export const api = function (url: string, options: object = {}): any {
   }).catch((error: any) => {
     const toasterStore = useToasterStore()
 
+    console.log(error)
+
     if (error.status !== 200) {
       toasterStore.showErrorToaster(error.data.message)
     }

@@ -47,6 +47,8 @@ export interface Order {
   name: string
   status: string
   payment_status: boolean
+  user_id: number
+  user: User
   total_price: number
   order_items: OrderItem[]
   is_prescription: boolean

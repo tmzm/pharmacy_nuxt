@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import no_avatar from '@images/avatars/avatar-no.png'
+
 const orderStore = useOrderStore()
 
 const { pending, refresh } = useAsyncData(() => orderStore.getAllOrders())
@@ -64,8 +66,29 @@ const deleteOrder = () => {
         </v-btn>
       </template>
 
+      <template #item.user_id="{ item }">
+        <v-avatar>
+          <v-img :src="item.user.avatar ?? no_avatar"></v-img>
+        </v-avatar>
+      </template>
+
       <template #item.created_at="{ item }">
         {{ $dayjs(item.created_at).format('YYYY/MM/DD') }}
+      </template>
+
+      <template #item.is_prescription="{ item }">
+        <v-chip
+          density="compact"
+          :color="item.is_prescription ? 'primary' : 'secondary'"
+          >{{ item.is_prescription ? 'prescription' : 'order' }}
+          {{
+            item.is_prescription
+              ? item.accepted_by_user
+                ? ''
+                : ': not accepted yet'
+              : ''
+          }}</v-chip
+        >
       </template>
 
       <template #item.updated_at="{ item }">

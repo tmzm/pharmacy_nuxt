@@ -9,7 +9,11 @@
       </v-col>
     </template>
 
-    <v-date-picker v-model="product.expiration" width="400"></v-date-picker>
+    <v-date-picker
+      show-adjacent-months
+      v-model="product.expiration"
+      width="400"
+    ></v-date-picker>
   </v-menu>
 </template>
 

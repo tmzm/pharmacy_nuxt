@@ -4,8 +4,10 @@ export const useProductStore = defineStore('product', () => {
   const products = ref<Product[]>()
   const quantityShow = ref()
   const fileInput = ref()
-  const imageFileInput = ref([])
   const categoryStore = useCategoryStore()
+  const imageFileInput = ref<
+    { name: string; size: number; type: string; lastModified: number }[]
+  >([])
 
   const product = ref<Product>({
     id: 0,
@@ -87,8 +89,14 @@ export const useProductStore = defineStore('product', () => {
   }
 
   const getProduct = async (id: number) => {
-    const res = await api(`/products/${id}`)
-    product.value = res.data
+    try {
+      const res = await api(`/products/${id}`)
+      product.value = res.data
+      return res.data
+    } catch (e) {
+      console.log(e)
+      product.value = {} as Product
+    }
   }
 
   const importProducts = async () => {

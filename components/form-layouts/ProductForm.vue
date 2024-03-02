@@ -26,12 +26,24 @@ if (id.value) {
   })
 }
 
-const url = ref()
+const imageDropZoneRef = ref<HTMLElement>()
 
-const onImgChange = (e: any) => {
-  const file = e.target.files[0]
-  url.value = URL.createObjectURL(file)
+const onImageDrop = (files: File[] | null) => {
+  imageFileInput.value = []
+  if (files) {
+    imageFileInput.value = files.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified
+    }))
+  }
 }
+
+const { isOverDropZone } = useDropZone(imageDropZoneRef, {
+  dataTypes: ['image/png'],
+  onDrop: onImageDrop
+})
 
 const onSubmit = () => {
   if (id.value) {
@@ -46,7 +58,7 @@ const onSubmit = () => {
   <v-card
     :title="id ? `Edit Product: ${product.scientific_name}` : 'Create Product'"
   >
-    <v-container>
+    <v-card-text>
       <VForm>
         <v-row>
           <!-- Scientific Name -->
@@ -112,22 +124,26 @@ const onSubmit = () => {
 
           <!-- description -->
           <ClientOnly>
-            <v-col cols="12" class="mb-md-12 mb-16">
+            <v-col cols="12" class="mb-24">
+              <div class="mb-4">Description</div>
               <QuillEditor v-model:content="product.description" />
             </v-col>
           </ClientOnly>
 
-          <v-col cols="6">
-            <v-file-input
-              @change="onImgChange"
-              accept="images/*"
-              density="compact"
-              v-model="imageFileInput"
-              label="image (optional)"
-              placeholder="some description"
-            ></v-file-input>
-            <NuxtImg v-if="url" :src="url" width="400"></NuxtImg>
+          <v-col cols="12" md="6">
+            <VTextField label="Meta Title"> </VTextField>
           </v-col>
+
+          <v-col cols="12" md="6">
+            <VTextField label="Meta subtitle"> </VTextField>
+          </v-col>
+
+          <ClientOnly>
+            <v-col cols="12" class="mb-24">
+              <div class="mb-4">Meta Description</div>
+              <QuillEditor />
+            </v-col>
+          </ClientOnly>
 
           <v-col cols="12" class="d-flex gap-4">
             <v-btn @click="onSubmit" :loading="loading">
@@ -145,6 +161,20 @@ const onSubmit = () => {
           </v-col>
         </v-row>
       </VForm>
-    </v-container>
+    </v-card-text>
+  </v-card>
+
+  <v-card title="upload Image (optional)" class="mt-8">
+    <div
+      ref="imageDropZoneRef"
+      class="ma-8 border-2 pa-16 text-center border-dashed rounded-2xl"
+    >
+      <strong>Drop image:</strong>
+      {{
+        !isOverDropZone
+          ? 'drag and drop images (allowed: images and png)'
+          : 'drop'
+      }}
+    </div>
   </v-card>
 </template>

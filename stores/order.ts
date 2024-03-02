@@ -1,7 +1,9 @@
-import type { Order } from '@/types'
+import type { Order, Product } from '@/types'
 
 export const useOrderStore = defineStore('order', () => {
   const orders = ref<Order[]>()
+  const fields = ref(1)
+  const productsImages = ref<Product[]>([])
 
   const productIds = ref<
     {
@@ -10,23 +12,31 @@ export const useOrderStore = defineStore('order', () => {
     }[]
   >([
     {
-      id: 0,
-      quantity: 0
+      id: undefined,
+      quantity: undefined
     }
   ])
 
   const loading = ref()
 
-  const create = async () => {
+  const create = async (user_id: number, prescription_id: number) => {
+    console.log('store')
     loading.value = true
 
     try {
-      await api('/orders/create', {
+      const res = await api('/orders/create', {
+        method: 'post',
         body: {
-          products: productIds
+          is_prescription: true,
+          accepted_by_user: false,
+          user_id: user_id,
+          products: productIds.value
         }
       })
+
+      await api(`/prescriptions/${prescription_id}/orders/${res.data.id}`)
     } catch (e) {
+      console.log(e)
       loading.value = false
     }
 
@@ -53,6 +63,8 @@ export const useOrderStore = defineStore('order', () => {
     create,
     edit,
     loading,
-    productIds
+    productIds,
+    fields,
+    productsImages
   }
 })

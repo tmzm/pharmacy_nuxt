@@ -22,7 +22,7 @@ const previous = () => {
 <template>
   <div class="auth-wrapper d-flex align-center justify-center">
     <v-stepper alt-labels class="auth-card mt-4" v-model="step">
-      <v-stepper-header>
+      <v-stepper-header class="d-none">
         <v-stepper-item flat title="Enter important informations" :value="1" />
 
         <v-divider></v-divider>

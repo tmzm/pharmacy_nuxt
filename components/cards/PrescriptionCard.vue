@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import type { Prescription } from '@/types'
+import type { Prescription, Product } from '@/types'
 
 const orderStore = useOrderStore()
+const productStore = useProductStore()
+const { productIds, loading, fields, productsImages } = storeToRefs(orderStore)
 
-const { productIds, loading } = storeToRefs(orderStore)
+// const products : Product[] = computed(()=>{
+//   return productIds.value.forEach((element:any) => {
+//     return productStore.getProduct(element.id)
+//   });
+// })
 
 defineProps<{
   prescription: Prescription
 }>()
-
-const fields = ref(1)
 
 const navigationTab = ref('Prescription')
 const tabItems = ['Prescription', 'Create Order']
@@ -17,11 +21,19 @@ const tabItems = ['Prescription', 'Create Order']
 const decrease = () => {
   if (fields.value > 1) fields.value--
   productIds.value.splice(fields.value, 1)
+  productsImages.value.splice(fields.value, 1)
 }
 
 const increase = () => {
   fields.value++
   productIds.value.push({})
+  productsImages.value.push({} as Product)
+}
+
+const getProduct = async (i: number) => {
+  productsImages.value[i - 1] = await productStore.getProduct(
+    productIds.value[i - 1].id as number
+  )
 }
 </script>
 
@@ -37,25 +49,7 @@ const increase = () => {
     <VWindow v-model="navigationTab">
       <VWindowItem value="Prescription">
         <v-img :src="`http://127.0.0.1:8000${prescription.image}`">
-          <v-toolbar color="rgba(0, 0, 0, 0)" theme="dark">
-            <template v-slot:append>
-              <v-menu :close-on-content-click="false" location="end">
-                <template v-slot:activator="{ props }">
-                  <v-btn icon="ri-equalizer-line" v-bind="props"></v-btn>
-                </template>
-
-                <v-list>
-                  <v-list-item
-                    ><v-icon>ri-delete-bin-2-line</v-icon> delete
-                  </v-list-item>
-
-                  <v-list-item
-                    ><v-icon>ri-edit-2-fill</v-icon> edit
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </template>
-          </v-toolbar>
+          <v-btn icon class="ma-4"><v-icon>ri-delete-bin-2-line</v-icon></v-btn>
         </v-img>
 
         <v-card-item
@@ -69,8 +63,22 @@ const increase = () => {
       </VWindowItem>
 
       <VWindowItem value="Create Order">
-        <form class="ma-4" @submit.prevent="orderStore.create()">
+        <v-form
+          class="ma-4"
+          @submit.prevent="
+            orderStore.create(prescription.user.id, prescription.id)
+          "
+        >
           <div class="d-flex ga-4" v-for="i in fields">
+            <v-img
+              v-if="productsImages[i - 1]"
+              lazy-src="http://127.0.0.1:8000/images/noImage.jpg"
+              cover
+              width="50"
+              height="50"
+              :aspect-ratio="1"
+              :src="`http://127.0.0.1:8000${productsImages[i - 1].image}`"
+            />
             <v-text-field
               type="number"
               class="mb-4"
@@ -78,6 +86,7 @@ const increase = () => {
               prepend-inner-icon=""
               v-model="productIds[i - 1].id"
               required
+              @update:model-value="getProduct(i)"
               :rules="[v => !!v || 'product id is required']"
             >
               <template #prepend-inner>
@@ -102,7 +111,7 @@ const increase = () => {
               >Create Order</v-btn
             >
           </div>
-        </form>
+        </v-form>
       </VWindowItem>
     </VWindow>
   </v-card>

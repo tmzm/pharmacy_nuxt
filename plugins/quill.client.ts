@@ -10,7 +10,6 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 // Quill.register(Font, true)
 
 export default defineNuxtPlugin(nuxtApp => {
-  console.log('test')
   // Custom Toolbar
   const toolbarOptions = [
     // each sub-array is a group
@@ -19,7 +18,7 @@ export default defineNuxtPlugin(nuxtApp => {
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     [{ list: 'ordered' }, { list: 'bullet' }],
     [{ align: ['right', 'center', 'justify'] }],
-    ['image'],
+    // ['image'],
     ['link'],
     ['clean'] // remove formatting button
   ]

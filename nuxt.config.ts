@@ -33,14 +33,6 @@ export default defineNuxtConfig({
   components: {
     dirs: [
       {
-        path: '@/@core/components',
-        pathPrefix: false
-      },
-      {
-        path: '~/components/global',
-        global: true
-      },
-      {
         path: '~/components',
         pathPrefix: false
       }
@@ -48,17 +40,6 @@ export default defineNuxtConfig({
   },
 
   plugins: ['@/plugins/vuetify/index.ts', '@/plugins/iconify/index.ts'],
-
-  imports: {
-    dirs: [
-      './@core/composable/',
-      './plugins/*/composables/*',
-      './compnenents/*'
-    ],
-    presets: []
-  },
-
-  hooks: {},
 
   experimental: {
     typedPages: true

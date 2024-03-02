@@ -87,11 +87,6 @@ const { name, number, password } = storeToRefs(signupStore)
               Sign in instead
             </NuxtLink>
           </v-col>
-
-          <!-- auth providers -->
-          <v-col cols="12" class="text-center">
-            <AuthProvider />
-          </v-col>
         </v-row>
       </VForm>
     </v-card-text>

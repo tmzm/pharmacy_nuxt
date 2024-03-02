@@ -1,18 +1,15 @@
 <script setup lang="ts">
-const productStore = useProductStore()
+import no_img from '@images/no-img.jpeg'
 
+const productStore = useProductStore()
 const searchStore = useSearchStore()
 
 const { filteredProducts } = storeToRefs(searchStore)
-
 const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
-
 const { loading } = storeToRefs(productStore)
 
 const search = ref()
-
 const dialogDelete = ref(false)
-
 const deleteId = ref()
 
 const deleteModuleAction = (id: number) => {
@@ -56,18 +53,33 @@ const deleteProduct = () => {
       :headers="productHeaders"
     >
       <template #item.id="{ item }">
-        <v-btn
-          variant="outlined"
-          icon
-          size="small"
-          class="me-2"
-          @click="navigateTo(`/products/${item.id}/edit`)"
-        >
-          <v-icon>ri-pencil-line</v-icon>
-        </v-btn>
-        <v-btn icon size="small" @click="deleteModuleAction(item.id)">
-          <v-icon>ri-delete-bin-2-line</v-icon>
-        </v-btn>
+        <v-menu :close-on-content-click="false" location="end">
+          <template v-slot:activator="{ props }">
+            <v-icon v-bind="props">ri-more-2-fill</v-icon>
+          </template>
+
+          <v-list>
+            <v-list-item @click="navigateTo(`/products/${item.id}/edit`)"
+              ><v-icon>ri-edit-2-fill</v-icon> edit
+            </v-list-item>
+
+            <v-list-item @click="deleteModuleAction(item.id)"
+              ><v-icon>ri-delete-bin-2-line</v-icon> delete
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-icon>ri-hashtag</v-icon> <strong>{{ item.id }}</strong>
+      </template>
+
+      <template #item.image="{ item }">
+        <v-img
+          lazy-src="http://127.0.0.1:8000/images/noImage.jpg"
+          cover
+          width="40"
+          :aspect-ratio="1"
+          :src="`http://127.0.0.1:8000${item.image}` ?? no_img"
+        />
       </template>
 
       <template #item.category_products="{ item }">

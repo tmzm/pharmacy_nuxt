@@ -39,8 +39,12 @@ export const avatars = [
 
 export const productHeaders = [
   {
-    title: 'Actions',
+    title: 'product ID',
     key: 'id'
+  },
+  {
+    title: '',
+    key: 'image'
   },
   {
     title: 'Scientific Name',
@@ -90,9 +94,14 @@ export const orderHeaders = [
     key: 'user_id'
   },
   {
+    title: 'Type',
+    key: 'is_prescription'
+  },
+  {
     title: 'Status',
     key: 'status'
   },
+
   {
     title: 'Payment Status',
     key: 'payment_status'
