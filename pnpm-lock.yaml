@@ -36,12 +36,18 @@ dependencies:
   fs-extra:
     specifier: ^11.2.0
     version: 11.2.0
+  nuxt-dropzone:
+    specifier: ^1.0.4
+    version: 1.0.4
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.3.3)(vue@3.3.13)
   prismjs:
     specifier: ^1.29.0
     version: 1.29.0
+  radash:
+    specifier: ^12.1.0
+    version: 12.1.0
   roboto-fontface:
     specifier: ^0.10.0
     version: 0.10.0
@@ -4708,6 +4714,10 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
+  /dropzone@5.9.3:
+    resolution: {integrity: sha512-Azk8kD/2/nJIuVPK+zQ9sjKMRIpRvNyqn9XwbBHNq+iNuSccbJS6hwm1Woy0pMST0erSo0u4j+KJaodndDk4vA==}
+    dev: false
+
   /duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
@@ -7570,6 +7580,12 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /nuxt-dropzone@1.0.4:
+    resolution: {integrity: sha512-1QuthM3bDGBN2ugXE5HfcvBmekNy4YUYfMurTeuBrwIGId0JSF9HasspwndxsSNL42eGET83eezRcH4ekLGqeA==}
+    dependencies:
+      vue2-dropzone: 3.6.0
+    dev: false
+
   /nuxt@3.9.1(@types/node@20.10.6)(eslint@8.56.0)(sass@1.69.7)(stylelint@15.11.0)(typescript@5.3.3)(vite@5.0.10):
     resolution: {integrity: sha512-jyD9E74bx8cdDc3nmYMNsJR0dIOrpcDH/mBlo1FmpB2zeXXMwupOD2tm033MJpHIEBbhQGHYFQlRyd7wHg2DyA==}
     engines: {node: ^14.18.0 || >=16.10.0}
@@ -8841,6 +8857,11 @@ packages:
       extend: 3.0.2
       parchment: 1.1.4
       quill-delta: 3.6.3
+    dev: false
+
+  /radash@12.1.0:
+    resolution: {integrity: sha512-b0Zcf09AhqKS83btmUeYBS8tFK7XL2e3RvLmZcm0sTdF1/UUlHSsjXdCcWNxe7yfmAlPve5ym0DmKGtTzP6kVQ==}
+    engines: {node: '>=14.18.0'}
     dev: false
 
   /radix3@1.1.0:
@@ -10882,6 +10903,12 @@ packages:
       '@vue/devtools-api': 6.5.1
       vue: 3.3.13(typescript@5.3.3)
     dev: true
+
+  /vue2-dropzone@3.6.0:
+    resolution: {integrity: sha512-YXC1nCWIZvfa98e/i6h+EshZCkFSxFEh0Sxr9ODfThAPPDVhAzLLlz/4XIx0NGO1QeSy6htwSstte47R7vVhLQ==}
+    dependencies:
+      dropzone: 5.9.3
+    dev: false
 
   /vue3-apexcharts@1.4.4(apexcharts@3.37.0)(vue@3.3.13):
     resolution: {integrity: sha512-TH89uZrxGjaDvkaYAISvj8+k6Bf1rUKFillc8oJirs5XZEPiwM1ELKZQ786wz0rfPqkSHHny2lqqUCK7Rw+LcQ==}

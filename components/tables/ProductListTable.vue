@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import no_img from '@images/no-img.jpeg'
+import { debounce, isEqual } from 'radash'
 
 const productStore = useProductStore()
-const searchStore = useSearchStore()
 
-const { filteredProducts } = storeToRefs(searchStore)
+const page = ref(1)
+const itemsPerPage = ref(10)
+
+const { products } = storeToRefs(productStore)
+const { selectedCategories } = storeToRefs(useCategoryStore())
 const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
-const { loading } = storeToRefs(productStore)
+const { loading, paginationOptions, search, productsTotalCount } =
+  storeToRefs(productStore)
 
-const search = ref()
 const dialogDelete = ref(false)
 const deleteId = ref()
 
@@ -22,6 +26,61 @@ const deleteProduct = () => {
   productStore.deleteProduct(deleteId.value)
   refresh()
 }
+
+watch(paginationOptions, async (oldValue, newValue) => {
+  console.log('test')
+  if (isEqual(oldValue, newValue)) return
+
+  loading.value = true
+
+  await productStore.getAllProducts()
+
+  loading.value = false
+})
+
+watch(itemsPerPage, async (oldValue, newValue) => {
+  console.log('test')
+  if (isEqual(oldValue, newValue)) return
+
+  loading.value = true
+
+  await productStore.getAllProducts()
+
+  loading.value = false
+})
+
+watch(productsTotalCount, async (oldValue, newValue) => {
+  console.log('test')
+  if (isEqual(oldValue, newValue)) return
+
+  loading.value = true
+
+  await productStore.getAllProducts()
+
+  loading.value = false
+})
+
+watch(search, () =>
+  debounce({ delay: 100 }, async () => {
+    loading.value = true
+
+    await productStore.getAllProducts()
+
+    loading.value = false
+  })
+)
+
+const pageCount = computed(() => {
+  return Math.ceil(productsTotalCount.value / itemsPerPage.value)
+})
+
+watch(selectedCategories, async () => {
+  loading.value = true
+
+  await productStore.getAllProducts()
+
+  loading.value = false
+})
 </script>
 
 <template>
@@ -36,21 +95,50 @@ const deleteProduct = () => {
     <CategoriesSelect />
 
     <template v-slot:text>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        prepend-inner-icon="ri-search-line"
-        hide-details
-      ></v-text-field>
+      <v-row>
+        <v-col cols="8">
+          <v-text-field
+            v-model="search"
+            label="Search"
+            prepend-inner-icon="ri-search-line"
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            type="number"
+            :max="productsTotalCount"
+            min="5"
+            @update:model-value="itemsPerPage = parseInt($event, 10)"
+            :model-value="itemsPerPage"
+            label="items per page"
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            type="number"
+            max="30"
+            :min="itemsPerPage"
+            @update:model-value="productsTotalCount = parseInt($event, 10)"
+            :model-value="productsTotalCount"
+            label="total products"
+            hide-details
+          ></v-text-field>
+        </v-col>
+      </v-row>
     </template>
 
-    <VDataTable
-      :search="search"
-      :items="filteredProducts"
-      :loading="pending"
-      item-key="id"
+    <VDataTableServer
       class="text-no-wrap"
+      :items="products"
+      :items-length="products?.length ?? 0"
+      :loading="pending || loading"
+      item-key="id"
       :headers="productHeaders"
+      :items-per-page="itemsPerPage"
+      v-model:page="page"
+      @update:options="paginationOptions = $event"
     >
       <template #item.id="{ item }">
         <v-menu :close-on-content-click="false" location="end">
@@ -59,7 +147,7 @@ const deleteProduct = () => {
           </template>
 
           <v-list>
-            <v-list-item @click="navigateTo(`/products/${item.id}/edit`)"
+            <v-list-item @click="navigateTo(`/admin/products/${item.id}/edit`)"
               ><v-icon>ri-edit-2-fill</v-icon> edit
             </v-list-item>
 
@@ -83,9 +171,14 @@ const deleteProduct = () => {
       </template>
 
       <template #item.category_products="{ item }">
-        <v-chip class="mr-4" v-for="c in item.category_products" :key="c.id">{{
-          c.category.name
-        }}</v-chip>
+        <div class="text-no-wrap">
+          <v-chip
+            class="mr-4"
+            v-for="c in item.category_products"
+            :key="c.id"
+            >{{ c.category.name }}</v-chip
+          >
+        </div>
       </template>
 
       <template #item.created_at="{ item }">
@@ -115,6 +208,16 @@ const deleteProduct = () => {
           }}</v-chip
         >
       </template>
-    </VDataTable>
+
+      <template v-slot:bottom>
+        <div class="text-center ma-2">
+          <v-pagination
+            v-model="page"
+            :length="pageCount"
+            :total-visible="4"
+          ></v-pagination>
+        </div>
+      </template>
+    </VDataTableServer>
   </v-card>
 </template>

@@ -1,7 +1,10 @@
 import type { ThemeDefinition } from 'vuetify'
 
-export const staticPrimaryColor = '#db8c04'
-export const staticPrimaryDarkenColor = '#fbae22'
+export const staticPrimaryColor = '#f4da3f'
+export const staticPrimaryDarkenColor = '#e0b416'
+
+const SecondaryColor = '#1e6f5c'
+const SecondaryDarkenColor = '#14604d'
 
 export const themes: Record<string, ThemeDefinition> = {
   light: {
@@ -10,8 +13,8 @@ export const themes: Record<string, ThemeDefinition> = {
       primary: staticPrimaryColor,
       'on-primary': '#fff',
       'primary-darken-1': staticPrimaryDarkenColor,
-      secondary: '#187944',
-      'secondary-darken-1': '#185947',
+      secondary: SecondaryColor,
+      'secondary-darken-1': SecondaryDarkenColor,
       'on-secondary': '#fff',
       success: '#56CA00',
       'success-darken-1': '#4DB600',
@@ -25,7 +28,7 @@ export const themes: Record<string, ThemeDefinition> = {
       error: '#FF4C51',
       'error-darken-1': '#E64449',
       'on-error': '#fff',
-      background: '#b7d3d4',
+      background: '#dbfff6',
       'on-background': '#01140e',
       surface: '#fff',
       'on-surface': '#032b1d',
@@ -96,9 +99,9 @@ export const themes: Record<string, ThemeDefinition> = {
       error: '#FF4C51',
       'error-darken-1': '#E64449',
       'on-error': '#fff',
-      background: '#19473a',
+      background: SecondaryDarkenColor,
       'on-background': '#fff',
-      surface: '#187944',
+      surface: SecondaryColor,
       'on-surface': '#fff',
       'grey-50': '#2A2E42',
       'grey-100': '#2F3349',
@@ -132,7 +135,7 @@ export const themes: Record<string, ThemeDefinition> = {
       'dragged-opacity': 0.1,
       'border-color': '#E7E3FC',
       'border-opacity': 0.12,
-      'table-header-color': '#db8c04',
+      'table-header-color': staticPrimaryColor,
       'high-emphasis-opacity': 0.9,
       'medium-emphasis-opacity': 0.7,
 

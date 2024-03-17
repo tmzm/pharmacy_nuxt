@@ -11,7 +11,7 @@
     <VerticalNavLink
       :item="{
         title: 'Analytics',
-        to: '/'
+        to: '/admin'
       }"
     />
   </VerticalNavGroup>
@@ -26,14 +26,14 @@
     <VerticalNavLink
       :item="{
         title: 'Add Products',
-        to: '/products/create'
+        to: '/admin/products/create'
       }"
     />
 
     <VerticalNavLink
       :item="{
         title: 'Products List',
-        to: '/products/list'
+        to: '/admin/products/list'
       }"
     />
   </VerticalNavGroup>
@@ -43,7 +43,7 @@
     :item="{
       title: 'Categories',
       icon: 'ri-folder-line',
-      to: '/categories'
+      to: '/admin/categories'
     }"
   />
 
@@ -57,7 +57,7 @@
     <VerticalNavLink
       :item="{
         title: 'All Orders',
-        to: '/orders'
+        to: '/admin/orders'
       }"
     />
   </VerticalNavGroup>
@@ -72,7 +72,7 @@
     <VerticalNavLink
       :item="{
         title: 'All prescriptions',
-        to: '/prescriptions'
+        to: '/admin/prescriptions'
       }"
     />
   </VerticalNavGroup>
@@ -88,7 +88,7 @@
     :item="{
       title: 'Account Settings',
       icon: 'ri-user-settings-line',
-      to: '/account-settings'
+      to: '/admin/account-settings'
     }"
   />
 </template>

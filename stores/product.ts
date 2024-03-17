@@ -1,3 +1,4 @@
+import paginationParams from '@/composables/paginationParams'
 import type { Product } from '@/types'
 
 export const useProductStore = defineStore('product', () => {
@@ -5,9 +6,18 @@ export const useProductStore = defineStore('product', () => {
   const quantityShow = ref()
   const fileInput = ref()
   const categoryStore = useCategoryStore()
-  const imageFileInput = ref<
-    { name: string; size: number; type: string; lastModified: number }[]
-  >([])
+  const { selectedCategories, categories: currentCategories } =
+    storeToRefs(categoryStore)
+  const search = ref()
+  const productsTotalCount = ref(15)
+  const paginationOptions = ref({
+    groupBy: [],
+    itemsPerPage: 10,
+    page: 1,
+    sortBy: []
+  })
+
+  const imageFileInput = ref()
 
   const product = ref<Product>({
     id: 0,
@@ -25,11 +35,15 @@ export const useProductStore = defineStore('product', () => {
     category_products: []
   })
 
+  const categories = computed(() => {
+    return selectedCategories.value.map(e => {
+      return currentCategories.value[e].id
+    })
+  })
+
   const loadingImport = ref()
   const loading = ref()
   const router = useRouter()
-
-  const { selectedCategories } = storeToRefs(categoryStore)
 
   const create = async () => {
     loading.value = true
@@ -51,7 +65,7 @@ export const useProductStore = defineStore('product', () => {
 
     loading.value = false
 
-    router.push('/products/list')
+    router.push('/admin/products/list')
   }
 
   const edit = async () => {
@@ -75,13 +89,20 @@ export const useProductStore = defineStore('product', () => {
 
     loading.value = false
 
-    router.push(`/products/${id}`)
+    router.push(`/admin/products/${id}`)
   }
 
   const getAllProducts = async () => {
     loading.value = true
 
-    const res = await api('/products')
+    const res = await api('/products', {
+      method: 'post',
+      body: {
+        categories: categories.value,
+        search: search.value ?? undefined,
+        ...paginationParams(paginationOptions.value, productsTotalCount.value)
+      }
+    })
 
     products.value = res.data
 
@@ -136,6 +157,9 @@ export const useProductStore = defineStore('product', () => {
     edit,
     loading,
     loadingImport,
-    product
+    product,
+    paginationOptions,
+    productsTotalCount,
+    search
   }
 })

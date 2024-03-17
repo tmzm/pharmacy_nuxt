@@ -14,8 +14,7 @@ export const useMyAuthStore = defineStore('auth', () => {
         method: 'post',
         body: {
           phone_number: phone_number,
-          password: password,
-          role: 'admin'
+          password: password
         }
       })
 

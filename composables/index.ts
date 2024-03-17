@@ -16,8 +16,8 @@ export const appendNewProductData = () => {
 
   const formData = new FormData()
 
-  if (imageFileInput.value.length > 0) {
-    formData.append('image', imageFileInput.value[0])
+  if (imageFileInput.value) {
+    formData.append('image', imageFileInput.value)
   }
   formData.append('commercial_name', product.value.commercial_name)
   formData.append('scientific_name', product.value.scientific_name)

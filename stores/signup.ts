@@ -17,7 +17,7 @@ export const useSignupStore = defineStore('signup', () => {
           phone_number: number.value,
           password: password.value,
           name: name.value,
-          role: 'admin'
+          role: 'user'
         }
       })
 
