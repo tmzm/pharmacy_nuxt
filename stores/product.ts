@@ -93,8 +93,6 @@ export const useProductStore = defineStore('product', () => {
   }
 
   const getAllProducts = async () => {
-    loading.value = true
-
     const res = await api('/products', {
       method: 'post',
       body: {
@@ -105,8 +103,12 @@ export const useProductStore = defineStore('product', () => {
     })
 
     products.value = res.data
+  }
 
-    loading.value = false
+  const getTopProductSellers = async () => {
+    const res = await api('/products/top_sellers')
+
+    products.value = res.data
   }
 
   const getProduct = async (id: number) => {
@@ -153,6 +155,7 @@ export const useProductStore = defineStore('product', () => {
     quantityShow,
     products,
     getAllProducts,
+    getTopProductSellers,
     create,
     edit,
     loading,

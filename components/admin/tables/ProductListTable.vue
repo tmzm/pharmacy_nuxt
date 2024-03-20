@@ -28,45 +28,26 @@ const deleteProduct = () => {
 }
 
 watch(paginationOptions, async (oldValue, newValue) => {
-  console.log('test')
   if (isEqual(oldValue, newValue)) return
 
-  loading.value = true
-
-  await productStore.getAllProducts()
-
-  loading.value = false
+  refresh()
 })
 
 watch(itemsPerPage, async (oldValue, newValue) => {
-  console.log('test')
   if (isEqual(oldValue, newValue)) return
 
-  loading.value = true
-
-  await productStore.getAllProducts()
-
-  loading.value = false
+  refresh()
 })
 
 watch(productsTotalCount, async (oldValue, newValue) => {
-  console.log('test')
   if (isEqual(oldValue, newValue)) return
 
-  loading.value = true
-
-  await productStore.getAllProducts()
-
-  loading.value = false
+  refresh()
 })
 
 watch(search, () =>
-  debounce({ delay: 100 }, async () => {
-    loading.value = true
-
-    await productStore.getAllProducts()
-
-    loading.value = false
+  debounce({ delay: 100 }, () => {
+    refresh()
   })
 )
 
@@ -74,12 +55,10 @@ const pageCount = computed(() => {
   return Math.ceil(productsTotalCount.value / itemsPerPage.value)
 })
 
-watch(selectedCategories, async () => {
-  loading.value = true
-
-  await productStore.getAllProducts()
-
-  loading.value = false
+watch(selectedCategories, () => refresh())
+watch(page, () => {
+  paginationOptions.value.page = page.value
+  refresh()
 })
 </script>
 
@@ -137,7 +116,6 @@ watch(selectedCategories, async () => {
       item-key="id"
       :headers="productHeaders"
       :items-per-page="itemsPerPage"
-      v-model:page="page"
       @update:options="paginationOptions = $event"
     >
       <template #item.id="{ item }">

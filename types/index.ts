@@ -31,6 +31,7 @@ export interface CategoryProduct {
   updated_at: Date
   id: number
   category: Category
+  product: Product
 }
 
 export interface Category {
@@ -38,6 +39,7 @@ export interface Category {
   updated_at: Date
   id: number
   name: string
+  category_products_count: number
 }
 
 export interface Order {

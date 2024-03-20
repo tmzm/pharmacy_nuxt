@@ -1,6 +1,7 @@
 import type { Order, Product } from '@/types'
 
 export const useOrderStore = defineStore('order', () => {
+  const cart = useCookie('cart')
   const orders = ref<Order[]>()
   const fields = ref(1)
   const productsImages = ref<Product[]>([])
@@ -65,6 +66,7 @@ export const useOrderStore = defineStore('order', () => {
     loading,
     productIds,
     fields,
+    cart,
     productsImages
   }
 })

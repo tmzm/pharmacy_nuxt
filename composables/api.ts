@@ -2,7 +2,7 @@ export const api = function (url: string, options: object = {}): any {
   const runtimeConfig = useRuntimeConfig()
   const cookieToken = useCookie('token')
 
-  return $fetch(url, {
+  const res = $fetch(url, {
     baseURL: runtimeConfig.public.apiBaseUrl,
     headers: {
       Accept: 'application/json',
@@ -15,9 +15,11 @@ export const api = function (url: string, options: object = {}): any {
     console.log(error)
 
     if (error.status !== 200) {
-      toasterStore.showErrorToaster(error.data.message)
+      toasterStore.showErrorToaster(error.message)
     }
 
     throw error
   })
+
+  return res
 }

@@ -18,7 +18,7 @@ const { pending: pendingCategory, refresh } = useAsyncData(() =>
 
 const filterProductsByCategory = (index: number) => {
   selectedCategories.value = [index]
-  navigateTo(`/products/list`)
+  navigateTo(`/admin/products/list`)
 }
 
 const openDeleteModal = (id: number) => {
