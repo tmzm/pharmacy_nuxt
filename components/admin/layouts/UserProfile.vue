@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const authStore = useMyAuthStore()
-
-const user: any = useCookie('user')
+const { pending } = useAsyncData(() => authStore.getUserDetails())
+const { user } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -29,21 +29,12 @@ const user: any = useCookie('user')
         <VDivider class="my-2" />
 
         <!-- Profile -->
-        <v-list-item link>
+        <v-list-item link to="/my-account">
           <template #prepend>
             <v-icon class="me-2" icon="ri-user-line" size="22" />
           </template>
 
-          <v-list-item-title>Profile</v-list-item-title>
-        </v-list-item>
-
-        <!-- Settings -->
-        <v-list-item link>
-          <template #prepend>
-            <v-icon class="me-2" icon="ri-settings-4-line" size="22" />
-          </template>
-
-          <v-list-item-title>Settings</v-list-item-title>
+          <v-list-item-title>My Account</v-list-item-title>
         </v-list-item>
 
         <VDivider class="my-2" />

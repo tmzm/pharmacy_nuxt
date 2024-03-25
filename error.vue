@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import misc404 from '@images/pages/404.png'
 import type { NuxtError } from 'nuxt/app'
 
 defineOptions({
@@ -46,23 +45,8 @@ const handleError = () => clearError({ redirect: '/' })
         :description="errToShow.description"
       />
 
-      <!-- eslint-disable vue/no-v-html -->
-      <div
-        v-if="isDev"
-        style="max-inline-size: 80dvw; overflow-x: scroll"
-        v-html="error.stack"
-      />
-      <!-- eslint-enable -->
-
-      <!-- Image -->
       <div class="misc-avatar w-100 text-center">
-        <v-img
-          :src="misc404"
-          alt="Coming Soon"
-          :max-width="800"
-          class="mx-auto"
-        />
-        <v-btn class="mt-10" @click="handleError"> Back to Home </v-btn>
+        <v-btn @click="handleError"> Back to Home </v-btn>
       </div>
     </div>
   </NuxtLayout>

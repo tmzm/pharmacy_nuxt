@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import logo from '@images/logos/logoMoafa.webp'
 const signupStore = useSignupStore()
 
 definePageMeta({ layout: 'blank' })
@@ -22,6 +23,9 @@ const previous = () => {
 <template>
   <div class="auth-wrapper d-flex align-center justify-center">
     <v-stepper alt-labels class="auth-card mt-4" v-model="step">
+      <v-card-title class="bg-secondary mb-8">
+        <v-img :src="logo" class="mx-auto" width="200"></v-img>
+      </v-card-title>
       <v-stepper-header class="d-none">
         <v-stepper-item flat title="Enter important informations" :value="1" />
 

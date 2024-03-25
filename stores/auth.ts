@@ -5,6 +5,7 @@ export const useMyAuthStore = defineStore('auth', () => {
 
   const router = useRouter()
   const users = ref<User[]>()
+  const user = ref<User>()
 
   const login = async (phone_number: string, password: string) => {
     loading.value = true
@@ -50,14 +51,15 @@ export const useMyAuthStore = defineStore('auth', () => {
     users.value = res.data.filter((e: any) => e.id !== cookieUser.value?.id)
   }
 
-  const upgradeUser = async (user_id: any) => {
-    await api(`users/admin/${user_id}/upgrade`, {
-      method: 'post'
-    })
+  const getUserDetails = async () => {
+    const res = await api(`users/show`)
+
+    user.value = res.data
   }
 
   return {
-    upgradeUser,
+    getUserDetails,
+    user,
     list,
     login,
     logout,

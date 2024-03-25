@@ -1,5 +1,5 @@
 <script lang="ts">
-import VerticalNav from '@/components/layouts/VerticalNav.vue'
+import VerticalNav from '@/components/admin/layouts/VerticalNav.vue'
 import { useDisplay } from 'vuetify'
 
 export default defineComponent({

@@ -19,6 +19,8 @@ export interface Product {
   company_name: string
   price: number
   expiration: Date
+  offer: number
+  is_offer: boolean
   quantity: number
   is_quantity: boolean
   category_products: CategoryProduct[]
@@ -50,8 +52,11 @@ export interface Order {
   status: string
   payment_status: boolean
   user_id: number
+  location_id: number
+  location: Location
   user: User
   total_price: number
+  time: any
   order_items: OrderItem[]
   is_prescription: boolean
   accepted_by_user: boolean
@@ -72,7 +77,20 @@ export interface Prescription {
   updated_at: Date
   id: number
   order: Order
+  order_id: number
+  user_id: number
   user: User
   image: string
   description: string
+}
+
+export interface Location {
+  created_at: Date
+  updated_at: Date
+  id: number
+  user_id: number
+  user: User
+  name: string
+  type: string
+  address: string
 }

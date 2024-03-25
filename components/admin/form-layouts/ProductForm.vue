@@ -142,7 +142,22 @@ const onSubmit = () => {
           </v-col>
 
           <!-- expiration -->
-          <DatePickerModal />
+          <v-col cols="12" md="6">
+            <DatePickerModal />
+          </v-col>
+
+          <v-col cols="12" md="6" class="d-flex space-x-4">
+            <v-switch label="offer" v-model="product.is_offer" />
+            <v-text-field
+              v-if="product.is_offer"
+              v-model="product.offer"
+              density="compact"
+              type="number"
+              variant="underlined"
+              min="1"
+              max="99"
+            />
+          </v-col>
 
           <!-- Categories -->
           <CategoriesSelect />

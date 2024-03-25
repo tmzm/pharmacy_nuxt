@@ -22,21 +22,35 @@
       </v-row>
     </div>
 
-    <div class="text-center d-flex flex-column pa-8 bg-white">
+    <div class="d-flex pa-8 bg-white text-center">
       <div>
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-        Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-        accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a
-        sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-        lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-        iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor
-        vel ut orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
+        <div class="pa-2 mb-4 rounded-xl bg-primary-darken-1">
+          <v-img :src="logo" width="180"></v-img>
+        </div>
+        <div>Moafa Pharmacy - Syria - Free zone - Damascus</div>
+        <div class="pa-4 mt-4 rounded-xl" style="background-color: #dbfff6">
+          Got Question? Call us
+          <div><v-icon>ri-phone-line</v-icon>+963 999 999 999</div>
+        </div>
       </div>
 
-      <v-divider></v-divider>
+      <v-divider class="mx-8" vertical />
 
-      <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
+      <div class="d-flex flex-column">
+        <div>
+          We are looking for your comfort and your access to the necessary
+          medication in the best way...and following up with you and providing
+          medical advice and guidance.
+        </div>
+
+        <div class="d-flex mt-4 w-295 mx-auto">
+          <div>{{ new Date().getFullYear() }} — <strong>Moafa</strong></div>
+          <v-spacer />
+          <div>
+            Devoloped with <v-icon>ri-heart-line</v-icon> by Tarek Al Mozayek
+          </div>
+        </div>
+      </div>
     </div>
 
     <div :style="bgStyle" class="pa-4 w-100 text-center">
@@ -53,8 +67,8 @@
 </template>
 
 <script lang="ts" setup>
+import logo from '@images/logos/logoMoafa.webp'
 import bg from '@images/pages/bg-download.jpg'
-
 const bgStyle = `background-image: url(${bg})`
 
 const icons = [

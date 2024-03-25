@@ -3,7 +3,8 @@ export const appendNewProductData = () => {
 
   const productStore = useProductStore()
 
-  const { product, imageFileInput, quantityShow } = storeToRefs(productStore)
+  const { product, imageFileInput, quantityShow, priceFilter } =
+    storeToRefs(productStore)
 
   const categoryStore = useCategoryStore()
   const { categories, selectedCategories } = storeToRefs(categoryStore)
@@ -36,6 +37,11 @@ export const appendNewProductData = () => {
     quantityShow.value === 2 ? product.value.quantity.toString() : '0'
   )
   formData.append('is_quantity', quantityShow.value === 0 ? '0' : '1')
+  formData.append('is_offer', product.value.is_offer === false ? '0' : '1')
+  formData.append(
+    'offer',
+    product.value.is_offer ? product.value.offer.toString() : '0'
+  )
 
   return formData
 }

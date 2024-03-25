@@ -1,48 +1,41 @@
 <template>
-  <v-app-bar height="40">
-    <v-menu open-on-hover>
-      <template v-slot:activator="{ props, isActive }">
-        <v-btn
-          color="black"
-          :prepend-icon="!isActive ? 'ri-menu-2-line' : 'ri-close-line'"
-          append-icon="ri-arrow-down-s-line"
-          v-bind="props"
-        >
-          shop by category
-        </v-btn>
-      </template>
-
-      <v-list>
-        <div v-if="pending">
-          loading... <v-progress-circular indeterminate />
-        </div>
-        <v-list-item
-          v-else
-          v-for="(c, index) in categoryStore.categories"
-          :title="c.name"
-          append-icon="ri-arrow-right-s-line"
-          @click="filterProductsByCategory(index)"
-        />
-      </v-list>
-    </v-menu>
-
-    <v-btn color="black" prepend-icon="ri-price-tag-3-line"> OFFERS </v-btn>
+  <v-app-bar
+    class="align-center text-white px-4 bg-primary-darken-1 text-caption"
+    height="30"
+  >
+    <div class="d-none d-md-flex">New moafa App Soon</div>
+    <v-spacer class="d-none d-md-flex" />
+    <div>
+      Deliver To: {{ selectedLocation?.address ?? 'not selected yet' }}
+      <v-btn color="white" prepend-icon="ri-map-line" @click="dialog = true"
+        >change</v-btn
+      >
+    </div>
   </v-app-bar>
+
+  <SelectLocationModal
+    v-model="dialog"
+    close-btn
+    @close="dialog = false"
+    @new-location="newLocationDialog = true"
+  />
+
+  <CreateLocationModal
+    v-model="newLocationDialog"
+    close-btn
+    @close="newLocationDialog = false"
+    @create="refresh()"
+  />
 </template>
 
 <script lang="ts" setup>
-const categoryStore = useCategoryStore()
+import SelectLocationModal from '../modals/SelectLocationModal.vue'
 
-const { selectedCategories } = storeToRefs(categoryStore)
+const dialog = ref(false)
+const newLocationDialog = ref(false)
 
-const { pending } = useAsyncData(() => categoryStore.getAllCategories())
+const locationStore = useLocationStore()
+const { selectedLocation } = storeToRefs(locationStore)
 
-const filterProductsByCategory = (index: number) => {
-  selectedCategories.value = [index]
-  navigateTo(`/products`)
-}
+const { refresh } = useAsyncData(() => locationStore.getAllLocations())
 </script>
-
-<!-- <style>
-
-</style> -->

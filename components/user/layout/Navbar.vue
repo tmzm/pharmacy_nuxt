@@ -1,11 +1,18 @@
 <template>
-  <v-app-bar class="d-flex align-center px-4" elevation="0">
-    <v-app-bar-title> Moafa </v-app-bar-title>
+  <v-app-bar
+    class="d-flex align-center px-4 bg-secondary"
+    height="100"
+    elevation="0"
+  >
+    <template v-slot:prepend>
+      <v-img :src="logo" width="150"></v-img>
+    </template>
 
     <!-- Search Trigger button -->
     <v-hover>
       <template v-slot:default="{ props, isHovering }">
         <v-card
+          class="me-2"
           variant="flat"
           :width="isHovering || search ? 200 : 50"
           v-bind="props"
@@ -42,10 +49,13 @@
     <UserProfile />
   </v-app-bar>
 
+  <MiniNavbar />
+
   <SmallNavbar />
 </template>
 
 <script setup lang="ts">
+import logo from '@images/logos/logoMoafa.webp'
 const cart: any = useCookie('cart')
 
 const search = ref()

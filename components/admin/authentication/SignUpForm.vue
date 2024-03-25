@@ -32,14 +32,6 @@ const { name, number, password } = storeToRefs(signupStore)
 
 <template>
   <div>
-    <!-- eslint-disable vue/no-v-html -->
-
-    <v-card-item class="justify-center">
-      <v-card-title class="font-weight-semibold text-2xl text-uppercase">
-        MOAFA
-      </v-card-title>
-    </v-card-item>
-
     <v-card-text>
       <VForm>
         <v-row>

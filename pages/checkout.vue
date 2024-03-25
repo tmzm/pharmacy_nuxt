@@ -1,0 +1,154 @@
+<template>
+  <v-row>
+    <v-col cols="9">
+      <LocationCard
+        :location="(locationStore.selectedLocation as any)"
+        v-if="locationStore.selectedLocation"
+      />
+
+      <v-card title="Delivery Options" class="mt-4" elevation="0">
+        <v-card-text>
+          <v-row>
+            <v-col v-for="(c, index) in cart" cols="auto">
+              <v-img
+                :src="
+                  images[index]
+                    ? `http://127.0.0.1:8000${images[index]}`
+                    : no_img
+                "
+                width="100"
+                class="rounded-lg"
+                ><div
+                  class="text-body-2 pa-1 ma-1 bg-primary w-fit rounded-full"
+                >
+                  X {{ c.quantity }}
+                </div></v-img
+              >
+            </v-col>
+          </v-row>
+
+          <v-divider class="my-4" />
+
+          <div class="d-flex items-center">
+            <v-switch
+              :label="!isTime ? 'Now' : 'Custom Time'"
+              v-model="isTime"
+            />
+            <ClientOnly>
+              <a-time-picker
+                v-if="isTime"
+                class="ms-4"
+                v-model:value="order.time"
+              />
+            </ClientOnly>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-col>
+
+    <v-col cols="3">
+      <v-card elevation="0">
+        <v-card-subtitle class="mt-4">HAVE A COUPON?</v-card-subtitle>
+        <v-card-text class="d-flex items-center">
+          <v-text-field placeholder="Enter Coupon code"></v-text-field>
+          <v-btn>Apply</v-btn>
+        </v-card-text>
+      </v-card>
+
+      <v-card elevation="0" class="mt-4">
+        <v-card-subtitle class="mt-4">DELIVERY INSTRUCTION</v-card-subtitle>
+        <v-card-text class="d-flex items-center">
+          <v-text-field
+            placeholder="Add a note"
+            prepend-icon="ri-sticky-note-add-line"
+          />
+        </v-card-text>
+      </v-card>
+
+      <ReturnPolicy />
+
+      <OrderSummary :place-order-disabled="isNoLocation" />
+    </v-col>
+  </v-row>
+
+  <CreateLocationModal @create="refresh()" v-model="isNoLocation" />
+
+  <SelectLocationModal v-model="isLocationNotSelected" />
+
+  <v-dialog persistent width="auto" :model-value="isAnyOrderPreparing">
+    <v-card
+      width="400"
+      prepend-icon="ri-error-warning-line"
+      title="Preparing Orders"
+    >
+      <v-card-text
+        >Theres an order still preparing or shipping. Please receive it to place
+        a new order</v-card-text
+      >
+      <v-card-actions>
+        <v-btn @click="ordersRefresh" :loading="pending"> refresh </v-btn>
+        <v-btn @click="navigateTo('/my-account')" variant="outlined">
+          Go to orders
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script lang="ts" setup>
+import no_img from '@images/no-img.jpeg'
+const cart: any = useCookie('cart')
+const productStore = useProductStore()
+const orderStore = useOrderStore()
+const locationStore = useLocationStore()
+
+// const center = ref([5, 5] as any)
+
+// onMounted(() => {
+//   navigator.geolocation.getCurrentPosition(position => {
+//     console.log('test', position.coords.latitude, position.coords.longitude)
+
+//     center.value = [position.coords.latitude, position.coords.longitude]
+//   })
+// })
+
+// const zoom = ref(14)
+
+const { refresh } = useAsyncData(() => locationStore.getAllLocations())
+const { pending, refresh: ordersRefresh } = useAsyncData(() =>
+  orderStore.getAllOrders()
+)
+
+const isAnyOrderPreparing = computed(() => {
+  const po = orders.value?.filter(
+    e => e.status == 'preparing' || e.status == 'shipping'
+  ).length
+  return (po ?? 0) > 0
+})
+
+const { locations, selectedLocation, loading } = storeToRefs(locationStore)
+const { order, orders, isTime } = storeToRefs(orderStore)
+
+const isLocationNotSelected = computed(() => {
+  return !selectedLocation.value
+})
+
+const isNoLocation = computed(() => {
+  return !locations || locations.value?.length == 0
+})
+
+const images = ref<any>([])
+
+cart.value.forEach(async (c: any) => {
+  images.value.push(await productStore.getImage(c.id))
+})
+
+definePageMeta({
+  layout: 'user-layout',
+  middleware: 'checkout'
+})
+</script>
+
+<!-- <style>
+
+</style> -->

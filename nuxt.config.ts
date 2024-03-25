@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   },
 
   css: [
+    '@core/main.css',
     '@core/scss/template/index.scss',
     '@styles/styles.scss',
     '@/plugins/iconify/icons.css',
@@ -127,6 +128,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@unocss/nuxt',
     'dayjs-nuxt',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt3-leaflet',
+    '@ant-design-vue/nuxt'
   ]
 })

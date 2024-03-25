@@ -17,6 +17,8 @@ export const useProductStore = defineStore('product', () => {
     sortBy: []
   })
 
+  const priceFilter = ref()
+
   const imageFileInput = ref()
 
   const product = ref<Product>({
@@ -27,6 +29,8 @@ export const useProductStore = defineStore('product', () => {
     commercial_name: '',
     company_name: '',
     price: 0,
+    is_offer: false,
+    offer: 1,
     quantity: 0,
     is_quantity: false,
     image: '',
@@ -96,6 +100,7 @@ export const useProductStore = defineStore('product', () => {
     const res = await api('/products', {
       method: 'post',
       body: {
+        price: priceFilter.value,
         categories: categories.value,
         search: search.value ?? undefined,
         ...paginationParams(paginationOptions.value, productsTotalCount.value)
@@ -111,14 +116,49 @@ export const useProductStore = defineStore('product', () => {
     products.value = res.data
   }
 
-  const getProduct = async (id: number) => {
+  const getPrice = async (id: number) => {
     try {
-      const res = await api(`/products/${id}`)
-      product.value = res.data
+      const res = await api(`/products/${id}/price`)
       return res.data
     } catch (e) {
       console.log(e)
-      product.value = {} as Product
+      return 0
+    }
+  }
+
+  const getTotalCount = async () => {
+    try {
+      const res = await api(`/products_total_count`)
+      productsTotalCount.value = res.data
+    } catch (e) {
+      console.log(e)
+      productsTotalCount.value = 15
+    }
+  }
+
+  const getImage = async (id: number) => {
+    try {
+      const res = await api(`/products/${id}/image`)
+      return res.data
+    } catch (e) {
+      console.log(e)
+      return null
+    }
+  }
+
+  const getProduct = async (id: number) => {
+    if (id) {
+      try {
+        const res = await api(`/products/${id}`)
+        product.value = res.data
+        return res.data
+      } catch (e) {
+        console.log('text', e)
+        product.value = {} as Product
+        return {} as Product
+      }
+    } else {
+      return {} as Product
     }
   }
 
@@ -156,12 +196,16 @@ export const useProductStore = defineStore('product', () => {
     products,
     getAllProducts,
     getTopProductSellers,
+    getPrice,
+    getTotalCount,
+    getImage,
     create,
     edit,
     loading,
     loadingImport,
     product,
     paginationOptions,
+    priceFilter,
     productsTotalCount,
     search
   }

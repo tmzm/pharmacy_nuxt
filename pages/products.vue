@@ -11,6 +11,8 @@
             <v-btn
               @click="
                 () => {
+                  currentPriceFilter = [0, 100000]
+                  priceFilter = undefined
                   selectedCategories = []
                 }
               "
@@ -22,13 +24,45 @@
           </template>
         </v-list-item>
 
+        <v-divider />
+
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" title="Price"></v-list-item>
           </template>
 
-          <v-list-item> <v-slider class="mx-6 my-2" /> </v-list-item>
+          <v-list-item class="mx-4 text-body-2">
+            Range: {{ currentPriceFilter[0] ?? 0 }} SP -
+            {{ currentPriceFilter[1] ?? 100000 }} SP
+            <template #append>
+              <v-btn
+                variant="outlined"
+                density="compact"
+                size="x-small"
+                color="black"
+                @click="priceFilter = currentPriceFilter"
+              >
+                Filter
+              </v-btn>
+            </template>
+          </v-list-item>
+
+          <v-list-item>
+            <v-range-slider
+              track-size="3"
+              thumb-size="20"
+              min="0"
+              max="100000"
+              step="5000"
+              hide-details
+              strict
+              v-model="currentPriceFilter"
+              class="mx-6"
+            />
+          </v-list-item>
         </v-list-group>
+
+        <v-divider />
 
         <v-list-group>
           <template v-slot:activator="{ props }">
@@ -62,27 +96,29 @@
     <v-divider vertical />
 
     <v-col cols="9">
-      <v-row>
+      <div v-if="productStore.products?.length as any >= 0">
+        showing {{ productStore.products?.length }} of
+        {{ productsTotalCount }} products
+
         <v-skeleton-loader
           max-width="300"
           type="image, article"
           :loading="pending"
         >
-          <v-col
-            v-for="product in productStore.products"
-            :key="product.id"
-            md="3"
-            cols="12"
-          >
-            <ProductCard :product="product" />
-          </v-col>
+          <v-row class="w-fit mx-auto">
+            <v-col
+              v-for="product in productStore.products"
+              :key="product.id"
+              md="3"
+              cols="12"
+            >
+              <ProductCard :product-value="product" />
+            </v-col>
+          </v-row>
         </v-skeleton-loader>
-      </v-row>
+      </div>
 
-      <div
-        class="ma-8 text-error"
-        v-if="productStore.products?.length as any <= 0"
-      >
+      <div class="ma-8 text-error" v-else>
         <v-icon>ri-information-2-line</v-icon> no products yet...
       </div>
 
@@ -108,14 +144,17 @@ const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
 
 // Fetching categories data asynchronously
 useAsyncData(() => categoryStore.getAllCategories())
+useAsyncData(() => productStore.getTotalCount())
 
-const itemsPerPage = ref(10)
 const page = ref(1)
 
-const { productsTotalCount, paginationOptions } = storeToRefs(productStore)
+const { productsTotalCount, paginationOptions, priceFilter } =
+  storeToRefs(productStore)
+
+const currentPriceFilter = ref([0, 100000])
 
 const pageCount = computed(() => {
-  return Math.ceil(productsTotalCount.value / itemsPerPage.value)
+  return Math.ceil(productsTotalCount.value / 10)
 })
 
 watch(page, () => {
@@ -123,6 +162,9 @@ watch(page, () => {
   refresh()
 })
 watch(selectedCategories, () => {
+  refresh()
+})
+watch(priceFilter, () => {
   refresh()
 })
 

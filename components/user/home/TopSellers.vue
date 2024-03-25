@@ -19,7 +19,7 @@
         v-for="product in productStore.products"
         :key="product.id"
       >
-        <ProductCard :product="product" />
+        <ProductCard :product-value="product" />
       </v-slide-group-item>
     </v-slide-group>
   </v-card>
