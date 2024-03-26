@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const authStore = useMyAuthStore()
-const { pending } = useAsyncData(() => authStore.getUserDetails())
 const { user } = storeToRefs(authStore)
 </script>
 

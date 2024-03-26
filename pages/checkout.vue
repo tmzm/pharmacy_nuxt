@@ -6,7 +6,7 @@
         v-if="locationStore.selectedLocation"
       />
 
-      <v-card title="Delivery Options" class="mt-4" elevation="0">
+      <v-card title="Delivery Options" class="mt-4">
         <v-card-text>
           <v-row>
             <v-col v-for="(c, index) in cart" cols="auto">
@@ -31,14 +31,17 @@
 
           <div class="d-flex items-center">
             <v-switch
-              :label="!isTime ? 'Now' : 'Custom Time'"
-              v-model="isTime"
+              :label="
+                !order.is_time ? 'Once the order is ready' : 'Custom Time'
+              "
+              v-model="order.is_time"
             />
             <ClientOnly>
               <a-time-picker
-                v-if="isTime"
+                v-if="order.is_time"
                 class="ms-4"
                 v-model:value="order.time"
+                format="HH:mm a"
               />
             </ClientOnly>
           </div>
@@ -47,7 +50,7 @@
     </v-col>
 
     <v-col cols="3">
-      <v-card elevation="0">
+      <v-card>
         <v-card-subtitle class="mt-4">HAVE A COUPON?</v-card-subtitle>
         <v-card-text class="d-flex items-center">
           <v-text-field placeholder="Enter Coupon code"></v-text-field>
@@ -55,7 +58,7 @@
         </v-card-text>
       </v-card>
 
-      <v-card elevation="0" class="mt-4">
+      <v-card class="mt-4">
         <v-card-subtitle class="mt-4">DELIVERY INSTRUCTION</v-card-subtitle>
         <v-card-text class="d-flex items-center">
           <v-text-field
@@ -97,6 +100,7 @@
 
 <script lang="ts" setup>
 import no_img from '@images/no-img.jpeg'
+import dayjs from 'dayjs'
 const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const orderStore = useOrderStore()
@@ -127,10 +131,12 @@ const isAnyOrderPreparing = computed(() => {
 })
 
 const { locations, selectedLocation, loading } = storeToRefs(locationStore)
-const { order, orders, isTime } = storeToRefs(orderStore)
+const { order, orders } = storeToRefs(orderStore)
+
+order.value.time = dayjs()
 
 const isLocationNotSelected = computed(() => {
-  return !selectedLocation.value
+  return !selectedLocation.value && !isNoLocation
 })
 
 const isNoLocation = computed(() => {

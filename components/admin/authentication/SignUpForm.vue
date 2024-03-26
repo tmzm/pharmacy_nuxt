@@ -33,6 +33,7 @@ const { name, number, password } = storeToRefs(signupStore)
 <template>
   <div>
     <v-card-text>
+      <v-card-title class="text-center mb-4"> Welcome To Moafa </v-card-title>
       <VForm>
         <v-row>
           <!-- Name -->
@@ -70,6 +71,18 @@ const { name, number, password } = storeToRefs(signupStore)
               :counter="8"
               required
             />
+          </v-col>
+
+          <v-col>
+            <v-btn
+              
+              block
+              type="submit"
+              @click="signupStore.signup"
+              :loading="signupStore.loading"
+            >
+              Sign Up
+            </v-btn>
           </v-col>
 
           <!-- login instead -->

@@ -1,62 +1,106 @@
 <template>
   <v-app-bar
-    class="d-flex align-center px-4 bg-secondary"
-    height="100"
     elevation="0"
+    class="d-flex align-center px-4 bg-secondary"
+    height="90"
   >
     <template v-slot:prepend>
-      <v-img :src="logo" width="150"></v-img>
+      <v-img :src="logo" width="140"></v-img>
     </template>
 
-    <!-- Search Trigger button -->
-    <v-hover>
-      <template v-slot:default="{ props, isHovering }">
-        <v-card
-          class="me-2"
-          variant="flat"
-          :width="isHovering || search ? 200 : 50"
-          v-bind="props"
-        >
-          <v-text-field
-            prepend-inner-icon="ri-search-2-line"
-            variant="solo"
-            v-model="search"
-          />
-        </v-card>
-      </template>
-    </v-hover>
-
     <div class="d-none d-md-flex">
-      <IconBtn class="me-2">
-        <v-badge :content="0">
-          <v-icon icon="ri-heart-line" />
-        </v-badge>
-      </IconBtn>
+      <v-btn size="x-large" color="white" class="me-2">
+        <span class="d-none d-md-block">Favorites</span>
+        <template #append>
+          <v-badge :content="0">
+            <v-icon size="22" icon="ri-heart-line" />
+          </v-badge>
+        </template>
+      </v-btn>
 
-      <IconBtn @click="navigateTo('/shopping-cart')" class="me-2">
-        <v-badge :content="cart?.length ?? 0">
-          <v-icon icon="ri-shopping-cart-line" />
-        </v-badge>
-      </IconBtn>
+      <v-btn
+        size="x-large"
+        color="white"
+        @click="navigateTo('/shopping-cart')"
+        class="me-2"
+      >
+        <span class="d-none d-md-block">cart</span>
+        <template #append>
+          <v-badge :content="cart?.length ?? 0">
+            <v-icon size="22" icon="ri-shopping-cart-line" />
+          </v-badge>
+        </template>
+      </v-btn>
+
+      <v-btn size="x-large" color="white" class="me-2">
+        <span class="d-none d-md-block">Notifications</span>
+        <template #append>
+          <v-badge :content="0">
+            <v-icon size="22" icon="ri-notification-line" />
+          </v-badge>
+        </template>
+      </v-btn>
+
+      <!-- <NavbarThemeSwitcher class="me-2" /> -->
+
+      <v-btn
+        size="x-large"
+        @click="
+          () => {
+            if (token) {
+              navigateTo('/my-account')
+            } else {
+              navigateTo('/auth/login')
+            }
+          }
+        "
+        color="white"
+        class="me-2"
+      >
+        <span class="d-none d-md-block">
+          {{ token ? 'My Account' : 'Login' }}
+        </span>
+        <template #append>
+          <v-icon size="22" icon="ri-user-6-line" />
+        </template>
+      </v-btn>
     </div>
 
-    <IconBtn class="me-2">
-      <v-icon icon="ri-notification-line" />
-    </IconBtn>
+    <div class="d-block d-md-none">
+      <IconBtn size="x-large" color="white" class="me-2">
+        <v-badge :content="0">
+          <v-icon size="22" icon="ri-notification-line" />
+        </v-badge>
+      </IconBtn>
 
-    <!-- <NavbarThemeSwitcher class="me-2" /> -->
+      <!-- <NavbarThemeSwitcher class="me-2" /> -->
 
-    <UserProfile />
+      <IconBtn
+        size="x-large"
+        @click="
+          () => {
+            if (token) {
+              navigateTo('/my-account')
+            } else {
+              navigateTo('/auth/login')
+            }
+          }
+        "
+        color="white"
+        class="me-2"
+      >
+        <v-icon size="22" icon="ri-user-6-line" />
+      </IconBtn>
+    </div>
   </v-app-bar>
 
   <MiniNavbar />
-
-  <SmallNavbar />
 </template>
 
 <script setup lang="ts">
 import logo from '@images/logos/logoMoafa.webp'
 const cart: any = useCookie('cart')
+const token: any = useCookie('token')
 
 const search = ref()
 </script>

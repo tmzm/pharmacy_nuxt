@@ -28,7 +28,7 @@ export const themes: Record<string, ThemeDefinition> = {
       error: '#FF4C51',
       'error-darken-1': '#E64449',
       'on-error': '#fff',
-      background: '#dbfff6',
+      background: '#fff',
       'on-background': '#01140e',
       surface: '#fff',
       'on-surface': '#032b1d',

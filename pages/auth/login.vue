@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import logo from '@images/logos/logoMoafa.webp'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
@@ -29,16 +28,16 @@ const loginUser = () => {
   authStore.login(state.number, state.password)
 }
 
-definePageMeta({ layout: 'blank' })
+definePageMeta({ layout: 'user-layout' })
 </script>
 
 <template>
   <!-- eslint-disable vue/no-v-html -->
 
-  <div class="auth-wrapper d-flex align-center justify-center pa-4">
+  <div class="d-flex align-center justify-center pa-4">
     <v-card class="auth-card" max-width="448">
-      <v-card-title class="bg-secondary mb-8">
-        <v-img :src="logo" class="mx-auto" width="200"></v-img>
+      <v-card-title class="text-center my-4">
+        Welcome Again! To MOAFA
       </v-card-title>
 
       <v-card-text>

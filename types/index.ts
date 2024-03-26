@@ -26,6 +26,9 @@ export interface Product {
   category_products: CategoryProduct[]
   description: string
   image: string
+  meta_description: string
+  meta_title: string
+  meta_subtitle: string
 }
 
 export interface CategoryProduct {
@@ -57,6 +60,7 @@ export interface Order {
   user: User
   total_price: number
   time: any
+  is_time: boolean
   order_items: OrderItem[]
   is_prescription: boolean
   accepted_by_user: boolean

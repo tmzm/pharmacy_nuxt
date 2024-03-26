@@ -67,6 +67,10 @@ export const productHeaders = [
     key: 'is_quantity'
   },
   {
+    title: 'offer',
+    key: 'is_offer'
+  },
+  {
     title: 'Expiration',
     key: 'expiration'
   },
@@ -101,10 +105,13 @@ export const orderHeaders = [
     title: 'Status',
     key: 'status'
   },
-
   {
     title: 'Payment Status',
     key: 'payment_status'
+  },
+  {
+    title: 'Time',
+    key: 'is_time'
   },
   {
     title: 'Total Price',

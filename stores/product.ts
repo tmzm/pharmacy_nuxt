@@ -36,7 +36,10 @@ export const useProductStore = defineStore('product', () => {
     image: '',
     expiration: new Date(),
     description: '',
-    category_products: []
+    category_products: [],
+    meta_description: '',
+    meta_subtitle: '',
+    meta_title: ''
   })
 
   const categories = computed(() => {
@@ -146,10 +149,26 @@ export const useProductStore = defineStore('product', () => {
     }
   }
 
-  const getProduct = async (id: number) => {
+  const getProduct = async (slug: string) => {
+    if (slug) {
+      try {
+        const res = await api(`/products/slug/${slug}`)
+        product.value = res.data
+        return res.data
+      } catch (e) {
+        console.log('text', e)
+        product.value = {} as Product
+        return {} as Product
+      }
+    } else {
+      return {} as Product
+    }
+  }
+
+  const getProductById = async (id: number) => {
     if (id) {
       try {
-        const res = await api(`/products/${id}`)
+        const res = await api(`/products/id/${id}`)
         product.value = res.data
         return res.data
       } catch (e) {
@@ -189,6 +208,7 @@ export const useProductStore = defineStore('product', () => {
   return {
     deleteProduct,
     getProduct,
+    getProductById,
     imageFileInput,
     fileInput,
     importProducts,

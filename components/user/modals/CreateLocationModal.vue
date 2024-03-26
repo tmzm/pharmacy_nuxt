@@ -45,7 +45,7 @@
           @click="
             () => {
               locationStore.create()
-              $emit('create')
+              refresh()
             }
           "
           >Save Address</v-btn
@@ -60,6 +60,9 @@
 
 <script lang="ts" setup>
 const locationStore = useLocationStore()
+
+const { refresh } = useAsyncData(() => locationStore.getAllLocations())
+
 const { location, loading, type, flat, street, building, name } =
   storeToRefs(locationStore)
 

@@ -19,10 +19,8 @@ export const useMyAuthStore = defineStore('auth', () => {
         }
       })
 
-      const cookieUser = useCookie('user')
       const cookieToken = useCookie('token')
 
-      cookieUser.value = res.data
       cookieToken.value = res.token
     } catch (e: any) {
       loading.value = false
@@ -34,10 +32,8 @@ export const useMyAuthStore = defineStore('auth', () => {
   const logout = async () => {
     await api('/users/destroy')
 
-    const cookieUser = useCookie('user')
     const cookieToken = useCookie('token')
 
-    cookieUser.value = null
     cookieToken.value = null
 
     router.push('/auth/login')
@@ -46,9 +42,7 @@ export const useMyAuthStore = defineStore('auth', () => {
   const list = async () => {
     const res = await api('/users')
 
-    const cookieUser: any = useCookie('user')
-
-    users.value = res.data.filter((e: any) => e.id !== cookieUser.value?.id)
+    users.value = res.data.filter((e: any) => e.id !== user.value?.id)
   }
 
   const getUserDetails = async () => {

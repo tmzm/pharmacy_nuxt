@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" variant="outlined" rounded="x-large">
+  <v-card variant="outlined" rounded="x-large">
     <v-card-text>
       <v-timeline direction="horizontal" class="my-4">
         <v-timeline-item
@@ -29,7 +29,24 @@
         </v-timeline-item>
       </v-timeline>
 
+      <div v-if="currentOrder.is_prescription" class="mb-4">
+        <v-icon class="me-1">ri-medicine-bottle-line</v-icon>
+        <strong>Prescription: </strong>
+        this order is on your prescription
+      </div>
+
+      <div class="mb-4">
+        <v-icon class="me-1">ri-time-line</v-icon>
+        <strong>Delivery AT:</strong>
+        {{
+          currentOrder.is_time
+            ? $dayjs(currentOrder.time).format('YYYY/MM/DD hh:mm')
+            : 'as soon as its ready'
+        }}
+      </div>
+
       <div>
+        <v-icon class="me-1">ri-price-tag-3-line</v-icon>
         <strong>ORDER TOTAL PRICE:</strong>
         {{ currentOrder?.total_price }}
       </div>

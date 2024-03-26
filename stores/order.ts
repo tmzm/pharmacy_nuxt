@@ -6,7 +6,6 @@ export const useOrderStore = defineStore('order', () => {
   const orders = ref<Order[]>()
   const order = ref<Order>({} as Order)
   const fields = ref(1)
-  const isTime = ref(false)
   const productsImages = ref<Product[]>([])
   const locationStore = useLocationStore()
 
@@ -31,6 +30,7 @@ export const useOrderStore = defineStore('order', () => {
       const res = await api('/orders/create', {
         method: 'post',
         body: {
+          location_id: locationStore.selectedLocation.id,
           is_prescription: true,
           accepted_by_user: false,
           user_id: user_id,
@@ -55,9 +55,10 @@ export const useOrderStore = defineStore('order', () => {
         method: 'post',
         body: {
           location_id: locationStore.selectedLocation.id,
-          time: isTime.value
-            ? dayjs(order.value?.time).format('YYYY-MM-DD HH:mm:ss')
+          time: order.value.is_time
+            ? dayjs(order.value?.time).format('YYYY:MM:DD hh:mm')
             : undefined,
+          is_time: order.value.is_time,
           products: cart.value
         }
       })
@@ -100,7 +101,6 @@ export const useOrderStore = defineStore('order', () => {
     productIds,
     fields,
     cart,
-    isTime,
     productsImages
   }
 })

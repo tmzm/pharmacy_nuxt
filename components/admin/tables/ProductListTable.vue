@@ -13,6 +13,8 @@ const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
 const { loading, paginationOptions, search, productsTotalCount } =
   storeToRefs(productStore)
 
+useAsyncData(() => productStore.getTotalCount())
+
 const dialogDelete = ref(false)
 const deleteId = ref()
 
@@ -28,12 +30,6 @@ const deleteProduct = () => {
 }
 
 watch(paginationOptions, async (oldValue, newValue) => {
-  if (isEqual(oldValue, newValue)) return
-
-  refresh()
-})
-
-watch(itemsPerPage, async (oldValue, newValue) => {
   if (isEqual(oldValue, newValue)) return
 
   refresh()
@@ -56,10 +52,6 @@ const pageCount = computed(() => {
 })
 
 watch(selectedCategories, () => refresh())
-watch(page, () => {
-  paginationOptions.value.page = page.value
-  refresh()
-})
 </script>
 
 <template>
@@ -83,25 +75,16 @@ watch(page, () => {
             hide-details
           ></v-text-field>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="4">
           <v-text-field
             type="number"
             :max="productsTotalCount"
             min="5"
-            @update:model-value="itemsPerPage = parseInt($event, 10)"
-            :model-value="itemsPerPage"
+            @update:model-value="
+              paginationOptions.itemsPerPage = parseInt($event, 10)
+            "
+            :model-value="paginationOptions.itemsPerPage"
             label="items per page"
-            hide-details
-          ></v-text-field>
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            type="number"
-            max="30"
-            :min="itemsPerPage"
-            @update:model-value="productsTotalCount = parseInt($event, 10)"
-            :model-value="productsTotalCount"
-            label="total products"
             hide-details
           ></v-text-field>
         </v-col>
@@ -116,7 +99,6 @@ watch(page, () => {
       item-key="id"
       :headers="productHeaders"
       :items-per-page="itemsPerPage"
-      @update:options="paginationOptions = $event"
     >
       <template #item.id="{ item }">
         <v-menu :close-on-content-click="false" location="end">
@@ -187,10 +169,16 @@ watch(page, () => {
         >
       </template>
 
+      <template #item.is_offer="{ item }">
+        <v-chip class="mr-4" :color="item.is_offer ? 'error' : undefined">{{
+          item.is_offer ? item.offer + '% OFF' : 'No offer'
+        }}</v-chip>
+      </template>
+
       <template v-slot:bottom>
         <div class="text-center ma-2">
           <v-pagination
-            v-model="page"
+            v-model="paginationOptions.page"
             :length="pageCount"
             :total-visible="4"
           ></v-pagination>

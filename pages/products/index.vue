@@ -96,26 +96,32 @@
     <v-divider vertical />
 
     <v-col cols="9">
-      <div v-if="productStore.products?.length as any >= 0">
-        showing {{ productStore.products?.length }} of
-        {{ productsTotalCount }} products
+      <div v-if="productStore.products?.length as any > 0">
+        <div class="ms-6">
+          showing - from <strong>{{ (page - 1) * 10 }}</strong> to
+          <strong>{{
+            (page - 1) * 10 + (productStore.products?.length ?? 0)
+          }}</strong>
+          of - <strong>{{ productsTotalCount }}</strong> products
+        </div>
 
-        <v-skeleton-loader
-          max-width="300"
-          type="image, article"
-          :loading="pending"
-        >
-          <v-row class="w-fit mx-auto">
-            <v-col
-              v-for="product in productStore.products"
-              :key="product.id"
-              md="3"
-              cols="12"
-            >
-              <ProductCard :product-value="product" />
-            </v-col>
-          </v-row>
-        </v-skeleton-loader>
+        <v-row class="w-fit mx-auto" v-if="pending">
+          <v-col v-for="n in 6" md="4" cols="12">
+            <v-skeleton-loader width="230" type="image, article">
+            </v-skeleton-loader>
+          </v-col>
+        </v-row>
+
+        <v-row class="w-fit mx-auto" v-else>
+          <v-col
+            v-for="product in productStore.products"
+            :key="product.id"
+            md="3"
+            cols="12"
+          >
+            <ProductCard :product-value="product" />
+          </v-col>
+        </v-row>
       </div>
 
       <div class="ma-8 text-error" v-else>

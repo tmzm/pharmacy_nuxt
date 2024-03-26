@@ -11,29 +11,11 @@
           <v-icon icon="ri-menu-line" />
         </IconBtn>
 
-        <!-- Search -->
-        <div
-          class="d-flex align-center cursor-pointer"
-          style="user-select: none"
-        >
-          <!-- Search Trigger button -->
-          <IconBtn>
-            <v-icon icon="ri-search-line" />
-          </IconBtn>
-
-          <span class="d-none d-md-flex align-center text-disabled">
-            <span class="me-3">Search</span>
-            <span class="meta-key">&#8984;K</span>
-          </span>
-        </div>
-
         <VSpacer />
 
-        <IconBtn class="me-2">
+        <!-- <IconBtn class="me-2">
           <v-icon icon="ri-notification-line" />
-        </IconBtn>
-
-        <NavbarThemeSwitcher class="me-2" />
+        </IconBtn> -->
 
         <UserProfile />
       </div>

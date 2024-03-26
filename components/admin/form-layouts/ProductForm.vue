@@ -171,17 +171,17 @@ const onSubmit = () => {
           </ClientOnly>
 
           <v-col cols="12" md="6">
-            <VTextField label="Meta Title"> </VTextField>
+            <VTextField label="Meta Title" v-model="product.meta_title" />
           </v-col>
 
           <v-col cols="12" md="6">
-            <VTextField label="Meta subtitle"> </VTextField>
+            <VTextField label="Meta subtitle" v-model="product.meta_subtitle" />
           </v-col>
 
           <ClientOnly>
             <v-col cols="12" class="mb-24">
               <div class="mb-4">Meta Description</div>
-              <QuillEditor />
+              <QuillEditor v-model:content="product.meta_description" />
             </v-col>
           </ClientOnly>
 
@@ -214,7 +214,6 @@ const onSubmit = () => {
     class="mt-8 pa-16 text-center border-dashed rounded-2xl"
   >
     <!-- Drop zone instructions -->
-    <strong>Drop image:</strong>
     {{
       !imageFileInput
         ? !isOverDropZone

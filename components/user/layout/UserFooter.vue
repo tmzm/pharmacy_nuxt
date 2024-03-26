@@ -1,32 +1,8 @@
 <template>
   <div class="mb-md-0 mb-14">
-    <div class="bg-contain bg-repeat pa-8 px-16" :style="bgStyle">
-      <v-row class="text-center text-md font-semibold">
-        <v-col cols="12" md="6">
-          Subscribe For The Latest Discount & Trends
-          <v-text-field
-            color="black"
-            label="Enter Your Email address"
-            class="mt-4"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <div class="mb-4">Download the app</div>
-          <v-btn class="mr-4" color="black" prepend-icon="ri-google-play-line">
-            Google Play
-          </v-btn>
-          <v-btn color="black" prepend-icon="ri-app-store-line">
-            AppStore
-          </v-btn>
-        </v-col>
-      </v-row>
-    </div>
-
-    <div class="d-flex pa-8 bg-white text-center">
+    <div class="d-flex pa-8 bg-primary-darken-1 text-center">
       <div>
-        <div class="pa-2 mb-4 rounded-xl bg-primary-darken-1">
-          <v-img :src="logo" width="180"></v-img>
-        </div>
+        <v-img :src="logo" width="180"></v-img>
         <div>Moafa Pharmacy - Syria - Free zone - Damascus</div>
         <div class="pa-4 mt-4 rounded-xl" style="background-color: #dbfff6">
           Got Question? Call us
@@ -36,7 +12,7 @@
 
       <v-divider class="mx-8" vertical />
 
-      <div class="d-flex flex-column">
+      <div class="text-white d-flex flex-column">
         <div>
           We are looking for your comfort and your access to the necessary
           medication in the best way...and following up with you and providing

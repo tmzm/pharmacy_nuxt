@@ -1,6 +1,6 @@
 <template>
   <!-- Menu component with date picker -->
-  <v-menu location="bottom" :close-on-content-click="false">
+  <v-menu :close-on-content-click="false">
     <!-- Activator slot to trigger menu -->
     <template v-slot:activator="{ props }">
       <!-- Button to activate the menu -->
@@ -29,4 +29,6 @@ const dayjs = useDayjs()
 // Accessing product store
 const productStore = useProductStore()
 const { product } = storeToRefs(productStore)
+
+product.value.expiration = new Date(product.value.expiration)
 </script>

@@ -1,12 +1,6 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card
-      :border="true"
-      width="230"
-      class="ma-4"
-      v-bind="props"
-      elevation="0"
-    >
+    <v-card :border="true" width="230" class="ma-4" v-bind="props">
       <v-img
         :border="true"
         class="ma-2 rounded pa-3"
@@ -33,13 +27,13 @@
         SP
         <span
           v-if="
-            product.is_offer && product.is_quantity && product.quantity != 0
+            product.is_offer && !(product.is_quantity && product.quantity == 0)
           "
           class="text-decoration-line-through text-body-1"
         >
           {{ product.price }} SP
         </span>
-        <strong v-if="!product.is_quantity || product.quantity == 0"
+        <strong v-if="product.is_quantity && product.quantity == 0"
           >out of stock</strong
         >
       </v-card-title>
@@ -64,7 +58,7 @@
       >
         <v-btn
           :disabled="
-            cart?.find((p:any) => p.id == product.id) || !product.is_quantity || product.quantity == 0
+            cart?.find((p:any) => p.id == product.id) || (product.is_quantity && product.quantity == 0)
           "
           :loading="loading"
           prepend-icon="ri-shopping-cart-fill"
@@ -75,6 +69,12 @@
           Add to cart
         </v-btn>
         <v-btn icon="ri-heart-fill" variant="text" color="white"> </v-btn>
+        <v-btn
+          icon="ri-eye-line"
+          variant="text"
+          color="white"
+          @click="navigateTo(`/products/${product.slug}`)"
+        ></v-btn>
       </v-overlay>
 
       <v-card-actions v-if="cartProduct" class="text-center">
@@ -134,7 +134,7 @@ const props = defineProps<{
 const product = ref(
   !props.id
     ? props.productValue
-    : await productStore.getProduct(props.id as any)
+    : await productStore.getProductById(props.id as any)
 )
 
 const addProductToCart = () => {

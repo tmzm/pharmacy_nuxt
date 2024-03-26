@@ -1,5 +1,5 @@
 <template>
-  <v-card title="ORDER SUMMARY" class="mt-4" elevation="0">
+  <v-card title="ORDER SUMMARY" class="mt-4">
     <v-list>
       <v-list-item>
         Order Total
@@ -56,18 +56,27 @@ const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const loading = ref(false)
 
-const orderTotalPrice = computed(() => {
-  if (cart.value && cart.value.length != 0) {
+const orderTotalPrice = ref()
+
+const getTotalPrice = () => {
+  if (cart.value && cart.value.length !== 0) {
     let t = 0
-    cart.value.forEach((e: any) => {
-      let { data, pending } = useAsyncData(() => productStore.getPrice(e.id))
+    for (const e of cart.value) {
+      const { data, pending } = useAsyncData(() => productStore.getPrice(e.id))
       loading.value = pending.value
       t += Math.ceil(data.value) * e.quantity
-    })
-    return t
+    }
+    loading.value = false
+    orderTotalPrice.value = t
   } else {
-    return 0
+    orderTotalPrice.value = 0
   }
+}
+
+getTotalPrice()
+
+watch(cart, () => {
+  getTotalPrice()
 })
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <v-row class="my-2">
     <v-col v-for="item in items" cols="6" md="3">
-      <v-card elevation="0" class="rounded-xl" @click="() => {}">
+      <v-card class="rounded-xl" @click="() => {}">
         <div
           class="d-block d-md-flex items-center text-center justify-space-between"
         >

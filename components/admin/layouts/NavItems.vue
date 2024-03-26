@@ -1,6 +1,21 @@
 <script lang="ts" setup></script>
 
 <template>
+  <!-- Search -->
+  <div
+    class="d-flex ms-4 mb-4 align-center cursor-pointer"
+    style="user-select: none"
+  >
+    <!-- Search Trigger button -->
+    <IconBtn>
+      <v-icon icon="ri-search-line" />
+    </IconBtn>
+
+    <span class="align-center text-disabled">
+      <span class="me-3">Search</span>
+      <span class="meta-key">&#8984;K</span>
+    </span>
+  </div>
   <!-- Dashboards -->
   <VerticalNavGroup
     :item="{

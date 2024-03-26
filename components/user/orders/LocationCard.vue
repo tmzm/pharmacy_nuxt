@@ -1,14 +1,10 @@
 <template>
-  <v-card :border="cardBorder" elevation="0">
+  <v-card :border="cardBorder">
     <v-card-text>
       <v-list-item prepend-icon="ri-user-location-line"
         >DELIVER TO
         <template #append>
-          <v-btn
-            v-if="changeBtn"
-            density="compact"
-            elevation="0"
-            rounded="x-large"
+          <v-btn v-if="changeBtn" density="compact" rounded="x-large"
             >change</v-btn
           >
         </template>

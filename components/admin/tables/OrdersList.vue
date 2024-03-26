@@ -77,9 +77,7 @@ const deleteOrder = () => {
       </template>
 
       <template #item.is_prescription="{ item }">
-        <v-chip
-          density="compact"
-          :color="item.is_prescription ? 'primary' : 'secondary'"
+        <v-chip :color="item.is_prescription ? 'primary' : 'secondary'"
           >{{ item.is_prescription ? 'prescription' : 'order' }}
           {{
             item.is_prescription
@@ -89,6 +87,16 @@ const deleteOrder = () => {
               : ''
           }}</v-chip
         >
+      </template>
+
+      <template #item.is_time="{ item }">
+        <v-chip :color="item.is_time ? 'primary' : 'secondary'">
+          {{
+            !item.is_time
+              ? 'as soon as it ready'
+              : 'At: Today ' + $dayjs(item.time).format('hh:mm')
+          }}
+        </v-chip>
       </template>
 
       <template #item.updated_at="{ item }">

@@ -32,6 +32,9 @@ export const appendNewProductData = () => {
     formData.append('categories[]', newCategories[i])
   }
   formData.append('description', product.value.description)
+  formData.append('meta_description', product.value.meta_description)
+  formData.append('meta_subtitle', product.value.meta_subtitle)
+  formData.append('meta_title', product.value.meta_title)
   formData.append(
     'quantity',
     quantityShow.value === 2 ? product.value.quantity.toString() : '0'
@@ -44,4 +47,12 @@ export const appendNewProductData = () => {
   )
 
   return formData
+}
+
+export const convertToTitleCase = (input: string): string => {
+  return input.replace(/\b\w/g, char => char.toUpperCase())
+}
+
+export const convertToTitleCaseWithSpace = (input: string): string => {
+  return convertToTitleCase(input.replace(/-/g, ' '))
 }
