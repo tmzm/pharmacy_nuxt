@@ -1,118 +1,131 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card :border="true" width="230" class="ma-4" v-bind="props">
-      <v-img
-        :border="true"
-        class="ma-2 rounded pa-3"
-        height="170"
-        :src="`http://127.0.0.1:8000${product.image}` ?? no_img"
-        cover
-      >
-        <!-- <div class="absolute">
+    <v-card
+      v-bind="props"
+      variant="outlined"
+      color="secondary"
+      :border="true"
+      :width="!cartProduct ? 230 : undefined"
+      class="ma-3"
+    >
+      <v-row>
+        <v-col :cols="cartProduct ? 4 : 12">
+          <v-img
+            height="190"
+            cover
+            :lazy-src="no_img"
+            :src="
+              product.image ? `http://127.0.0.1:8000${product.image}` : no_img
+            "
+          >
+            <v-expand-transition>
+              <div
+                v-if="isHovering"
+                class="d-flex text-center items-center justify-center transition-fast-in-fast-out bg-primary v-card--reveal text-h3"
+                style="block-size: 100%"
+              >
+                {{
+                  Math.ceil(
+                    product.price -
+                      product.price *
+                        (product.is_offer ? product.offer / 100 : 0)
+                  )
+                }}
+                SP
+
+                <span
+                  v-if="
+                    product.is_offer &&
+                    !(product.is_quantity && product.quantity == 0)
+                  "
+                  class="text-decoration-line-through text-body-1 ms-2"
+                >
+                  {{ product.price }} SP
+                </span>
+                <strong v-if="product.is_quantity && product.quantity == 0"
+                  >out of stock</strong
+                >
+              </div>
+            </v-expand-transition>
+            <!-- <div class="absolute">
           <v-icon color="primary">ri-star-fill</v-icon> 4.5
         </div> -->
-        <div class="text-right" v-if="product.is_offer">
-          <span class="pa-2 bg-error rounded-full text-body-2"
-            >{{ product.offer }}% OFF</span
-          >
-        </div>
-      </v-img>
-      <v-card-title
-        >{{
-          Math.ceil(
-            product.price -
-              product.price * (product.is_offer ? product.offer / 100 : 0)
-          )
-        }}
-        SP
-        <span
-          v-if="
-            product.is_offer && !(product.is_quantity && product.quantity == 0)
-          "
-          class="text-decoration-line-through text-body-1"
-        >
-          {{ product.price }} SP
-        </span>
-        <strong v-if="product.is_quantity && product.quantity == 0"
-          >out of stock</strong
-        >
-      </v-card-title>
-      <v-card-subtitle>
-        <v-chip
-          class="me-1"
-          size="x-small"
-          v-for="c in product.category_products"
-          >{{ c.category.name }}</v-chip
-        >
-      </v-card-subtitle>
+            <div class="text-right pa-3" v-if="product.is_offer">
+              <span class="pa-2 bg-error rounded-full text-body-2"
+                >{{ product.offer }}% OFF</span
+              >
+            </div>
+          </v-img>
+        </v-col>
 
-      <v-card-text>
-        <div v-html="product.scientific_name" />
-      </v-card-text>
+        <v-col :cols="cartProduct ? 8 : 12">
+          <v-card-text>
+            <div
+              class="d-inline-block text-truncate"
+              style="max-inline-size: 200px"
+            >
+              {{ product.commercial_name }}
+            </div>
+          </v-card-text>
 
-      <v-overlay
-        v-if="!cartProduct"
-        :model-value="isHovering"
-        class="align-center justify-center"
-        contained
-      >
-        <v-btn
-          :disabled="
-            cart?.find((p:any) => p.id == product.id) || (product.is_quantity && product.quantity == 0)
-          "
-          :loading="loading"
-          prepend-icon="ri-shopping-cart-fill"
-          variant="text"
-          color="white"
-          @click="addProductToCart"
-        >
-          Add to cart
-        </v-btn>
-        <v-btn icon="ri-heart-fill" variant="text" color="white"> </v-btn>
-        <v-btn
-          icon="ri-eye-line"
-          variant="text"
-          color="white"
-          @click="navigateTo(`/products/${product.slug}`)"
-        ></v-btn>
-      </v-overlay>
-
-      <v-card-actions v-if="cartProduct" class="text-center">
-        <v-btn
-          icon
-          color="black"
-          @click="
-            cart.splice(
-              cart.findIndex((e: any) => e.id == product.id),
-              1
-            )
-          "
-          ><v-icon>ri-delete-bin-5-line</v-icon></v-btn
-        >
-        <v-btn
-          icon
-          color="black"
-          @click="
+          <v-card-actions v-if="cartProduct">
+            <v-btn
+              icon
+              color="black"
+              @click="
+                cart.splice(
+                  cart.findIndex((e: any) => e.id == product.id),
+                  1
+                )
+              "
+              ><v-icon>ri-delete-bin-5-line</v-icon></v-btn
+            >
+            <v-btn
+              icon
+              color="black"
+              @click="
               () => {
                 if(cart.find((c: any) => (c.id == product.id)).quantity > 1)
                 cart.find((c: any) => (c.id == product.id)).quantity--
               }
             "
-          ><v-icon>ri-indeterminate-circle-line</v-icon></v-btn
-        >
-        {{ cart.find((c: any) => c.id == product.id).quantity }}
-        <v-btn
-          icon
-          color="black"
-          @click="
+              ><v-icon>ri-indeterminate-circle-line</v-icon></v-btn
+            >
+            {{ cart.find((c: any) => c.id == product.id).quantity }}
+            <v-btn
+              icon
+              color="black"
+              @click="
             () => {
-                if(cart.find((c: any) => (c.id == product.id)).quantity < product.quantity)
+                if(product.is_quantity) if(cart.find((c: any) => (c.id == product.id)).quantity == product.quantity) return
                 cart.find((c: any) => (c.id == product.id)).quantity++
               }
             "
-          ><v-icon>ri-add-circle-line</v-icon></v-btn
-        >
-      </v-card-actions>
+              ><v-icon>ri-add-circle-line</v-icon></v-btn
+            >
+          </v-card-actions>
+          <v-card-actions v-else>
+            <v-btn
+              :disabled="
+            cart?.find((p:any) => p.id == product.id) != null || (product.is_quantity && product.quantity == 0) == 1
+          "
+              :loading="loading"
+              prepend-icon="ri-shopping-cart-fill"
+              variant="flat"
+              color="secondary"
+              @click="addProductToCart"
+            >
+              {{
+                cart?.find((p: any) => p.id == product.id)
+                  ? 'Added to cart'
+                  : 'Add to cart'
+              }}
+            </v-btn>
+            <v-btn icon="ri-heart-line" color="secondary" variant="text">
+            </v-btn>
+          </v-card-actions>
+        </v-col>
+      </v-row>
     </v-card>
   </v-hover>
 </template>

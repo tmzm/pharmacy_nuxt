@@ -76,7 +76,7 @@
     </v-col>
   </v-row>
 
-  <v-card class="mt-8" :border="true" title="Details">
+  <v-card class="mt-8" title="Details">
     <v-card-text>
       <div class="mb-2" v-html="product.description ?? 'no description'"></div>
     </v-card-text>

@@ -1,20 +1,15 @@
 <template>
-  <v-card class="my-8" variant="text">
-    <div class="text-2xl font-semibold text-black mx-2">
-      <v-list-item title="Explore our best sellers">
-        <template #append>
-          <v-btn append-icon="ri-arrow-right-line" variant="text">
-            <nuxt-link to="/products"> view all </nuxt-link>
-          </v-btn>
-        </template>
-      </v-list-item>
-    </div>
-    <v-slide-group
-      v-model="model"
-      class="pa-4"
-      selected-class="bg-primary"
-      show-arrows
-    >
+  <v-card class="mb-16 mt-24" variant="text">
+    <v-card-title class="text-h2 text-center"
+      >Most Product <span class="text-secondary">Deals</span>
+      <div class="text-h5 my-2">
+        Explore our best sellers products or
+        <nuxt-link to="/products"
+          >Brows All <v-icon>ri-arrow-right-line</v-icon></nuxt-link
+        >
+      </div>
+    </v-card-title>
+    <v-slide-group v-model="model" selected-class="bg-primary" show-arrows>
       <v-slide-group-item
         v-for="product in productStore.products"
         :key="product.id"

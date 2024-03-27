@@ -4,9 +4,9 @@
   </div>
 
   <v-row class="mt-4 mx-0 bg-white rounded-lg">
-    <v-col cols="3">
+    <v-col cols="12" md="4">
       <v-list>
-        <v-list-item title="Filters">
+        <v-list-item prepend-icon="ri-filter-line" title="Filters">
           <template #append>
             <v-btn
               @click="
@@ -14,6 +14,7 @@
                   currentPriceFilter = [0, 100000]
                   priceFilter = undefined
                   selectedCategories = []
+                  search = ''
                 }
               "
               prepend-icon="ri-close-line"
@@ -22,6 +23,18 @@
               clean all
             </v-btn>
           </template>
+        </v-list-item>
+
+        <v-divider />
+
+        <v-list-item>
+          <v-text-field
+            density="compact"
+            label="Search products..."
+            single-line
+            placeholder="Search"
+            v-model="search"
+          />
         </v-list-item>
 
         <v-divider />
@@ -95,9 +108,9 @@
 
     <v-divider vertical />
 
-    <v-col cols="9">
+    <v-col cols="12" md="8">
       <div v-if="productStore.products?.length as any > 0">
-        <div class="ms-6">
+        <div class="ms-6 text-center">
           showing - from <strong>{{ (page - 1) * 10 }}</strong> to
           <strong>{{
             (page - 1) * 10 + (productStore.products?.length ?? 0)
@@ -116,7 +129,7 @@
           <v-col
             v-for="product in productStore.products"
             :key="product.id"
-            md="3"
+            md="4"
             cols="12"
           >
             <ProductCard :product-value="product" />
@@ -150,11 +163,10 @@ const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
 
 // Fetching categories data asynchronously
 useAsyncData(() => categoryStore.getAllCategories())
-useAsyncData(() => productStore.getTotalCount())
 
 const page = ref(1)
 
-const { productsTotalCount, paginationOptions, priceFilter } =
+const { productsTotalCount, search, paginationOptions, priceFilter } =
   storeToRefs(productStore)
 
 const currentPriceFilter = ref([0, 100000])
@@ -165,6 +177,9 @@ const pageCount = computed(() => {
 
 watch(page, () => {
   paginationOptions.value.page = page.value
+  refresh()
+})
+watch(search, () => {
   refresh()
 })
 watch(selectedCategories, () => {

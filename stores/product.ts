@@ -100,12 +100,13 @@ export const useProductStore = defineStore('product', () => {
   }
 
   const getAllProducts = async () => {
+    getTotalCount()
     const res = await api('/products', {
       method: 'post',
       body: {
         price: priceFilter.value,
         categories: categories.value,
-        search: search.value ?? undefined,
+        search: search.value,
         ...paginationParams(paginationOptions.value, productsTotalCount.value)
       }
     })
@@ -131,7 +132,14 @@ export const useProductStore = defineStore('product', () => {
 
   const getTotalCount = async () => {
     try {
-      const res = await api(`/products_total_count`)
+      const res = await api(`/products_total_count`, {
+        method: 'post',
+        body: {
+          price: priceFilter.value,
+          categories: categories.value,
+          search: search.value
+        }
+      })
       productsTotalCount.value = res.data
     } catch (e) {
       console.log(e)

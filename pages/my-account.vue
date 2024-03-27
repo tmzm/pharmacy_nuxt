@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" md="4">
-      <v-card>
+      <v-card color="secondary" variant="outlined">
         <v-tabs
           class="my-4"
           v-model="tab"
@@ -37,7 +37,7 @@
     </v-col>
 
     <v-col cols="12" md="8">
-      <v-card>
+      <v-card color="secondary" variant="outlined">
         <v-window v-model="tab">
           <v-window-item value="option-1">
             <v-card flat>

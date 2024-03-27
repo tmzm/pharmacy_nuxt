@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12" md="6">
       <v-row v-if="cart && cart.length > 0">
-        <v-col v-for="c in cart" md="4" cols="12">
+        <v-col v-for="c in cart" cols="12">
           <ProductCard cart-product :id="c.id" />
         </v-col>
       </v-row>

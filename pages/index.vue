@@ -1,6 +1,10 @@
 <template>
-  <Carousel />
+  <!-- <Carousel /> -->
   <Futures />
+  <v-divider class="my-16" />
+  <OurNetwork />
+  <v-divider class="my-16" />
+
   <TopSellers />
 </template>
 

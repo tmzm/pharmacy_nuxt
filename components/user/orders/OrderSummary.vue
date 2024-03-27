@@ -1,5 +1,10 @@
 <template>
-  <v-card title="ORDER SUMMARY" class="mt-4">
+  <v-card
+    variant="outlined"
+    color="secondary"
+    title="ORDER SUMMARY"
+    class="mt-4"
+  >
     <v-list>
       <v-list-item>
         Order Total
@@ -58,13 +63,11 @@ const loading = ref(false)
 
 const orderTotalPrice = ref()
 
-const getTotalPrice = () => {
+const getTotalPrice = async () => {
   if (cart.value && cart.value.length !== 0) {
     let t = 0
     for (const e of cart.value) {
-      const { data, pending } = useAsyncData(() => productStore.getPrice(e.id))
-      loading.value = pending.value
-      t += Math.ceil(data.value) * e.quantity
+      t += Math.ceil(await productStore.getPrice(e.id)) * e.quantity
     }
     loading.value = false
     orderTotalPrice.value = t

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :border="true" elevation="0" height="40">
+  <v-app-bar :border="true" elevation="4" height="40">
     <v-menu open-on-hover>
       <template v-slot:activator="{ props, isActive }">
         <v-btn
@@ -28,13 +28,44 @@
 
     <v-btn color="black" prepend-icon="ri-price-tag-3-line"> OFFERS </v-btn>
 
-    <v-spacer class="d-none d-md-block" />
+    <v-btn color="black" class="me-2 d-none d-md-flex">
+      <span>Favorites</span>
+      <template #prepend>
+        <v-icon icon="ri-heart-line" />
+      </template>
+    </v-btn>
 
-    <div>
-      <v-btn color="black" prepend-icon="ri-map-line" @click="dialog = true"
-        >LOCATIONS</v-btn
-      >
-    </div>
+    <!-- <NavbarThemeSwitcher class="me-2" /> -->
+
+    <v-btn
+      class="d-none d-md-flex"
+      color="black"
+      prepend-icon="ri-map-line"
+      @click="dialog = true"
+      >Locations</v-btn
+    >
+    <v-spacer />
+
+    <v-btn
+      @click="
+        () => {
+          if (token) {
+            navigateTo('/my-account')
+          } else {
+            navigateTo('/auth/login')
+          }
+        }
+      "
+      color="black"
+      class="me-2 d-none d-md-flex"
+    >
+      <span>
+        {{ token ? 'My Account' : 'Login' }}
+      </span>
+      <template #prepend>
+        <v-icon icon="ri-user-6-line" />
+      </template>
+    </v-btn>
   </v-app-bar>
 
   <SelectLocationModal
@@ -56,6 +87,7 @@
 <script lang="ts" setup>
 const categoryStore = useCategoryStore()
 const dialog = ref(false)
+const cart = useCookie('cart')
 
 const locationStore = useLocationStore()
 const token = useCookie('token')
