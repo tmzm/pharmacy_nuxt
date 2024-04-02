@@ -14,9 +14,37 @@ export default defineNuxtConfig({
           rel: 'icon',
           type: 'image/x-icon',
           href: '/favicon.ico'
+        },
+
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com'
+        },
+
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.gstatic.com'
+        },
+
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap'
         }
       ]
     }
+  },
+
+  i18n: {
+    baseUrl: 'http://localhost:3000',
+    locales: [
+      { code: 'en', file: 'en.json', iso: 'en-US' },
+      { code: 'ar', file: 'ar.json', iso: 'ar-SY' }
+    ],
+
+    langDir: 'locale',
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: false
   },
 
   devtools: {
@@ -70,7 +98,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
-      isCustomElement: tag =>
+      isCustomElement: (tag: any) =>
         tag === 'swiper-container' || tag === 'swiper-slide'
     }
   },
@@ -130,6 +158,8 @@ export default defineNuxtConfig({
     'dayjs-nuxt',
     '@nuxt/image',
     'nuxt3-leaflet',
-    '@ant-design-vue/nuxt'
+    '@ant-design-vue/nuxt',
+    '@nuxtjs/i18n',
+    '@nuxtjs/google-fonts'
   ]
 })

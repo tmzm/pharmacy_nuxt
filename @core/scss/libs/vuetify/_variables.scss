@@ -1,7 +1,6 @@
 $shadow-key-umbra-opacity-custom: var(--v-shadow-key-umbra-opacity);
 $shadow-key-penumbra-opacity-custom: var(--v-shadow-key-penumbra-opacity);
 $shadow-key-ambient-opacity-custom: var(--v-shadow-key-ambient-opacity);
-$font-family-custom: inter, sans-serif, -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 // Card transition properties
 $card-transition-property-custom: box-shadow, opacity;
@@ -9,7 +8,7 @@ $card-transition-property-custom: box-shadow, opacity;
 @forward "vuetify/settings" with (
    // General settings
   $color-pack: false !default,
-  $body-font-family: $font-family-custom !default,
+  $body-font-family: 'Cairo' !default,
   $border-radius-root: 6px !default,
 
     // Shadow opacity

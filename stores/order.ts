@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 export const useOrderStore = defineStore('order', () => {
   const cart = useCookie('cart')
   const orders = ref<Order[]>()
-  const order = ref<Order>({} as Order)
+  const order = ref<Order>({ time: null } as Order)
   const fields = ref(1)
   const productsImages = ref<Product[]>([])
   const locationStore = useLocationStore()
@@ -39,9 +39,11 @@ export const useOrderStore = defineStore('order', () => {
       })
 
       await api(`/prescriptions/${prescription_id}/orders/${res.data.id}`)
+
+      showSuccessToaster('Order created successfully')
     } catch (e) {
-      console.log(e)
       loading.value = false
+      showErrorToaster('Error!, try agin later')
     }
 
     loading.value = false
@@ -62,15 +64,15 @@ export const useOrderStore = defineStore('order', () => {
           products: cart.value
         }
       })
+      showSuccessToaster('Order created successfully')
+      cart.value = null
     } catch (e) {
-      console.log(e)
       loading.value = false
+      showErrorToaster('Error!, try agin later')
     }
 
     loading.value = false
     navigateTo('/shopping-cart')
-
-    cart.value = null
   }
 
   const edit = async () => {}

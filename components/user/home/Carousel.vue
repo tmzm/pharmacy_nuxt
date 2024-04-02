@@ -1,17 +1,27 @@
 <template>
   <v-carousel height="400" show-arrows="hover" cycle hide-delimiter-background>
     <v-carousel-item v-for="n in 3">
-      <div
-        class="w-100 h-100 bg-cover"
-        style="
-          background-image: url('https://scontent-mrs2-1.xx.fbcdn.net/v/t39.30808-6/375048983_260615643589888_2634043850175360036_n.jpg?stp=dst-jpg_p843x403&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=mD2kXv20LusAX_bMjH_&_nc_ht=scontent-mrs2-1.xx&oh=00_AfDFqq0L_A4BeaP7g9WadXdBpiCNssFzSGLGF1UVYusHqQ&oe=6602DAA4');
-        "
-      ></div>
+      <div class="w-100 h-100 bg-cover" :style="s">
+        <v-overlay
+          class="d-flex items-center justify-center"
+          persistent
+          contained
+          :model-value="true"
+        >
+          <v-img width="300" class="mx-auto" :src="logo"></v-img>
+          <div class="text-white text-md-h1 text-h4 font-semibold">
+            {{ $t('first-pharmacy') }}
+          </div>
+        </v-overlay>
+      </div>
     </v-carousel-item>
   </v-carousel>
 </template>
 
 <script lang="ts" setup>
+import logo from '@images/logos/logoMoafa.webp'
+import image from '@images/pages/ph-baner.jpg'
+const s = 'background-image: url(' + image + ');'
 const length = ref(3)
 const onboarding = ref(1)
 

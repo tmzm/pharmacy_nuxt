@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12" md="6">
       <v-row v-if="cart && cart.length > 0">
-        <v-col v-for="c in cart" cols="12">
+        <v-col v-for="c in cart" :key="c.id" cols="12">
           <ProductCard cart-product :id="c.id" />
         </v-col>
       </v-row>
@@ -20,21 +20,22 @@
 
       <OrderSummary no-place-order />
 
-      <v-btn
-        variant="outlined"
-        color="black"
-        class="mt-4"
-        append-icon="ri-shopping-cart-2-line"
-        @click="navigateTo('/products')"
-        >continue shopping</v-btn
-      >
+      <div class="d-flex mt-4 space-x-4">
+        <v-btn
+          variant="outlined"
+          color="black"
+          append-icon="ri-shopping-cart-2-line"
+          @click="navigateTo('/products')"
+          >continue shopping</v-btn
+        >
 
-      <v-btn
-        class="mt-4 ms-4"
-        append-icon="ri-arrow-right-s-line"
-        @click="navigateTo('/checkout')"
-        >Proceed to checkout</v-btn
-      >
+        <v-btn
+          append-icon="ri-arrow-right-s-line"
+          elevation="0"
+          @click="navigateTo('/checkout')"
+          >Checkout</v-btn
+        >
+      </div>
     </v-col>
   </v-row>
 

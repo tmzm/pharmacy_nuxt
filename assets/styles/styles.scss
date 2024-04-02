@@ -1,1 +1,64 @@
 // Write your overrides
+.desc {
+  h1 {
+    font-size: 1.875rem; /* 30px */
+    line-height: 2.25rem; /* 36px */
+    white-space: pre-line;
+  }
+
+  h2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    white-space: pre-line;
+  }
+
+  p {
+    margin-block-end: 8px;
+    white-space: pre-wrap;
+  }
+
+  a {
+    color: #e0b416;
+  }
+
+  .ql-align-right {
+    text-align: end;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-size-huge {
+    font-size: 2.25rem; /* 36px */
+    line-height: 2.5rem; /* 40px */
+  }
+
+  .ql-size-large {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .ql-size-small {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+  }
+
+  ol {
+    list-style: decimal;
+    margin-inline-start: 16px;
+  }
+
+  ul {
+    list-style: disc;
+    margin-inline-start: 16px;
+  }
+
+  li {
+    margin-block-end: 8px;
+  }
+}

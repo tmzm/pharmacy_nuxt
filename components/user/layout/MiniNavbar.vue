@@ -1,6 +1,12 @@
 <template>
-  <v-app-bar :border="true" elevation="4" height="40">
-    <v-menu open-on-hover>
+  <v-app-bar
+    border
+    scroll-behavior="hide"
+    scroll-threshold="150"
+    elevation="0"
+    height="40"
+  >
+    <v-menu open-on-hover open-on-click>
       <template v-slot:activator="{ props, isActive }">
         <v-btn
           color="black"
@@ -38,11 +44,11 @@
     <!-- <NavbarThemeSwitcher class="me-2" /> -->
 
     <v-btn
-      class="d-none d-md-flex"
+      class="d-none text-truncate d-md-inline-flex"
       color="black"
-      prepend-icon="ri-map-line"
+      prepend-icon="ri-map-pin-2-line"
       @click="dialog = true"
-      >Locations</v-btn
+      >{{ selectedLocation?.address ?? 'select location' }}</v-btn
     >
     <v-spacer />
 
@@ -74,13 +80,6 @@
     close-btn
     @close="dialog = false"
     @new-location="newLocationDialog = true"
-  />
-
-  <CreateLocationModal
-    v-if="token"
-    v-model="newLocationDialog"
-    close-btn
-    @close="newLocationDialog = false"
   />
 </template>
 

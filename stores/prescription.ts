@@ -3,7 +3,7 @@ import type { Prescription } from '@/types'
 export const usePrescriptionStore = defineStore('prescription', () => {
   const prescriptions = ref<Prescription[]>()
   const prescription = ref<Prescription>({} as Prescription)
-  const imageFileInput = ref()
+  const imageFileInput = ref<any>([])
 
   const loading = ref()
 
@@ -14,13 +14,16 @@ export const usePrescriptionStore = defineStore('prescription', () => {
 
     try {
       formData.append('description', prescription.value.description)
-      formData.append('image', imageFileInput.value)
+      formData.append('image', imageFileInput.value[0].originFileObj)
 
       await api('/prescriptions/create', {
         method: 'post',
         body: formData
       })
+
+      showSuccessToaster('Prescription Uploaded Successfully')
     } catch {
+      showErrorToaster('Error!, try agin later')
       loading.value = false
     }
 

@@ -1,15 +1,10 @@
 <template>
-  <v-card
-    variant="outlined"
-    color="secondary"
-    title="ORDER SUMMARY"
-    class="mt-4"
-  >
+  <v-card title="ORDER SUMMARY" class="mt-4">
     <v-list>
       <v-list-item>
         Order Total
         <template #append
-          ><span v-if="!loading">{{ orderTotalPrice }} SP</span>
+          ><span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
           <v-progress-circular
             width="2"
             color="black"
@@ -24,7 +19,7 @@
       <v-list-item>
         Total Amount (Inclusive of VAT)
         <template #append
-          ><span v-if="!loading">{{ orderTotalPrice }} SP</span>
+          ><span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
           <v-progress-circular
             width="2"
             color="black"
@@ -38,7 +33,7 @@
         >place order</v-btn
       ><v-chip color="secondary" prepend-icon="ri-wallet-line">
         TOTAL:
-        <span v-if="!loading">{{ orderTotalPrice }} SP</span>
+        <span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
         <v-progress-circular
           width="2"
           color="black"

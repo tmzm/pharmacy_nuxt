@@ -16,8 +16,6 @@
             <v-col cols="6">
               <v-select
                 prepend-inner-icon="ri-home-3-line"
-                item-title="title"
-                item-value="value"
                 return-object
                 v-model="type"
                 :items="['Home', 'Work', 'Other']"

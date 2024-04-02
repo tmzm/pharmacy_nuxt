@@ -8,7 +8,7 @@
         <v-btn color="primary" block variant="outlined" v-bind="props">
           <!-- Display expiration date -->
           exp date:
-          {{ dayjs(product?.expiration).format('YYYY/MM/DD') ?? 'YYYY/MM/DD' }}
+          {{ $dayjs(product?.expiration).format('YYYY/MM/DD') }}
         </v-btn>
       </v-col>
     </template>
@@ -23,12 +23,11 @@
 </template>
 
 <script lang="ts" setup>
-// Importing day.js library
-const dayjs = useDayjs()
-
 // Accessing product store
 const productStore = useProductStore()
 const { product } = storeToRefs(productStore)
 
-product.value.expiration = new Date(product.value.expiration)
+product.value.expiration = product.value.expiration
+  ? new Date(product.value.expiration)
+  : new Date()
 </script>

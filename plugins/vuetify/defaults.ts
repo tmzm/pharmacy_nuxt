@@ -1,4 +1,12 @@
+import { ar } from 'vuetify/locale'
+
 export default {
+  locale: {
+    locale: 'ar',
+    fallback: 'en',
+    messages: { ar }
+  },
+
   IconBtn: {
     icon: true,
     color: 'default',
@@ -103,9 +111,10 @@ export default {
   },
   VTextField: {
     variant: 'outlined',
-    density: 'comfortable',
+    density: 'compact',
     color: 'primary',
-    hideDetails: 'auto'
+    hideDetails: 'auto',
+    singleLine: true
   },
   VAutocomplete: {
     variant: 'outlined',

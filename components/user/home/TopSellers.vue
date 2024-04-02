@@ -1,28 +1,41 @@
 <template>
-  <v-card class="mb-16 mt-24" variant="text">
-    <v-card-title class="text-h2 text-center"
-      >Most Product <span class="text-secondary">Deals</span>
-      <div class="text-h5 my-2">
-        Explore our best sellers products or
-        <nuxt-link to="/products"
-          >Brows All <v-icon>ri-arrow-right-line</v-icon></nuxt-link
-        >
-      </div>
-    </v-card-title>
-    <v-slide-group v-model="model" selected-class="bg-primary" show-arrows>
-      <v-slide-group-item
-        v-for="product in productStore.products"
-        :key="product.id"
+  <div class="my-24">
+    <BaseHeadingCard
+      :item="{
+        keyword: home ? $t('our-products') : undefined,
+        title: home ? $t('our-products-title') : $t('top-sellers'),
+        text: home ? $t('our-products-text') : undefined,
+        link: {
+          title: $t('view-products'),
+          icon: 'ri-arrow-right-line',
+          to: '/products'
+        }
+      }"
+    >
+      <v-slide-group
+        class="my-8"
+        v-model="model"
+        selected-class="bg-primary"
+        show-arrows
       >
-        <ProductCard :product-value="product" />
-      </v-slide-group-item>
-    </v-slide-group>
-  </v-card>
+        <v-slide-group-item
+          v-for="product in productStore.products"
+          :key="product.id"
+        >
+          <ProductCard :product-value="product" />
+        </v-slide-group-item>
+      </v-slide-group>
+    </BaseHeadingCard>
+  </div>
 </template>
 
 <script lang="ts" setup>
 const model = ref()
 const productStore = useProductStore()
+
+defineProps<{
+  home?: boolean
+}>()
 
 const { pending } = useAsyncData(() => productStore.getTopProductSellers())
 </script>

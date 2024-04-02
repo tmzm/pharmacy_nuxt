@@ -22,11 +22,13 @@ export const useMyAuthStore = defineStore('auth', () => {
       const cookieToken = useCookie('token')
 
       cookieToken.value = res.token
+
+      showSuccessToaster('Login successfully')
+
+      router.push('/')
     } catch (e: any) {
       loading.value = false
     }
-
-    router.push('/')
   }
 
   const logout = async () => {

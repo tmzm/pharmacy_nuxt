@@ -1,17 +1,11 @@
 <template>
-  <v-card class="my-8" border>
-    <v-card-subtitle class="text-primary text-h4 mt-6"
-      >OUR SERVICES</v-card-subtitle
-    >
-    <v-card-title class="text-secondary text-h2 my-4"
-      >Offering Expertise & Accessibility</v-card-title
-    >
-    <v-card-text
-      >From pharmacies to healthcare e-commerce, loyalty programmes, home
-      delivery services & more supporting a seamless health journey, making
-      millions of lives better.</v-card-text
-    >
-  </v-card>
+  <BaseHeadingCard
+    :item="{
+      keyword: $t('our-services'),
+      title: $t('our-services-title'),
+      text: $t('our-services-text')
+    }"
+  />
 
   <v-row>
     <v-col v-for="item in items" cols="6" md="3">
@@ -22,7 +16,7 @@
           <v-card-text>
             <v-icon size="50">{{ item.icon }}</v-icon>
             <v-card-title class="text-white">
-              {{ item.title }}
+              {{ $t(item.title) }}
             </v-card-title>
           </v-card-text>
         </div>
@@ -34,17 +28,17 @@
 <script lang="ts" setup>
 const items = [
   {
-    title: 'Upload Prescription',
+    title: 'upload-prescription',
     bg: 'primary',
     icon: 'ri-medicine-bottle-line'
   },
-  { title: 'Best Deals', bg: 'secondary', icon: 'ri-price-tag-2-line' },
+  { title: 'best-deals', bg: 'secondary', icon: 'ri-price-tag-2-line' },
   {
-    title: 'Fast Delivery',
+    title: 'fast-delivery',
     bg: 'success',
     icon: 'ri-fire-line'
   },
-  { title: 'Hermon Wellness', bg: 'info', icon: 'ri-medicine-bottle-line' }
+  { title: 'hermon-wellness', bg: 'info', icon: 'ri-medicine-bottle-line' }
 ]
 </script>
 

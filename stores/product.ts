@@ -2,6 +2,7 @@ import paginationParams from '@/composables/paginationParams'
 import type { Product } from '@/types'
 
 export const useProductStore = defineStore('product', () => {
+  const sort = ref('Newest')
   const products = ref<Product[]>()
   const quantityShow = ref()
   const fileInput = ref()
@@ -62,9 +63,10 @@ export const useProductStore = defineStore('product', () => {
         method: 'post',
         body: formData
       })
+
+      showSuccessToaster('Product created successfully')
     } catch (e: any) {
-      const toasterStore = useToasterStore()
-      toasterStore.showErrorToaster(e.message)
+      showErrorToaster(e.message)
       loading.value = false
     }
 
@@ -86,9 +88,10 @@ export const useProductStore = defineStore('product', () => {
         method: 'post',
         body: formData
       })
+
+      showSuccessToaster('Product edited successfully')
     } catch (e: any) {
-      const toasterStore = useToasterStore()
-      toasterStore.showErrorToaster(e.message)
+      showErrorToaster(e.message)
       loading.value = false
     }
 
@@ -106,6 +109,7 @@ export const useProductStore = defineStore('product', () => {
       body: {
         price: priceFilter.value,
         categories: categories.value,
+        sort: sort.value != 'Newest' ? sort.value.toLowerCase() : undefined,
         search: search.value,
         ...paginationParams(paginationOptions.value, productsTotalCount.value)
       }
@@ -137,7 +141,8 @@ export const useProductStore = defineStore('product', () => {
         body: {
           price: priceFilter.value,
           categories: categories.value,
-          search: search.value
+          search: search.value,
+          sort: sort.value.toLowerCase() ?? undefined
         }
       })
       productsTotalCount.value = res.data
@@ -174,17 +179,25 @@ export const useProductStore = defineStore('product', () => {
   }
 
   const getProductById = async (id: number) => {
+    loading.value = true
+
     if (id) {
       try {
         const res = await api(`/products/id/${id}`)
         product.value = res.data
+        loading.value = false
+
         return res.data
       } catch (e) {
         console.log('text', e)
         product.value = {} as Product
+
+        loading.value = false
+
         return {} as Product
       }
     } else {
+      loading.value = false
       return {} as Product
     }
   }
@@ -235,6 +248,7 @@ export const useProductStore = defineStore('product', () => {
     paginationOptions,
     priceFilter,
     productsTotalCount,
-    search
+    search,
+    sort
   }
 })

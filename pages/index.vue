@@ -1,11 +1,12 @@
 <template>
   <!-- <Carousel /> -->
-  <Futures />
-  <v-divider class="my-16" />
   <OurNetwork />
   <v-divider class="my-16" />
-
-  <TopSellers />
+  <Futures />
+  <v-divider class="my-16" />
+  <OurCategories home />
+  <v-divider class="my-16" />
+  <TopSellers home />
 </template>
 
 <script lang="ts" setup>

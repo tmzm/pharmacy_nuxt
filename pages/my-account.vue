@@ -1,7 +1,7 @@
 <template>
   <v-row>
-    <v-col cols="12" md="4">
-      <v-card color="secondary" variant="outlined">
+    <v-col cols="12" md="3">
+      <v-card>
         <v-tabs
           class="my-4"
           v-model="tab"
@@ -12,22 +12,27 @@
             <v-icon start> ri-home-3-line </v-icon>
             Dashboard
           </v-tab>
+          <v-divider />
           <v-tab value="option-2">
             <v-icon start> ri-box-3-line </v-icon>
             Orders
           </v-tab>
+          <v-divider />
           <v-tab value="option-3">
             <v-icon start> ri-map-pin-line </v-icon>
             Addresses
           </v-tab>
+          <v-divider />
           <v-tab value="option-4">
             <v-icon start> ri-admin-line </v-icon>
             Account Details
           </v-tab>
+          <v-divider />
           <v-tab value="option-5">
             <v-icon start> ri-medicine-bottle-line </v-icon>
             Prescriptions
           </v-tab>
+          <v-divider />
           <v-tab @click="logoutDialog = true">
             <v-icon start> ri-logout-box-r-line </v-icon>
             Logout
@@ -36,11 +41,11 @@
       </v-card>
     </v-col>
 
-    <v-col cols="12" md="8">
-      <v-card color="secondary" variant="outlined">
+    <v-col cols="12" md="9">
+      <v-card>
         <v-window v-model="tab">
           <v-window-item value="option-1">
-            <v-card flat>
+            <v-card>
               <v-card-text>
                 Hello ! From your account dashboard you can view your
                 <span
@@ -60,13 +65,11 @@
                   @click="tab = 'option-4'"
                   >account details</span
                 >.
+
+                <v-divider class="my-4" />
+
+                You don't have any product yet!
               </v-card-text>
-            </v-card>
-
-            <v-divider />
-
-            <v-card flat title="Recent Purchases">
-              <v-card-text> You don't have any product yet! </v-card-text>
             </v-card>
           </v-window-item>
           <v-window-item value="option-2">
@@ -135,49 +138,53 @@
 
           <v-window-item value="option-5">
             <!-- Image upload drop zone -->
-            <v-card
-              ref="imageDropZoneRef"
-              class="pa-16 border-dashed rounded-2xl"
-            >
+            <v-card>
               <v-card-title>Upload new prescription:</v-card-title>
-              <v-card
-                :border="true"
-                class="text-center pa-8 mx-5 mt-4"
-                @click=""
-              >
-                <!-- Drop zone instructions -->
-                <v-card-title>upload Image</v-card-title>
-                {{
-                  !imageFileInput
-                    ? !isOverDropZone
-                      ? 'drag and drop images (allowed: images and png)'
-                      : 'drop'
-                    : `image: ${imageFileInput.name}, size: ${imageFileInput.size}`
-                }}
-              </v-card>
 
-              <v-card-text class="d-flex">
-                <v-text-field
-                  hide-details
-                  v-model="prescriptionStore.prescription.description"
-                  prepend-inner-icon="ri-sticky-note-line"
-                  placeholder="Add a note of the prescription"
-                  label="Add Note"
-                  class="me-2"
-                />
-
-                <v-btn
-                  variant="outlined"
-                  @click="
-                    () => {
-                      prescriptionStore.create()
-                      refresh()
-                    }
-                  "
-                  :loading="loading"
-                  height="48"
-                  >Upload Prescription</v-btn
+              <v-card-text>
+                <a-upload-dragger
+                  class="my-4"
+                  v-model:fileList="imageFileInput"
+                  name="file"
+                  @change="handleChange"
+                  @drop="handleDrop"
+                  :max-count="1"
                 >
+                  <v-icon size="45" color="secondary">ri-inbox-line</v-icon>
+                  <div class="my-4">
+                    <p class="ant-upload-text">
+                      Click or drag file to this area to upload
+                    </p>
+                    <p class="ant-upload-hint">
+                      Support for a single or bulk upload. Strictly prohibit
+                      from uploading company data or other band files
+                    </p>
+                  </div>
+                </a-upload-dragger>
+
+                <div class="d-flex">
+                  <v-text-field
+                    hide-details
+                    v-model="prescriptionStore.prescription.description"
+                    prepend-inner-icon="ri-sticky-note-line"
+                    placeholder="Add a note of the prescription"
+                    label="Add Note"
+                    class="me-2"
+                  />
+
+                  <v-btn
+                    variant="outlined"
+                    @click="
+                      () => {
+                        prescriptionStore.create()
+                        refresh()
+                      }
+                    "
+                    :loading="loading"
+                    height="48"
+                    >Upload Prescription</v-btn
+                  >
+                </div>
               </v-card-text>
 
               <v-divider class="my-8" />
@@ -232,13 +239,15 @@
     </v-col>
   </v-row>
 
-  <v-dialog width="auto" :model-value="logoutDialog">
+  <v-dialog width="auto" v-model="logoutDialog">
     <v-card
-      width="400"
+      width="350"
       prepend-icon="ri-error-warning-line"
-      title="Are you sure you want to logout ?"
+      title="Are you sure?"
     >
-      <v-card-text>This action is undone</v-card-text>
+      <v-card-text
+        >Are you sure you want to logout ? This action is undone</v-card-text
+      >
       <v-card-actions>
         <v-btn
           prepend-icon="ri-logout-circle-r-line"
@@ -254,6 +263,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { UploadChangeParam } from 'ant-design-vue'
+
 const tab = ref('option-1')
 const orderStore = useOrderStore()
 const locationStore = useLocationStore()
@@ -273,22 +284,18 @@ const currentOrder = computed(() => {
 
 const { imageFileInput, loading } = storeToRefs(prescriptionStore)
 
-// Reference to the drop zone for image uploads
-const imageDropZoneRef = ref<HTMLElement>()
+const handleChange = (info: UploadChangeParam) => {
+  const status = info.file.status
 
-// Function to handle image drop event
-function onImageDrop(files: File[] | null) {
-  imageFileInput.value = []
-  if (files) {
-    imageFileInput.value = files[0]
+  if (status === 'done') {
+    message.success(`${info.file.name} file uploaded successfully.`)
+  } else if (status === 'error') {
+    message.error(`${info.file.name} file upload failed.`)
   }
 }
-
-// Configuring drop zone for image uploads
-const { isOverDropZone } = useDropZone(imageDropZoneRef, {
-  dataTypes: ['image/png'],
-  onDrop: onImageDrop
-})
+function handleDrop(e: DragEvent) {
+  console.log(e)
+}
 
 definePageMeta({
   middleware: 'my-account',

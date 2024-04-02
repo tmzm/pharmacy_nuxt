@@ -1,3 +1,5 @@
+import { useToasterStore } from '@/stores/toaster'
+
 export const appendNewProductData = () => {
   const dayjs = useDayjs()
 
@@ -18,7 +20,7 @@ export const appendNewProductData = () => {
   const formData = new FormData()
 
   if (imageFileInput.value) {
-    formData.append('image', imageFileInput.value)
+    formData.append('image', imageFileInput.value[0].originFileObj)
   }
   formData.append('commercial_name', product.value.commercial_name)
   formData.append('scientific_name', product.value.scientific_name)
@@ -55,4 +57,14 @@ export const convertToTitleCase = (input: string): string => {
 
 export const convertToTitleCaseWithSpace = (input: string): string => {
   return convertToTitleCase(input.replace(/-/g, ' '))
+}
+
+export const showSuccessToaster = (msg: string) => {
+  const toasterStore = useToasterStore()
+  toasterStore.showSuccessToaster(msg)
+}
+
+export const showErrorToaster = (msg: string) => {
+  const toasterStore = useToasterStore()
+  toasterStore.showErrorToaster(msg)
 }

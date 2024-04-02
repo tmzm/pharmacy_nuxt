@@ -1,5 +1,5 @@
 <template>
-  <v-card variant="outlined" rounded="x-large">
+  <v-card>
     <v-card-text>
       <v-timeline direction="horizontal" class="my-4">
         <v-timeline-item
@@ -51,7 +51,7 @@
         {{ currentOrder?.total_price }}
       </div>
 
-      <LocationCard :location="currentOrder.location" />
+      <LocationCard :location="currentOrder.location" class="my-8" />
 
       <v-row>
         <v-col v-for="order_item in currentOrder?.order_items" cols="auto">

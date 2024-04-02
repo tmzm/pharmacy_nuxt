@@ -2,28 +2,46 @@
   <v-hover v-slot="{ isHovering, props }">
     <v-card
       v-bind="props"
-      variant="outlined"
-      color="secondary"
-      :border="true"
-      :width="!cartProduct ? 230 : undefined"
-      class="ma-3"
+      :loading="productStore.loading"
+      :width="!cartProduct ? 200 : undefined"
+      :class="{ 'ma-3': !cartProduct }"
     >
-      <v-row>
+      <v-row no-gutters>
         <v-col :cols="cartProduct ? 4 : 12">
           <v-img
-            height="190"
+            @click="navigateTo(`/products/${product.slug}`)"
+            class="cursor-pointer"
+            height="140"
             cover
             :lazy-src="no_img"
             :src="
               product.image ? `http://127.0.0.1:8000${product.image}` : no_img
             "
           >
-            <v-expand-transition>
-              <div
-                v-if="isHovering"
-                class="d-flex text-center items-center justify-center transition-fast-in-fast-out bg-primary v-card--reveal text-h3"
-                style="block-size: 100%"
+            <!-- <div class="absolute">
+          <v-icon color="primary">ri-star-fill</v-icon> 4.5
+        </div> -->
+            <div class="text-right pa-3" v-if="product.is_offer">
+              <span class="pa-2 bg-error rounded-full text-body-2"
+                >{{ product.offer }}% {{ $t('off') }}</span
               >
+            </div>
+          </v-img>
+        </v-col>
+
+        <v-col :cols="cartProduct ? 8 : 12">
+          <v-card-text
+            class="cursor-pointer"
+            @click="navigateTo(`/products/${product.slug}`)"
+          >
+            <div
+              class="d-inline-block text-truncate"
+              style="max-inline-size: 150px"
+            >
+              {{ product.commercial_name }}
+            </div>
+            <div>
+              <strong class="text-h6">
                 {{
                   Math.ceil(
                     product.price -
@@ -31,78 +49,66 @@
                         (product.is_offer ? product.offer / 100 : 0)
                   )
                 }}
-                SP
-
-                <span
-                  v-if="
-                    product.is_offer &&
-                    !(product.is_quantity && product.quantity == 0)
-                  "
-                  class="text-decoration-line-through text-body-1 ms-2"
-                >
-                  {{ product.price }} SP
-                </span>
-                <strong v-if="product.is_quantity && product.quantity == 0"
-                  >out of stock</strong
-                >
-              </div>
-            </v-expand-transition>
-            <!-- <div class="absolute">
-          <v-icon color="primary">ri-star-fill</v-icon> 4.5
-        </div> -->
-            <div class="text-right pa-3" v-if="product.is_offer">
-              <span class="pa-2 bg-error rounded-full text-body-2"
-                >{{ product.offer }}% OFF</span
+                {{ $t('sp') }}</strong
               >
-            </div>
-          </v-img>
-        </v-col>
 
-        <v-col :cols="cartProduct ? 8 : 12">
-          <v-card-text>
-            <div
-              class="d-inline-block text-truncate"
-              style="max-inline-size: 200px"
-            >
-              {{ product.commercial_name }}
+              <span
+                v-if="
+                  product.is_offer &&
+                  !(product.is_quantity && product.quantity == 0)
+                "
+                class="text-decoration-line-through text-body-1 ms-2"
+              >
+                {{ product.price }} {{ $t('sp') }}
+              </span>
             </div>
           </v-card-text>
 
           <v-card-actions v-if="cartProduct">
-            <v-btn
-              icon
-              color="black"
-              @click="
-                cart.splice(
-                  cart.findIndex((e: any) => e.id == product.id),
-                  1
-                )
-              "
-              ><v-icon>ri-delete-bin-5-line</v-icon></v-btn
-            >
-            <v-btn
-              icon
-              color="black"
-              @click="
+            <div class="d-flex items-center space-x-4">
+              <v-btn
+                width="40"
+                elevation="0"
+                variant="outlined"
+                color="secondary"
+                @click="
+                  cart.splice(
+                    cart.findIndex((e: any) => e.id == product.id),
+                    1
+                  )
+                "
+                ><v-icon>ri-delete-bin-5-line</v-icon></v-btn
+              >
+              <v-btn
+                width="40"
+                elevation="0"
+                variant="outlined"
+                color="secondary"
+                @click="
               () => {
-                if(cart.find((c: any) => (c.id == product.id)).quantity > 1)
+                if(cart?.find((c: any) => (c.id == product.id))?.quantity > 1)
                 cart.find((c: any) => (c.id == product.id)).quantity--
               }
             "
-              ><v-icon>ri-indeterminate-circle-line</v-icon></v-btn
-            >
-            {{ cart.find((c: any) => c.id == product.id).quantity }}
-            <v-btn
-              icon
-              color="black"
-              @click="
+                >-</v-btn
+              >
+              <span>{{
+                cart?.find((c: any) => c.id == product.id)?.quantity
+              }}</span>
+              <v-btn
+                width="40"
+                elevation="0"
+                variant="outlined"
+                color="secondary"
+                @click="
             () => {
-                if(product.is_quantity) if(cart.find((c: any) => (c.id == product.id)).quantity == product.quantity) return
+                if(product.is_quantity) if(cart?.find((c: any) => (c.id == product.id))?.quantity == product.quantity || product.quantity == 0) return
                 cart.find((c: any) => (c.id == product.id)).quantity++
               }
             "
-              ><v-icon>ri-add-circle-line</v-icon></v-btn
-            >
+                >+</v-btn
+              >
+            </div>
           </v-card-actions>
           <v-card-actions v-else>
             <v-btn
@@ -116,9 +122,13 @@
               @click="addProductToCart"
             >
               {{
-                cart?.find((p: any) => p.id == product.id)
-                  ? 'Added to cart'
-                  : 'Add to cart'
+                $t(
+                  product.is_quantity && product.quantity == 0
+                    ? 'out-of-stock'
+                    : cart?.find((p: any) => p.id == product.id) != null
+                    ? 'added'
+                    : 'add-to-cart'
+                )
               }}
             </v-btn>
             <v-btn icon="ri-heart-line" color="secondary" variant="text">
@@ -151,13 +161,17 @@ const product = ref(
 )
 
 const addProductToCart = () => {
-  console.log(cart)
-  if (!cart.value) {
-    cart.value = []
+  try {
+    if (!cart.value) {
+      cart.value = []
+    }
+    cart.value.push({
+      id: props.id ?? props.productValue?.id,
+      quantity: 1
+    })
+    showSuccessToaster('Added To cart successfully')
+  } catch (e: any) {
+    showErrorToaster('Try again later')
   }
-  cart.value.push({
-    id: props.id ?? props.productValue?.id,
-    quantity: 1
-  })
 }
 </script>

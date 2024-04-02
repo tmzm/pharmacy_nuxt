@@ -33,12 +33,6 @@ const resetForm = () => {
   <v-row>
     <v-col cols="12">
       <v-card title="Account Details" :elevation="noElevation ? 0 : undefined">
-        <v-card-text class="d-flex">
-          <SelectAvatar />
-        </v-card-text>
-
-        <VDivider />
-
         <v-card-text>
           <!-- Form -->
           <VForm class="mt-6">
@@ -63,7 +57,7 @@ const resetForm = () => {
 
               <!-- Form Actions -->
               <v-col cols="12" class="d-flex flex-wrap gap-4">
-                <v-btn>Save changes</v-btn>
+                <v-btn elevation="0"> Save changes</v-btn>
 
                 <v-btn
                   color="secondary"

@@ -1,19 +1,11 @@
 <template>
-  <v-card class="my-8" border>
-    <v-card-subtitle class="text-primary text-h4 mt-6"
-      >OUR NETWORK</v-card-subtitle
-    >
-    <v-card-title class="text-secondary text-h2 my-4"
-      >Leading Pharmacy Chain In The GCC</v-card-title
-    >
-    <v-card-text
-      >Moafa Pharmacy, a division of Moafa DM Healthcare is backed by more than
-      two decades of experience in pharmaceutical retailing. Recognised today as
-      the region’s leading pharmacy retail chain, Moafa Pharmacy focuses on
-      “delivering good health & happiness” through friendly neighbourhood
-      pharmacies that are customer-centric & easily accessible.</v-card-text
-    >
-  </v-card>
+  <BaseHeadingCard
+    :item="{
+      keyword: $t('our-network'),
+      title: $t('our-network-title'),
+      text: $t('our-network-text')
+    }"
+  />
 
   <v-row>
     <v-col v-for="item in items" cols="12" md="4">
@@ -27,7 +19,7 @@
               {{ item.number }}
             </div>
             <v-card-title class="text-secondary text-h4">
-              {{ item.title }}
+              {{ $t(item.title) }}
             </v-card-title>
           </v-card-text>
         </div>
@@ -40,13 +32,13 @@
 const items = [
   {
     number: 643,
-    title: 'Customers',
+    title: 'customers',
     icon: 'ri-customer-service-2-line'
   },
-  { number: 643, title: 'Prescriptions', icon: 'ri-medicine-bottle-line' },
+  { number: 643, title: 'prescriptions', icon: 'ri-medicine-bottle-line' },
   {
     number: 643,
-    title: 'Medical analysis',
+    title: 'medical-analysis',
     icon: 'ri-test-tube-line'
   }
 ]

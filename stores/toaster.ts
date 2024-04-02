@@ -1,36 +1,24 @@
-import { defineStore } from 'pinia'
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue'
+import { notification } from 'ant-design-vue'
+import { h } from 'vue'
 
 export const useToasterStore = defineStore('toaster', () => {
-  const showToaster = ref(false)
-  const toasterType = ref('info')
-  const message = ref('')
-
-  const showMessage = (__message:string) => {
-    showToaster.value = true
-    message.value = __message
+  const showSuccessToaster = (msg: string) => {
+    notification.open({
+      message: msg,
+      icon: () => h(CheckCircleFilled, { style: 'color: #108ee9' })
+    })
   }
 
-  const showSuccessToaster = (message:string) => {
-    toasterType.value = 'success'
-    showMessage(message)
-  }
-
-  const showErrorToaster = (message:string) => {
-    toasterType.value = 'error'
-    showMessage(message)
-  }
-
-  // this function used to override error message coming from api composable (in case api returns some error that we don't want to show to user)
-  const hideErrorMessage = () => {
-    showToaster.value = false
+  const showErrorToaster = (msg: string) => {
+    notification.open({
+      message: msg,
+      icon: () => h(CloseCircleFilled, { style: 'color: #FF4C51' })
+    })
   }
 
   return {
-    showToaster,
-    toasterType,
-    message,
-    showSuccessToaster,
     showErrorToaster,
-    hideErrorMessage
+    showSuccessToaster
   }
 })

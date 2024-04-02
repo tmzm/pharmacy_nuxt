@@ -32,9 +32,10 @@ export const useLocationStore = defineStore('myLocationStore', () => {
           address: `${street.value}, ${building.value}, ${flat.value}`
         }
       })
+
+      showSuccessToaster('Location created successfully')
     } catch (e: any) {
-      const toasterStore = useToasterStore()
-      toasterStore.showErrorToaster(e.message)
+      showErrorToaster(e.message)
       loading.value = false
     }
 

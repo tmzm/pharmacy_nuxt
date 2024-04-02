@@ -10,12 +10,22 @@ export const api = function (url: string, options: object = {}): any {
     },
     ...options
   }).catch((error: any) => {
-    const toasterStore = useToasterStore()
-
     console.log(error)
 
-    if (error.status !== 200) {
-      toasterStore.showErrorToaster(error.message)
+    if (error.status == 401) {
+      showErrorToaster('Un Authorized')
+    }
+
+    if (error.status == 500) {
+      showErrorToaster('Unexpected Error Happened')
+    }
+
+    if (error.status == 424) {
+      showErrorToaster('Your inserts are not valid')
+    }
+
+    if (error.status == 400) {
+      showErrorToaster('Server Error, try again later')
     }
 
     throw error

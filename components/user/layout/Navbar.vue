@@ -2,34 +2,47 @@
   <v-app-bar
     elevation="0"
     class="d-flex align-center px-4 bg-secondary"
-    height="90"
+    height="80"
   >
     <template v-slot:prepend>
       <v-img :src="logo" width="140"></v-img>
     </template>
 
     <div class="d-none d-md-flex items-center">
-      <v-btn size="large" color="white" class="me-1"> Home </v-btn>
+      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+        Home
+      </v-btn>
 
-      <v-btn size="large" color="white" class="me-1"> About Us </v-btn>
+      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+        About Us
+      </v-btn>
 
-      <v-btn size="large" color="white" class="me-1"> Contact us </v-btn>
+      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+        Contact us
+      </v-btn>
 
-      <v-text-field
-        rounded
-        color="primary"
-        class="ms-2 me-4 w-110"
-        bg-color="white"
-        label="Search products..."
-        hide-details
-        single-line
+      <v-form
+        @submit.prevent="
+          () => {
+            if (navSearch || navSearch != '') {
+              search = navSearch
+              navigateTo('/products')
+            }
+          }
+        "
       >
-        <template #append-inner>
-          <v-btn class="ma-1" variant="elevated" rounded>
-            <v-icon size="22">ri-search-line</v-icon>
-          </v-btn>
-        </template>
-      </v-text-field>
+        <v-text-field
+          rounded
+          prepend-inner-icon="ri-search-line"
+          color="white"
+          variant="solo"
+          class="ms-2 me-4 w-110"
+          bg-color="white"
+          label="Search products..."
+          v-model="navSearch"
+          hide-details
+          single-line
+      /></v-form>
 
       <v-btn icon class="me-2" @click="navigateTo('/shopping-cart')">
         <v-badge :content="cart?.length ?? 0">
@@ -41,20 +54,21 @@
       <!-- <NavbarThemeSwitcher class="me-2" /> -->
     </div>
 
-    <v-btn
+    <div
       @click="
         navigateTo('https://wa.me/999999999', { open: { target: '_blank' } })
       "
-      color="white"
+      class="ms-2 cursor-pointer"
     >
-      <template #prepend
-        ><v-icon size="24" color="primary">ri-whatsapp-line</v-icon></template
-      >
-      <div class="flex flex-column">
-        <div class="text-white text-title">+963 999 999 999</div>
-        <div class="text-white text-body-2">Contact whatsapp</div>
+      <div class="flex flex-column text-start">
+        <div class="text-white text-title">
+          <div class="text-white text-body-2">For Home Delivery</div>
+          <v-icon size="25" color="primary">ri-whatsapp-fill</v-icon
+          ><v-icon size="25" color="primary">ri-phone-fill</v-icon>+963 999 999
+          999
+        </div>
       </div>
-    </v-btn>
+    </div>
 
     <div class="d-block d-md-none">
       <!-- <IconBtn size="x-large" color="white" class="me-2">
@@ -77,5 +91,8 @@ import logo from '@images/logos/logoMoafa.webp'
 const cart: any = useCookie('cart')
 const token: any = useCookie('token')
 
-const search = ref()
+const productStore = useProductStore()
+const { search } = storeToRefs(productStore)
+
+const navSearch = ref('')
 </script>

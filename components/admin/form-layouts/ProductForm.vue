@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Product } from '@/types'
+import type { UploadChangeParam } from 'ant-design-vue'
 
 // Importing necessary stores and utilities
 const productStore = useProductStore()
@@ -10,6 +11,8 @@ const route = useRoute()
 const id = computed(() => {
   return (route.params as { id: number }).id
 })
+
+useAsyncData(() => productStore.getProductById(id.value))
 
 // Retrieving reactive references to category and product data
 const { categories, selectedCategories } = storeToRefs(categoryStore)
@@ -48,22 +51,18 @@ if (id.value) {
   // }
 }
 
-// Reference to the drop zone for image uploads
-const imageDropZoneRef = ref<HTMLElement>()
+const handleChange = (info: UploadChangeParam) => {
+  const status = info.file.status
 
-// Function to handle image drop event
-function onImageDrop(files: File[] | null) {
-  imageFileInput.value = []
-  if (files) {
-    imageFileInput.value = files[0]
+  if (status === 'done') {
+    message.success(`${info.file.name} file uploaded successfully.`)
+  } else if (status === 'error') {
+    message.error(`${info.file.name} file upload failed.`)
   }
 }
-
-// Configuring drop zone for image uploads
-const { isOverDropZone } = useDropZone(imageDropZoneRef, {
-  dataTypes: ['image/png'],
-  onDrop: onImageDrop
-})
+function handleDrop(e: DragEvent) {
+  console.log(e)
+}
 
 // Function to handle form submission
 const onSubmit = () => {
@@ -162,6 +161,29 @@ const onSubmit = () => {
           <!-- Categories -->
           <CategoriesSelect />
 
+          <v-col cols="12" class="mb-8">
+            <div class="mb-4">Product IMAGE</div>
+            <a-upload-dragger
+              class="w-full"
+              v-model:fileList="imageFileInput"
+              name="file"
+              @change="handleChange"
+              @drop="handleDrop"
+              :max-count="1"
+            >
+              <v-icon size="45" color="secondary">ri-inbox-line</v-icon>
+              <div class="my-4">
+                <p class="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p class="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibit from
+                  uploading company data or other band files
+                </p>
+              </div>
+            </a-upload-dragger>
+          </v-col>
+
           <!-- description -->
           <ClientOnly>
             <v-col cols="12" class="mb-24">
@@ -204,22 +226,5 @@ const onSubmit = () => {
         </v-row>
       </VForm>
     </v-card-text>
-  </v-card>
-
-  <!-- Image upload drop zone -->
-  <v-card
-    @click=""
-    title="upload Image (optional)"
-    ref="imageDropZoneRef"
-    class="mt-8 pa-16 text-center border-dashed rounded-2xl"
-  >
-    <!-- Drop zone instructions -->
-    {{
-      !imageFileInput
-        ? !isOverDropZone
-          ? 'drag and drop images (allowed: images and png)'
-          : 'drop'
-        : `image: ${imageFileInput.name}, size: ${imageFileInput.size}`
-    }}
   </v-card>
 </template>

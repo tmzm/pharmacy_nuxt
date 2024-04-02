@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="9">
+    <v-col cols="6">
       <LocationCard
         :location="(locationStore.selectedLocation as any)"
         v-if="locationStore.selectedLocation"
@@ -49,7 +49,7 @@
       </v-card>
     </v-col>
 
-    <v-col cols="3">
+    <v-col cols="6">
       <v-card>
         <v-card-subtitle class="mt-4">HAVE A COUPON?</v-card-subtitle>
         <v-card-text class="d-flex items-center">
@@ -80,7 +80,7 @@
 
   <v-dialog persistent width="auto" :model-value="isAnyOrderPreparing">
     <v-card
-      width="400"
+      width="350"
       prepend-icon="ri-error-warning-line"
       title="Preparing Orders"
     >

@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     try {
       await authStore.getUserDetails()
     } catch (e) {
-      return navigateTo('/auth/login')
+      showErrorToaster('Something went wrong!')
     }
 
     if (to.path.includes('auth')) {
