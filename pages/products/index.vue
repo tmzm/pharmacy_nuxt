@@ -1,5 +1,5 @@
 <template>
-  <v-row class="mt-4">
+  <v-row>
     <v-col cols="12" md="3">
       <v-card>
         <v-list>
@@ -85,7 +85,9 @@
                   :title="category.name"
                 >
                   <template #append>
-                    <v-chip> {{ category.category_products_count }} </v-chip>
+                    <v-chip size="x-small">
+                      {{ category.category_products_count }}
+                    </v-chip>
                   </template>
                 </v-list-item>
               </v-item>
@@ -97,7 +99,14 @@
 
     <v-col cols="12" md="9">
       <div v-if="productStore.products?.length as any > 0">
-        <div class="d-flex items-center justify-space-between">
+        <v-app-bar
+          border
+          scroll-threshold="150"
+          scroll-behavior="hide inverted"
+          height="50"
+          class="px-4 bg-background"
+          :elevation="0"
+        >
           <div>
             <div class="d-flex">
               <span v-if="search || selectedCategories.length > 0" class="me-2"
@@ -122,8 +131,12 @@
             }}</strong>
             of - <strong>{{ productsTotalCount }}</strong> products
           </div>
+
+          <v-spacer />
+
           <div>
             <v-select
+              variant="filled"
               density="compact"
               return-object
               v-model="sort"
@@ -139,7 +152,7 @@
               <template #prepend> Sort by: </template>
             </v-select>
           </div>
-        </div>
+        </v-app-bar>
 
         <v-row class="mx-auto ma-4" v-if="pending">
           <v-col v-for="n in 6" md="4" cols="12">
@@ -212,7 +225,12 @@ watch(sort, (value, oldValue) => {
 watch(selectedCategories, () => {
   refresh()
 })
+
 watch(priceFilter, () => {
+  refresh()
+})
+
+watch(search, () => {
   refresh()
 })
 

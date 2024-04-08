@@ -20,8 +20,9 @@ $card-transition-property-custom: box-shadow, opacity;
     // Card
   $card-color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity)) !default,
   $card-elevation: 0 !default,
-  $card-border-width: 1px !default,
-  $card-border-color: #eff3f7 !default,
+  $card-border-width: 1.5px !default,
+  $card-border-color: #d2dae2 !default,
+  $card-border-radius: 8px !default,
   $card-title-line-height: 1.6 !default,
   $card-actions-min-height: unset !default,
   $card-text-padding: 1.25rem !default,

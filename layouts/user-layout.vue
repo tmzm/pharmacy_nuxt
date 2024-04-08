@@ -9,6 +9,7 @@
       />
       <v-container>
         <v-breadcrumbs
+          class="d-md-block d-none"
           v-if="route.path != '/' && route.path != '/en'"
           :items="items"
         >

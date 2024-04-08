@@ -5,24 +5,24 @@
       title: $t('our-services-title'),
       text: $t('our-services-text')
     }"
-  />
-
-  <v-row>
-    <v-col v-for="item in items" cols="6" md="3">
-      <v-card :color="item.bg" border @click="() => {}">
-        <div
-          class="d-block d-md-flex items-center text-center justify-space-between"
-        >
-          <v-card-text>
-            <v-icon size="50">{{ item.icon }}</v-icon>
-            <v-card-title class="text-white">
-              {{ $t(item.title) }}
-            </v-card-title>
-          </v-card-text>
-        </div>
-      </v-card>
-    </v-col>
-  </v-row>
+  >
+    <v-row>
+      <v-col v-for="item in items" cols="6" md="3">
+        <v-card :color="item.bg" border @click="() => {}">
+          <div
+            class="d-block d-md-flex items-center text-center justify-space-between"
+          >
+            <v-card-text>
+              <v-icon size="50">{{ item.icon }}</v-icon>
+              <v-card-title class="text-white">
+                {{ $t(item.title) }}
+              </v-card-title>
+            </v-card-text>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </BaseHeadingCard>
 </template>
 
 <script lang="ts" setup>

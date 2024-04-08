@@ -24,7 +24,9 @@
         </nuxt-link>
       </div>
 
-      <slot />
+      <div class="mt-4">
+        <slot />
+      </div>
     </v-card-text>
   </v-card>
 </template>

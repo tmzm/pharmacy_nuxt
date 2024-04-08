@@ -42,200 +42,198 @@
     </v-col>
 
     <v-col cols="12" md="9">
-      <v-card>
-        <v-window v-model="tab">
-          <v-window-item value="option-1">
-            <v-card>
-              <v-card-text>
-                Hello ! From your account dashboard you can view your
-                <span
-                  class="text-decoration-underline text-secondary cursor-pointer"
-                  @click="tab = 'option-2'"
-                >
-                  recent orders </span
-                >, manage your
-                <span
-                  class="text-decoration-underline text-secondary cursor-pointer"
-                  @click="tab = 'option-3'"
-                >
-                  shipping and billing addresses</span
-                >, and edit your
-                <span
-                  class="text-decoration-underline text-secondary cursor-pointer"
-                  @click="tab = 'option-4'"
-                  >account details</span
-                >.
-
-                <v-divider class="my-4" />
-
-                You don't have any product yet!
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-          <v-window-item value="option-2">
-            <v-card
-              flat
-              v-if="!orderStore.orders || orderStore.orders?.length == 0"
-            >
-              <v-card-text> No order has been made yet.</v-card-text>
-              <v-card-actions
-                v-if="!orderStore.orders || orderStore.orders?.length == 0"
+      <v-window v-model="tab">
+        <v-window-item value="option-1">
+          <v-card>
+            <v-card-text>
+              Hello ! From your account dashboard you can view your
+              <span
+                class="text-decoration-underline text-secondary cursor-pointer"
+                @click="tab = 'option-2'"
               >
-                <v-btn variant="outlined" append-icon="ri-arrow-right-line">
-                  Go Shopping
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-            <v-card v-else>
-              <v-card-title> Current Order: </v-card-title>
-              <v-card-text>
-                <CurrentOrderCard
-                  v-if="currentOrder"
-                  :current-order="currentOrder"
-                />
-
-                <div v-else>
-                  No current order right now...
-                  <nuxt-link color="secondary" to="/products"
-                    >go shopping</nuxt-link
-                  >
-                </div>
-              </v-card-text>
+                recent orders </span
+              >, manage your
+              <span
+                class="text-decoration-underline text-secondary cursor-pointer"
+                @click="tab = 'option-3'"
+              >
+                shipping and billing addresses</span
+              >, and edit your
+              <span
+                class="text-decoration-underline text-secondary cursor-pointer"
+                @click="tab = 'option-4'"
+                >account details</span
+              >.
 
               <v-divider class="my-4" />
 
-              <v-card-title>Recent Orders:</v-card-title>
+              You don't have any product yet!
+            </v-card-text>
+          </v-card>
+        </v-window-item>
+        <v-window-item value="option-2">
+          <v-card
+            flat
+            v-if="!orderStore.orders || orderStore.orders?.length == 0"
+          >
+            <v-card-text> No order has been made yet.</v-card-text>
+            <v-card-actions
+              v-if="!orderStore.orders || orderStore.orders?.length == 0"
+            >
+              <v-btn variant="outlined" append-icon="ri-arrow-right-line">
+                Go Shopping
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+          <v-card v-else>
+            <v-card-title> Current Order: </v-card-title>
+            <v-card-text>
+              <CurrentOrderCard
+                v-if="currentOrder"
+                :current-order="currentOrder"
+              />
 
-              <v-card-text>
-                <div
-                  v-if="
-                    orderStore.orders.filter(e => e.status == 'delivered')
-                      .length == 0
-                  "
+              <div v-else>
+                No current order right now...
+                <nuxt-link color="secondary" to="/products"
+                  >go shopping</nuxt-link
                 >
-                  No recent orders yet
+              </div>
+            </v-card-text>
+
+            <v-divider class="my-4" />
+
+            <v-card-title>Recent Orders:</v-card-title>
+
+            <v-card-text>
+              <div
+                v-if="
+                  orderStore.orders.filter(e => e.status == 'delivered')
+                    .length == 0
+                "
+              >
+                No recent orders yet
+              </div>
+              <div v-else></div>
+            </v-card-text>
+          </v-card>
+        </v-window-item>
+        <v-window-item value="option-3">
+          <v-card title="All Locations:" flat>
+            <v-card-text>
+              <LocationCard
+                class="my-4"
+                v-for="l in locationStore.locations"
+                :location="l"
+                :key="l.id"
+                card-border
+              />
+            </v-card-text>
+          </v-card>
+        </v-window-item>
+        <v-window-item value="option-4">
+          <AccountSettingsAccount no-elevation />
+        </v-window-item>
+
+        <v-window-item value="option-5">
+          <!-- Image upload drop zone -->
+          <v-card>
+            <v-card-title>Upload new prescription:</v-card-title>
+
+            <v-card-text>
+              <a-upload-dragger
+                class="my-4"
+                v-model:fileList="imageFileInput"
+                name="file"
+                @change="handleChange"
+                @drop="handleDrop"
+                :max-count="1"
+              >
+                <v-icon size="45" color="secondary">ri-inbox-line</v-icon>
+                <div class="my-4">
+                  <p class="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p class="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibit from
+                    uploading company data or other band files
+                  </p>
                 </div>
-                <div v-else></div>
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-          <v-window-item value="option-3">
-            <v-card title="All Locations:" flat>
-              <v-card-text>
-                <LocationCard
-                  class="my-4"
-                  v-for="l in locationStore.locations"
-                  :location="l"
-                  :key="l.id"
-                  card-border
+              </a-upload-dragger>
+
+              <div class="d-flex">
+                <v-text-field
+                  hide-details
+                  v-model="prescriptionStore.prescription.description"
+                  prepend-inner-icon="ri-sticky-note-line"
+                  placeholder="Add a note of the prescription"
+                  label="Add Note"
+                  class="me-2"
                 />
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-          <v-window-item value="option-4">
-            <AccountSettingsAccount no-elevation />
-          </v-window-item>
 
-          <v-window-item value="option-5">
-            <!-- Image upload drop zone -->
-            <v-card>
-              <v-card-title>Upload new prescription:</v-card-title>
-
-              <v-card-text>
-                <a-upload-dragger
-                  class="my-4"
-                  v-model:fileList="imageFileInput"
-                  name="file"
-                  @change="handleChange"
-                  @drop="handleDrop"
-                  :max-count="1"
-                >
-                  <v-icon size="45" color="secondary">ri-inbox-line</v-icon>
-                  <div class="my-4">
-                    <p class="ant-upload-text">
-                      Click or drag file to this area to upload
-                    </p>
-                    <p class="ant-upload-hint">
-                      Support for a single or bulk upload. Strictly prohibit
-                      from uploading company data or other band files
-                    </p>
-                  </div>
-                </a-upload-dragger>
-
-                <div class="d-flex">
-                  <v-text-field
-                    hide-details
-                    v-model="prescriptionStore.prescription.description"
-                    prepend-inner-icon="ri-sticky-note-line"
-                    placeholder="Add a note of the prescription"
-                    label="Add Note"
-                    class="me-2"
-                  />
-
-                  <v-btn
-                    variant="outlined"
-                    @click="
-                      () => {
-                        prescriptionStore.create()
-                        refresh()
-                      }
-                    "
-                    :loading="loading"
-                    height="48"
-                    >Upload Prescription</v-btn
-                  >
-                </div>
-              </v-card-text>
-
-              <v-divider class="my-8" />
-
-              <v-card-title class="mb-4"> Recent Prescriptions: </v-card-title>
-
-              <v-card-text>
-                <div
-                  v-if="
-                    !prescriptionStore.prescriptions ||
-                    prescriptionStore.prescriptions?.length == 0
+                <v-btn
+                  variant="outlined"
+                  @click="
+                    () => {
+                      prescriptionStore.create()
+                      refresh()
+                    }
                   "
+                  :loading="loading"
+                  height="48"
+                  >Upload Prescription</v-btn
                 >
-                  No recent Prescription yet.. Upload one
-                </div>
-                <v-row v-else>
-                  <v-col
-                    cols="12"
-                    md="6"
-                    v-for="p in prescriptionStore.prescriptions"
-                  >
-                    <v-card :border="true">
-                      <v-img
-                        height="200"
-                        cover
-                        :src="`http://127.0.0.1:8000${p.image}`"
-                      ></v-img>
-                      <v-card-text class="text-center">
-                        <div class="mb-2">
-                          <strong>Uploaded At:</strong>
-                          {{ $dayjs(p.created_at).format('YYYY/MM/DD hh:mm') }}
-                        </div>
-                        <strong>Note:</strong>
-                        {{ p.description }}
-                        <v-chip v-if="!p.order" class="mt-2">pending</v-chip>
-                        <v-chip
-                          @click="tab = 'option-2'"
-                          append-icon="ri-arrow-right-line"
-                          v-else
-                          class="mt-2"
-                          >Go to your order</v-chip
-                        >
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-        </v-window>
-      </v-card>
+              </div>
+            </v-card-text>
+
+            <v-divider class="my-8" />
+
+            <v-card-title class="mb-4"> Recent Prescriptions: </v-card-title>
+
+            <v-card-text>
+              <div
+                v-if="
+                  !prescriptionStore.prescriptions ||
+                  prescriptionStore.prescriptions?.length == 0
+                "
+              >
+                No recent Prescription yet.. Upload one
+              </div>
+              <v-row v-else>
+                <v-col
+                  cols="12"
+                  md="6"
+                  v-for="p in prescriptionStore.prescriptions"
+                >
+                  <v-card :border="true">
+                    <v-img
+                      height="200"
+                      cover
+                      :src="`http://127.0.0.1:8000${p.image}`"
+                    ></v-img>
+                    <v-card-text class="text-center">
+                      <div class="mb-2">
+                        <strong>Uploaded At:</strong>
+                        {{ $dayjs(p.created_at).format('YYYY/MM/DD hh:mm') }}
+                      </div>
+                      <strong>Note:</strong>
+                      {{ p.description }}
+                      <v-chip v-if="!p.order" class="mt-2">pending</v-chip>
+                      <v-chip
+                        @click="tab = 'option-2'"
+                        append-icon="ri-arrow-right-line"
+                        v-else
+                        class="mt-2"
+                        >Go to your order</v-chip
+                      >
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-window-item>
+      </v-window>
     </v-col>
   </v-row>
 

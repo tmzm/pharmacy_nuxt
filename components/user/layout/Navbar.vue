@@ -9,15 +9,33 @@
     </template>
 
     <div class="d-none d-md-flex items-center">
-      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+      <v-btn
+        :active="$route.path == '/'"
+        size="large"
+        color="white"
+        class="me-1"
+        @click="navigateTo('/')"
+      >
         Home
       </v-btn>
 
-      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+      <v-btn
+        :active="$route.path == '/about-as'"
+        size="large"
+        color="white"
+        class="me-1"
+        @click="navigateTo('/')"
+      >
         About Us
       </v-btn>
 
-      <v-btn size="large" color="white" class="me-1" @click="navigateTo('/')">
+      <v-btn
+        :active="$route.path == '/contact'"
+        size="large"
+        color="white"
+        class="me-1"
+        @click="navigateTo('/')"
+      >
         Contact us
       </v-btn>
 

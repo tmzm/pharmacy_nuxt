@@ -5,14 +5,16 @@ import { h } from 'vue'
 export const useToasterStore = defineStore('toaster', () => {
   const showSuccessToaster = (msg: string) => {
     notification.open({
-      message: msg,
-      icon: () => h(CheckCircleFilled, { style: 'color: #108ee9' })
+      message: 'Action Success',
+      description: msg,
+      icon: () => h(CheckCircleFilled, { style: 'color: #1e6f5c' })
     })
   }
 
   const showErrorToaster = (msg: string) => {
     notification.open({
-      message: msg,
+      message: 'Error!',
+      description: msg,
       icon: () => h(CloseCircleFilled, { style: 'color: #FF4C51' })
     })
   }
