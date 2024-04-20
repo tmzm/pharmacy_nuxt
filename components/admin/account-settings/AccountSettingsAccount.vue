@@ -1,31 +1,17 @@
 <script lang="ts" setup>
-import avatar1 from '@images/avatars/avatar-1.png'
+import type { User } from '@/types'
+
+const authStore = useAuthStore()
 
 defineProps<{
   noElevation?: boolean
 }>()
 
-const accountData = {
-  avatarImg: avatar1,
-  firstName: 'john',
-  lastName: 'Doe',
-  email: 'johnDoe@example.com',
-  org: 'ThemeSelection',
-  phone: '+1 (917) 543-9876',
-  address: '123 Main St, New York, NY 10001',
-  state: 'New York',
-  zip: '10001',
-  country: 'USA',
-  language: 'English',
-  timezone: '(GMT-11:00) International Date Line West',
-  currency: 'USD'
-}
-
-const accountDataLocal = ref(structuredClone(accountData))
+const userDetails = ref<User>(authStore.user)
 const isAccountDeactivated = ref(false)
 
 const resetForm = () => {
-  accountDataLocal.value = structuredClone(accountData)
+  userDetails.value = authStore.user
 }
 </script>
 
@@ -40,7 +26,7 @@ const resetForm = () => {
               <!-- First Name -->
               <v-col cols="12" md="6">
                 <VTextField
-                  v-model="accountDataLocal.firstName"
+                  v-model="userDetails.name"
                   placeholder="John"
                   label="Full Name"
                 />
@@ -49,9 +35,10 @@ const resetForm = () => {
               <!-- Phone -->
               <v-col cols="12" md="6">
                 <VTextField
-                  v-model="accountDataLocal.phone"
+                  v-model="userDetails.phone_number"
                   label="Phone Number"
-                  placeholder="+1 (917) 543-9876"
+                  placeholder="XXXXXXXXX"
+                  :counter="9"
                 />
               </v-col>
 
