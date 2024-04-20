@@ -1,20 +1,14 @@
 <script setup lang="ts">
 const headers = [
   { title: 'User', key: 'username' },
-  { title: 'Role', key: 'role' },
-  { title: 'Status', key: 'status' }
+  { title: 'Role', key: 'role' }
 ]
 
-const authStore = useMyAuthStore()
+const authStore = useAuthStore()
 
-const { pending, refresh } = useAsyncData(() => authStore.list())
+const { pending, refresh } = await useAsyncData(() => authStore.list())
 
 const { users } = storeToRefs(authStore)
-
-const upgradeUser = (id: any) => {
-  authStore.upgradeUser(id)
-  refresh()
-}
 </script>
 
 <template>
@@ -48,21 +42,6 @@ const upgradeUser = (id: any) => {
               {{ item?.role }}
             </div>
           </div>
-        </template>
-        <!-- Status -->
-        <template #item.status="{ item }">
-          <VChip
-            v-if="!item?.isAcceptedAsAdmin && item?.role == 'admin'"
-            color="error"
-            size="small"
-            class="text-capitalize"
-            @click="upgradeUser(item?.id)"
-          >
-            waiting to be an admin! press to accept him
-          </VChip>
-          <VChip v-else color="success" size="small" class="text-capitalize">
-            nothing
-          </VChip>
         </template>
 
         <template #bottom />

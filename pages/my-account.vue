@@ -266,13 +266,15 @@ import type { UploadChangeParam } from 'ant-design-vue'
 const tab = ref('option-1')
 const orderStore = useOrderStore()
 const locationStore = useLocationStore()
-const authStore = useMyAuthStore()
+const authStore = useAuthStore()
 const prescriptionStore = usePrescriptionStore()
 
 const logoutDialog = ref(false)
 
-useAsyncData(() => orderStore.getAllOrders())
-const { refresh } = useAsyncData(() => prescriptionStore.getAllPrescriptions())
+await useAsyncData(() => orderStore.getAllOrders())
+const { refresh } = await useAsyncData(() =>
+  prescriptionStore.getAllPrescriptions()
+)
 
 const currentOrder = computed(() => {
   return orderStore.orders?.find(

@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
-const authStore = useMyAuthStore()
+const authStore = useAuthStore()
 
 const isPasswordVisible = ref(false)
 

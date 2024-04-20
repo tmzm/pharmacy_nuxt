@@ -29,7 +29,7 @@ export const themes: Record<string, ThemeDefinition> = {
       'error-darken-1': '#E64449',
       'on-error': '#fff',
       background: '#fbfdff',
-      'on-background': '#01140e',
+      'on-background': '#000',
       surface: '#fff',
       'on-surface': '#032b1d',
       'grey-50': '#FAFAFA',

@@ -3,7 +3,7 @@ import no_avatar from '@images/avatars/avatar-no.png'
 
 const orderStore = useOrderStore()
 
-const { pending, refresh } = useAsyncData(() => orderStore.getAllOrders())
+const { pending, refresh } = await useAsyncData(() => orderStore.getAllOrders())
 
 const { loading, orders } = storeToRefs(orderStore)
 

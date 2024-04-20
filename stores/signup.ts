@@ -13,7 +13,6 @@ export const useSignupStore = defineStore('signup', () => {
       const res = await api('/users/create', {
         method: 'post',
         body: {
-          avatar: avatars[avatarIndex.value].avatar,
           phone_number: number.value,
           password: password.value,
           name: name.value,
@@ -21,10 +20,8 @@ export const useSignupStore = defineStore('signup', () => {
         }
       })
 
-      const cookieUser = useCookie('user')
       const cookieToken = useCookie('token')
 
-      cookieUser.value = res.data
       cookieToken.value = res.token
     } catch (e: any) {
       loading.value = false

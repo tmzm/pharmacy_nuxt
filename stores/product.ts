@@ -219,9 +219,16 @@ export const useProductStore = defineStore('product', () => {
   const deleteProduct = async (id: number) => {
     loading.value = true
 
-    await api(`/products/${id}/delete`, {
-      method: 'delete'
-    })
+    try {
+      await api(`/products/${id}/delete`, {
+        method: 'delete'
+      })
+
+      showSuccessToaster('product deleted successfully')
+    } catch (e) {
+      loading.value = false
+      showErrorToaster('Error deleting product!')
+    }
 
     loading.value = false
   }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const authStore = useMyAuthStore()
+const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 </script>
 

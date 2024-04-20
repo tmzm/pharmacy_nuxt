@@ -11,20 +11,20 @@
           <v-img
             @click="navigateTo(`/products/${product.slug}`)"
             class="cursor-pointer"
-            height="140"
+            :height="cartProduct ? undefined : 140"
             cover
             :lazy-src="no_img"
             :src="
               product.image ? `http://127.0.0.1:8000${product.image}` : no_img
             "
           >
-            <!-- <div class="absolute">
-          <v-icon color="primary">ri-star-fill</v-icon> 4.5
-        </div> -->
             <div class="text-right pa-3" v-if="product.is_offer">
-              <span class="pa-2 bg-error rounded-full text-body-2"
-                >{{ product.offer }}% {{ $t('off') }}</span
+              <span
+                class="pa-2 me-2 bg-error text-body-2 rounded-l-1 relative offer-tag"
               >
+                {{ product.offer + '% ' + $t('off') }}
+                <div class="dot"></div>
+              </span>
             </div>
           </v-img>
         </v-col>
@@ -35,8 +35,11 @@
             @click="navigateTo(`/products/${product.slug}`)"
           >
             <div
-              class="d-inline-block text-truncate"
-              style="max-inline-size: 150px"
+              style="
+                overflow: hidden;
+                block-size: 70px;
+                text-overflow: ellipsis;
+              "
             >
               {{ product.commercial_name }}
             </div>
@@ -131,7 +134,23 @@
                 )
               }}
             </v-btn>
-            <v-btn icon="ri-heart-line" color="secondary" variant="text">
+            <v-btn
+              v-if="token"
+              :loading="favoriteLoading"
+              :icon="isInFavorite ? 'ri-heart-fill' : 'ri-heart-line'"
+              color="secondary"
+              @click="
+                () => {
+                  favoriteLoading = true
+                  !isInFavorite
+                    ? favoriteStore.addToFavorite(product.id)
+                    : favoriteStore.removeFromFavorites(favoriteDetails?.id as any)
+                  favoriteStore.listAllFavorites()
+                  favoriteLoading = false
+                }
+              "
+              variant="text"
+            >
             </v-btn>
           </v-card-actions>
         </v-col>
@@ -145,8 +164,11 @@ import type { Product } from '@/types'
 import no_img from '@images/no-img.jpeg'
 const cart: any = useCookie('cart')
 const productStore = useProductStore()
+const favoriteStore = useFavoriteStore()
+const token = useCookie('token')
 
 const loading = ref(false)
+const favoriteLoading = ref(false)
 
 const props = defineProps<{
   cartProduct?: boolean
@@ -159,6 +181,17 @@ const product = ref(
     ? props.productValue
     : await productStore.getProductById(props.id as any)
 )
+
+const isInFavorite = computed(() => {
+  return (
+    favoriteStore.favorites.find(f => f.product_id === product.value.id) !==
+    undefined
+  )
+})
+
+const favoriteDetails = computed(() => {
+  return favoriteStore.favorites.find(f => f.product_id === product.value.id)
+})
 
 const addProductToCart = () => {
   try {

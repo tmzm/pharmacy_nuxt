@@ -9,10 +9,10 @@ const categoryStore = useCategoryStore()
 // Getting the route and extracting the id from the route parameters
 const route = useRoute()
 const id = computed(() => {
-  return (route.params as { id: number }).id
+  return (route.params as any).id
 })
 
-useAsyncData(() => productStore.getProductById(id.value))
+await useAsyncData(() => productStore.getProductById(id.value))
 
 // Retrieving reactive references to category and product data
 const { categories, selectedCategories } = storeToRefs(categoryStore)

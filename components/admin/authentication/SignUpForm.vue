@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // const avatarRaw = ref()
 
-// const authStore = useMyAuthStore()
+// const authStore = useAuthStore()
 
 const isPasswordVisible = ref(false)
 
@@ -75,10 +75,9 @@ const { name, number, password } = storeToRefs(signupStore)
 
           <v-col>
             <v-btn
-              
               block
               type="submit"
-              @click="signupStore.signup"
+              @click="signupStore.signup()"
               :loading="signupStore.loading"
             >
               Sign Up

@@ -4,7 +4,10 @@ import dayjs from 'dayjs'
 export const useOrderStore = defineStore('order', () => {
   const cart = useCookie('cart')
   const orders = ref<Order[]>()
-  const order = ref<Order>({ time: null } as Order)
+  const order = ref<Order>({
+    time: null,
+    is_time: false
+  } as Order)
   const fields = ref(1)
   const productsImages = ref<Product[]>([])
   const locationStore = useLocationStore()

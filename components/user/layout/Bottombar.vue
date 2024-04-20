@@ -1,6 +1,7 @@
 <template>
   <v-bottom-navigation v-model="value" elevation="10" class="d-flex d-md-none">
     <v-btn
+      v-if="token"
       @click="
         () => {
           if (token) {
@@ -12,7 +13,7 @@
       "
       class="d-flex"
     >
-      <v-badge :content="0">
+      <v-badge :content="favoriteStore.favorites.length ?? 0">
         <v-icon size="24" icon="ri-heart-line" />
       </v-badge>
     </v-btn>
@@ -37,16 +38,13 @@
     >
       <v-icon size="24" icon="ri-user-6-line" />
     </v-btn>
-
-    <v-btn>
-      <v-icon size="24" icon="ri-medicine-bottle-line" />
-    </v-btn>
   </v-bottom-navigation>
 </template>
 
 <script lang="ts" setup>
 const token = useCookie('token')
 const cart = useCookie('cart')
+const favoriteStore = useFavoriteStore()
 
 const value = ref(1)
 </script>

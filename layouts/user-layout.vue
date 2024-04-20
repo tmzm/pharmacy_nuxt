@@ -12,11 +12,7 @@
           class="d-md-block d-none"
           v-if="route.path != '/' && route.path != '/en'"
           :items="items"
-        >
-          <template v-slot:divider>
-            <v-icon icon="ri-arrow-right-s-line"></v-icon>
-          </template>
-        </v-breadcrumbs>
+        />
         <slot />
       </v-container>
     </v-main>

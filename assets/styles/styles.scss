@@ -2,13 +2,13 @@
 .desc {
   h1 {
     font-size: 1.875rem; /* 30px */
-    line-height: 2.25rem; /* 36px */
+    line-height: 2.5rem; /* 36px */
     white-space: pre-line;
   }
 
   h2 {
     font-size: 1.5rem; /* 24px */
-    line-height: 2rem; /* 32px */
+    line-height: 2.25rem; /* 32px */
     white-space: pre-line;
   }
 
@@ -61,4 +61,27 @@
   li {
     margin-block-end: 8px;
   }
+}
+
+.offer-tag::after {
+  position: absolute;
+  border: solid transparent;
+  border-width: 16px;
+  block-size: 0;
+  border-inline-start-color: #ff4c51;
+  content: '';
+  inline-size: 0;
+  inset-block-start: 0%;
+  inset-inline-start: 100%;
+}
+
+.dot {
+  position: absolute;
+  z-index: 100;
+  border-radius: 100%;
+  background-color: #fff;
+  block-size: 5px;
+  inline-size: 5px;
+  inset-block-start: 40%;
+  inset-inline-start: 100%;
 }

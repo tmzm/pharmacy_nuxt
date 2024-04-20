@@ -31,7 +31,7 @@ const increase = () => {
 }
 
 const getProduct = async (i: number) => {
-  productsImages.value[i - 1] = await productStore.getProduct(
+  productsImages.value[i - 1] = await productStore.getProductById(
     productIds.value[i - 1].id as number
   )
 }

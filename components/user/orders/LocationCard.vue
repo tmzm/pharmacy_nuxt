@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import type { Location } from '@/types'
 
-const authStore = useMyAuthStore()
+const authStore = useAuthStore()
 
 defineProps<{
   cardBorder?: boolean

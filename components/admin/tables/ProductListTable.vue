@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import no_img from '@images/no-img.jpeg'
-import { debounce, isEqual } from 'radash'
+import { isEqual } from 'radash'
 
 const productStore = useProductStore()
 
@@ -9,11 +9,13 @@ const itemsPerPage = ref(10)
 
 const { products } = storeToRefs(productStore)
 const { selectedCategories } = storeToRefs(useCategoryStore())
-const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
-const { loading, paginationOptions, search, productsTotalCount } =
+const { pending, refresh } = await useAsyncData(() =>
+  productStore.getAllProducts()
+)
+const { loading, paginationOptions, sort, search, productsTotalCount } =
   storeToRefs(productStore)
 
-useAsyncData(() => productStore.getTotalCount())
+await useAsyncData(() => productStore.getTotalCount())
 
 const dialogDelete = ref(false)
 const deleteId = ref()
@@ -29,23 +31,24 @@ const deleteProduct = () => {
   refresh()
 }
 
-watch(paginationOptions, async (oldValue, newValue) => {
+watch(page, () => {
+  paginationOptions.value.page = page.value
+  refresh()
+})
+
+watch(itemsPerPage, (oldValue, newValue) => {
   if (isEqual(oldValue, newValue)) return
+  paginationOptions.value.itemsPerPage = itemsPerPage.value
 
   refresh()
 })
 
-watch(productsTotalCount, async (oldValue, newValue) => {
-  if (isEqual(oldValue, newValue)) return
-
+watch(sort, (value, oldValue) => {
+  if (isEqual(value, oldValue)) return
   refresh()
 })
 
-watch(search, () =>
-  debounce({ delay: 100 }, () => {
-    refresh()
-  })
-)
+watch(search, () => refresh())
 
 const pageCount = computed(() => {
   return Math.ceil(productsTotalCount.value / itemsPerPage.value)
@@ -67,7 +70,7 @@ watch(selectedCategories, () => refresh())
 
     <template v-slot:text>
       <v-row>
-        <v-col cols="8">
+        <v-col md="8" cols="12">
           <v-text-field
             v-model="search"
             label="Search"
@@ -75,18 +78,31 @@ watch(selectedCategories, () => refresh())
             hide-details
           ></v-text-field>
         </v-col>
-        <v-col cols="4">
+        <v-col md="2" cols="6">
           <v-text-field
             type="number"
             :max="productsTotalCount"
             min="5"
-            @update:model-value="
-              paginationOptions.itemsPerPage = parseInt($event, 10)
-            "
-            :model-value="paginationOptions.itemsPerPage"
+            @update:model-value="itemsPerPage = parseInt($event, 10)"
+            :model-value="itemsPerPage"
             label="items per page"
             hide-details
           ></v-text-field>
+        </v-col>
+        <v-col md="2" cols="6">
+          <v-select
+            density="compact"
+            return-object
+            v-model="sort"
+            :items="[
+              'Newest',
+              'A-Z',
+              'Oldest',
+              'Prices (Low First)',
+              'Prices (High First)'
+            ]"
+            bg-color="white"
+          />
         </v-col>
       </v-row>
     </template>
@@ -98,7 +114,6 @@ watch(selectedCategories, () => refresh())
       :loading="pending || loading"
       item-key="id"
       :headers="productHeaders"
-      :items-per-page="itemsPerPage"
     >
       <template #item.id="{ item }">
         <v-menu :close-on-content-click="false" location="end">
@@ -178,7 +193,7 @@ watch(selectedCategories, () => refresh())
       <template v-slot:bottom>
         <div class="text-center ma-2">
           <v-pagination
-            v-model="paginationOptions.page"
+            v-model="page"
             :length="pageCount"
             :total-visible="4"
           ></v-pagination>

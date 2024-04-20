@@ -6,7 +6,8 @@ export const useCategoryStore = defineStore('categoryStore', () => {
       id: 0,
       created_at: new Date(),
       updated_at: new Date(),
-      name: ''
+      name: '',
+      category_products_count: 0
     }
   ])
 

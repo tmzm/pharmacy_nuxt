@@ -1,11 +1,11 @@
 import type { User } from '@/types'
 
-export const useMyAuthStore = defineStore('auth', () => {
+export const useAuthStore = defineStore('auth', () => {
   const loading = ref(false)
 
   const router = useRouter()
-  const users = ref<User[]>()
-  const user = ref<User>()
+  const users = ref<User[]>([])
+  const user = ref<User>({} as User)
 
   const login = async (phone_number: string, password: string) => {
     loading.value = true
@@ -53,8 +53,18 @@ export const useMyAuthStore = defineStore('auth', () => {
     user.value = res.data
   }
 
+  const editFCMToken = async (fcm_token: string) => {
+    await api('/users/fcm_token_edit', {
+      method: 'post',
+      body: {
+        fcm_token
+      }
+    })
+  }
+
   return {
     getUserDetails,
+    editFCMToken,
     user,
     list,
     login,

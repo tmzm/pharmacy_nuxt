@@ -68,7 +68,11 @@ export default defineNuxtConfig({
     ]
   },
 
-  plugins: ['@/plugins/vuetify/index.ts', '@/plugins/iconify/index.ts'],
+  plugins: [
+    '@/plugins/vuetify/index.ts',
+    '@/plugins/iconify/index.ts',
+    '@/plugins/firebase.client.ts'
+  ],
 
   experimental: {
     typedPages: true

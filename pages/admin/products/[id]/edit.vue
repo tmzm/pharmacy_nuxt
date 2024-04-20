@@ -16,5 +16,7 @@ const id = computed(() => {
   return (route.params as { id: number }).id
 })
 
-const { pending, error } = useAsyncData(() => productStore.getProduct(id.value))
+const { pending, error } = await useAsyncData(() =>
+  productStore.getProduct(id.value)
+)
 </script>

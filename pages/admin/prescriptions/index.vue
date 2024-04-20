@@ -3,7 +3,9 @@ const prescriptionStore = usePrescriptionStore()
 
 const { prescriptions } = storeToRefs(prescriptionStore)
 
-const { pending } = useAsyncData(() => prescriptionStore.getAllPrescriptions())
+const { pending } = await useAsyncData(() =>
+  prescriptionStore.getAllPrescriptions()
+)
 </script>
 
 <template>

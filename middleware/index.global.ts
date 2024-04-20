@@ -1,5 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const authStore = useMyAuthStore()
+  const authStore = useAuthStore()
+  const favoriteStore = useFavoriteStore()
 
   const token: any = useCookie('token')
 
@@ -9,7 +10,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (token.value) {
     try {
-      await authStore.getUserDetails()
+      await useAsyncData(() => authStore.getUserDetails())
+      await useAsyncData(() => favoriteStore.listAllFavorites())
     } catch (e) {
       showErrorToaster('Something went wrong!')
     }

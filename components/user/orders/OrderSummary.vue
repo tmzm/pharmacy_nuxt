@@ -56,26 +56,22 @@ const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const loading = ref(false)
 
-const orderTotalPrice = ref()
-
-const getTotalPrice = async () => {
-  if (cart.value && cart.value.length !== 0) {
-    let t = 0
-    for (const e of cart.value) {
-      t += Math.ceil(await productStore.getPrice(e.id)) * e.quantity
+const orderTotalPrice = computedAsync(
+  async () => {
+    if (cart.value && cart.value.length !== 0) {
+      let t = 0
+      for (const e of cart.value) {
+        t += Math.ceil(await productStore.getPrice(e.id)) * e.quantity
+      }
+      loading.value = false
+      return t
+    } else {
+      return 0
     }
-    loading.value = false
-    orderTotalPrice.value = t
-  } else {
-    orderTotalPrice.value = 0
-  }
-}
-
-getTotalPrice()
-
-watch(cart, () => {
-  getTotalPrice()
-})
+  },
+  0,
+  loading
+)
 </script>
 
 <!-- <style>

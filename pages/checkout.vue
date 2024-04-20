@@ -1,12 +1,13 @@
 <template>
   <v-row>
-    <v-col cols="6">
+    <v-col md="6" cols="12">
       <LocationCard
+        class="mb-4"
         :location="(locationStore.selectedLocation as any)"
         v-if="locationStore.selectedLocation"
       />
 
-      <v-card title="Delivery Options" class="mt-4">
+      <v-card title="Delivery Options">
         <v-card-text>
           <v-row>
             <v-col v-for="(c, index) in cart" cols="auto">
@@ -31,11 +32,12 @@
 
           <div class="d-flex items-center">
             <v-switch
+              inset
               :label="
                 !order.is_time ? 'Once the order is ready' : 'Custom Time'
               "
               v-model="order.is_time"
-            />
+            ></v-switch>
             <ClientOnly>
               <a-time-picker
                 v-if="order.is_time"
@@ -49,7 +51,7 @@
       </v-card>
     </v-col>
 
-    <v-col cols="6">
+    <v-col md="6" cols="12">
       <v-card>
         <v-card-subtitle class="mt-4">HAVE A COUPON?</v-card-subtitle>
         <v-card-text class="d-flex items-center">
@@ -74,9 +76,9 @@
     </v-col>
   </v-row>
 
-  <CreateLocationModal @create="refresh()" v-model="isNoLocation" />
+  <CreateLocationModal @create="refresh()" :model-value="isNoLocation" />
 
-  <SelectLocationModal v-model="isLocationNotSelected" />
+  <SelectLocationModal :model-value="isLocationNotSelected" />
 
   <v-dialog persistent width="auto" :model-value="isAnyOrderPreparing">
     <v-card
@@ -100,7 +102,6 @@
 
 <script lang="ts" setup>
 import no_img from '@images/no-img.jpeg'
-import dayjs from 'dayjs'
 const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const orderStore = useOrderStore()
@@ -118,8 +119,8 @@ const locationStore = useLocationStore()
 
 // const zoom = ref(14)
 
-const { refresh } = useAsyncData(() => locationStore.getAllLocations())
-const { pending, refresh: ordersRefresh } = useAsyncData(() =>
+const { refresh } = await useAsyncData(() => locationStore.getAllLocations())
+const { pending, refresh: ordersRefresh } = await useAsyncData(() =>
   orderStore.getAllOrders()
 )
 
@@ -128,12 +129,11 @@ const isAnyOrderPreparing = computed(() => {
     e => e.status == 'preparing' || e.status == 'shipping'
   ).length
   return (po ?? 0) > 0
+  // return false
 })
 
-const { locations, selectedLocation, loading } = storeToRefs(locationStore)
+const { locations, selectedLocation } = storeToRefs(locationStore)
 const { order, orders } = storeToRefs(orderStore)
-
-order.value.time = dayjs()
 
 const isLocationNotSelected = computed(() => {
   return !selectedLocation.value && !isNoLocation

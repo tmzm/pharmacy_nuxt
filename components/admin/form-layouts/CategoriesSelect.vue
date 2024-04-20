@@ -39,7 +39,7 @@ const categoryStore = useCategoryStore()
 const { categories, selectedCategories } = storeToRefs(categoryStore)
 
 // Fetching categories data asynchronously
-const { pending: pendingCategory } = useAsyncData(() =>
+const { pending: pendingCategory } = await useAsyncData(() =>
   categoryStore.getAllCategories()
 )
 </script>

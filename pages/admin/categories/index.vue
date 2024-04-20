@@ -12,7 +12,7 @@ const {
   editId
 } = storeToRefs(categoryStore)
 
-const { pending: pendingCategory, refresh } = useAsyncData(() =>
+const { pending: pendingCategory, refresh } = await useAsyncData(() =>
   categoryStore.getAllCategories()
 )
 

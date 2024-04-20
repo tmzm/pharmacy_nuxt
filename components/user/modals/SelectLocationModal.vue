@@ -86,7 +86,7 @@
 <script lang="ts" setup>
 const locationStore = useLocationStore()
 
-const { refresh } = useAsyncData(() => locationStore.getAllLocations())
+const { refresh } = await useAsyncData(() => locationStore.getAllLocations())
 
 const { location, loading, type, flat, street, building, name } =
   storeToRefs(locationStore)

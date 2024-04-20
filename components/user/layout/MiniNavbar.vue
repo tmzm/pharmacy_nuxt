@@ -34,10 +34,15 @@
 
     <v-btn color="black" prepend-icon="ri-price-tag-3-line"> OFFERS </v-btn>
 
-    <v-btn color="black" class="me-2 d-none d-md-flex">
+    <v-btn v-if="token" color="black" class="me-2 d-none d-md-flex">
       <span>Favorites</span>
       <template #prepend>
         <v-icon icon="ri-heart-line" />
+      </template>
+      <template #append>
+        <span class="text-white bg-primary-darken-1 w-5 h-5 rounded-full">{{
+          favoriteStore.favorites.length ?? 0
+        }}</span>
       </template>
     </v-btn>
 
@@ -87,6 +92,7 @@
 const categoryStore = useCategoryStore()
 const dialog = ref(false)
 const cart = useCookie('cart')
+const favoriteStore = useFavoriteStore()
 
 const locationStore = useLocationStore()
 const token = useCookie('token')
@@ -97,7 +103,7 @@ const { selectedLocation } = storeToRefs(locationStore)
 
 const { selectedCategories } = storeToRefs(categoryStore)
 
-const { pending } = useAsyncData(() => categoryStore.getAllCategories())
+const { pending } = await useAsyncData(() => categoryStore.getAllCategories())
 
 const filterProductsByCategory = (index: number) => {
   selectedCategories.value = [index]

@@ -11,10 +11,12 @@
           <!-- <div class="absolute">
           <v-icon color="primary">ri-star-fill</v-icon> 4.5
         </div> -->
-          <div class="text-right" v-if="product.is_offer">
-            <span class="pa-2 ma-4 bg-error rounded-full text-body-2"
-              >{{ product.offer }}% OFF</span
-            >
+          <div class="text-right ma-4" v-if="product.is_offer">
+            <span
+              class="pa-2 me-6 bg-error text-body-2 rounded-l-1 relative offer-tag"
+              >{{ product.offer }}% {{ $t('off') }}
+              <div class="dot"></div
+            ></span>
           </div>
         </v-img>
       </v-card>
@@ -84,7 +86,23 @@
 
           <div class="d-flex items-center space-x-4">
             <v-btn
-              :disabled="product.is_quantity && product.quantity == 0"
+              v-if="isInCart"
+              elevation="0"
+              variant="outlined"
+              color="secondary"
+              prepend-icon="ri-delete-bin-5-line"
+              @click="
+                cart.splice(
+                  cart.findIndex((e: any) => e.id == product.id),
+                  1
+                )
+              "
+              >remove from cart</v-btn
+            >
+            <v-btn
+              :disabled="
+                (product.is_quantity && product.quantity == 0) || isInCart
+              "
               elevation="0"
               variant="outlined"
               color="secondary"
@@ -97,22 +115,23 @@
             >
             <span>{{ cartCount }}</span>
             <v-btn
-              :disabled="product.is_quantity && product.quantity == 0"
+              :disabled="
+                (product.is_quantity && product.quantity == 0) || isInCart
+              "
               elevation="0"
               variant="outlined"
               color="secondary"
               @click="
                 () => {
-                  if (cartCount >= product.quantity) return
+                  if (product.is_quantity && cartCount >= product.quantity)
+                    return
                   cartCount++
                 }
               "
               >+</v-btn
             >
             <v-btn
-              :disabled="
-            cart?.find((p:any) => p.id == product.id) != null || (product.is_quantity && product.quantity == 0)
-          "
+              :disabled="isInCart"
               elevation="0"
               color="secondary"
               @click="addProductToCart"
@@ -153,8 +172,15 @@ const slug = computed(() => {
   return (route.params as any).slug
 })
 
+const isInCart = computed(() => {
+  return (
+    cart.value?.find((p: any) => p.id == product.value.id) != null ||
+    (product.value.is_quantity && product.value.quantity == 0)
+  )
+})
+
 if (slug.value as any) {
-  useAsyncData(() => productStore.getProduct(slug.value))
+  await useAsyncData(() => productStore.getProduct(slug.value))
 }
 
 const addProductToCart = () => {

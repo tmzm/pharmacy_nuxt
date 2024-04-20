@@ -5,7 +5,7 @@
     height="80"
   >
     <template v-slot:prepend>
-      <v-img :src="logo" width="140"></v-img>
+      <v-img @click="navigateTo('/')" :src="logo" width="140"></v-img>
     </template>
 
     <div class="d-none d-md-flex items-center">

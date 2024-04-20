@@ -98,3 +98,13 @@ export interface Location {
   type: string
   address: string
 }
+
+export interface Favorite {
+  created_at: Date
+  updated_at: Date
+  id: number
+  user_id: number
+  user: User
+  product_id: number
+  product: Product
+}

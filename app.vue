@@ -12,6 +12,11 @@
 const i18nHead = useLocaleHead()
 const { locale } = useI18n()
 
+// onMessage(messaging, payload => {
+//   console.log('Message received. ', payload)
+//   // ...
+// })
+
 useHead({
   htmlAttrs: {
     lang: i18nHead.value.htmlAttrs!.lang

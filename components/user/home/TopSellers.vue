@@ -37,7 +37,9 @@ defineProps<{
   home?: boolean
 }>()
 
-const { pending } = useAsyncData(() => productStore.getTopProductSellers())
+const { pending } = await useAsyncData(() =>
+  productStore.getTopProductSellers()
+)
 </script>
 
 <!-- <style>

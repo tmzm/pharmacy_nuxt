@@ -166,7 +166,7 @@
             v-for="product in productStore.products"
             :key="product.id"
             md="3"
-            cols="6"
+            cols="12"
           >
             <ProductCard :product-value="product" />
           </v-col>
@@ -197,10 +197,12 @@ const { categories, selectedCategories } = storeToRefs(categoryStore)
 const productStore = useProductStore()
 
 // Fetching products data asynchronously
-const { pending, refresh } = useAsyncData(() => productStore.getAllProducts())
+const { pending, refresh } = await useAsyncData(() =>
+  productStore.getAllProducts()
+)
 
 // Fetching categories data asynchronously
-useAsyncData(() => categoryStore.getAllCategories())
+await useAsyncData(() => categoryStore.getAllCategories())
 
 const page = ref(1)
 const { productsTotalCount, search, sort, paginationOptions, priceFilter } =
