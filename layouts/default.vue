@@ -1,7 +1,9 @@
 <template>
-  <DefaultLayoutWithVerticalNav>
-    <slot />
-  </DefaultLayoutWithVerticalNav>
+  <div :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'">
+    <DefaultLayoutWithVerticalNav>
+      <slot />
+    </DefaultLayoutWithVerticalNav>
+  </div>
 </template>
 
 <style lang="scss">

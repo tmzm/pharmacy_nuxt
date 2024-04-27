@@ -13,7 +13,7 @@
 const productStore = useProductStore()
 const route = useRoute()
 const id = computed(() => {
-  return (route.params as { id: number }).id
+  return (route.params as any).id
 })
 
 const { pending, error } = await useAsyncData(() =>

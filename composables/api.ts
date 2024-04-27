@@ -1,4 +1,12 @@
-export const api = function (url: string, options: object = {}): any {
+export const api = function (
+  url: string,
+  options: object = {}
+): Promise<{
+  data: any
+  token: string
+  errors: any
+  message: string
+}> {
   const runtimeConfig = useRuntimeConfig()
   const cookieToken = useCookie('token')
 
@@ -31,5 +39,10 @@ export const api = function (url: string, options: object = {}): any {
     throw error
   })
 
-  return res
+  return res as Promise<{
+    data: any
+    token: string
+    errors: any
+    message: string
+  }>
 }

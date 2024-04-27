@@ -43,12 +43,8 @@ export default defineNuxtConfig({
 
     langDir: 'locale',
     defaultLocale: 'en',
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     detectBrowserLanguage: false
-  },
-
-  devtools: {
-    enabled: true
   },
 
   css: [
@@ -68,15 +64,7 @@ export default defineNuxtConfig({
     ]
   },
 
-  plugins: [
-    '@/plugins/vuetify/index.ts',
-    '@/plugins/iconify/index.ts',
-    '@/plugins/firebase.client.ts'
-  ],
-
-  experimental: {
-    typedPages: true
-  },
+  plugins: ['@/plugins/vuetify/index.ts', '@/plugins/iconify/index.ts'],
 
   typescript: {
     tsConfig: {
@@ -100,12 +88,12 @@ export default defineNuxtConfig({
     client: false
   },
 
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag: any) =>
-        tag === 'swiper-container' || tag === 'swiper-slide'
-    }
-  },
+  // vue: {
+  //   compilerOptions: {
+  //     isCustomElement: (tag: any) =>
+  //       tag === 'swiper-container' || tag === 'swiper-slide'
+  //   }
+  // },
 
   vite: {
     define: { 'process.env': {} },

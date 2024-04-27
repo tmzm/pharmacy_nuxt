@@ -76,14 +76,16 @@
             flat
             v-if="!orderStore.orders || orderStore.orders?.length == 0"
           >
-            <v-card-text> No order has been made yet.</v-card-text>
-            <v-card-actions
-              v-if="!orderStore.orders || orderStore.orders?.length == 0"
-            >
-              <v-btn variant="outlined" append-icon="ri-arrow-right-line">
+            <v-card-text>
+              No order has been made yet.
+              <v-btn
+                to="/products"
+                variant="outlined"
+                append-icon="ri-arrow-right-line"
+              >
                 Go Shopping
-              </v-btn>
-            </v-card-actions>
+              </v-btn></v-card-text
+            >
           </v-card>
           <v-card v-else>
             <v-card-title> Current Order: </v-card-title>

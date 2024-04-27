@@ -40,7 +40,8 @@ export const useProductStore = defineStore('product', () => {
     category_products: [],
     meta_description: '',
     meta_subtitle: '',
-    meta_title: ''
+    meta_title: '',
+    slug: ''
   })
 
   const categories = computed(() => {

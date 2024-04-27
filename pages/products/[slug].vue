@@ -8,15 +8,33 @@
             product.image ? `http://127.0.0.1:8000${product.image}` : no_img
           "
         >
-          <!-- <div class="absolute">
-          <v-icon color="primary">ri-star-fill</v-icon> 4.5
-        </div> -->
-          <div class="text-right ma-4" v-if="product.is_offer">
+          <div class="absolute mt-3 ms-2" v-if="product.is_offer">
             <span
-              class="pa-2 me-6 bg-error text-body-2 rounded-l-1 relative offer-tag"
-              >{{ product.offer }}% {{ $t('off') }}
-              <div class="dot"></div
-            ></span>
+              class="pa-2 bg-error text-body-2 rounded-l-1 relative offer-tag"
+            >
+              {{ product.offer + '% ' + $t('off') }}
+              <div class="dot"></div>
+            </span>
+          </div>
+          <div class="text-right">
+            <v-btn
+              v-if="token"
+              :loading="favoriteLoading"
+              :icon="isInFavorite ? 'ri-heart-fill' : 'ri-heart-line'"
+              color="secondary"
+              @click="
+                () => {
+                  favoriteLoading = true
+                  !isInFavorite
+                    ? favoriteStore.addToFavorite(product.id)
+                    : favoriteStore.removeFromFavorites(favoriteDetails?.id as any)
+                  favoriteStore.listAllFavorites()
+                  favoriteLoading = false
+                }
+              "
+              variant="text"
+              class=""
+            />
           </div>
         </v-img>
       </v-card>
@@ -86,20 +104,6 @@
 
           <div class="d-flex items-center space-x-4">
             <v-btn
-              v-if="isInCart"
-              elevation="0"
-              variant="outlined"
-              color="secondary"
-              prepend-icon="ri-delete-bin-5-line"
-              @click="
-                cart.splice(
-                  cart.findIndex((e: any) => e.id == product.id),
-                  1
-                )
-              "
-              >remove from cart</v-btn
-            >
-            <v-btn
               :disabled="
                 (product.is_quantity && product.quantity == 0) || isInCart
               "
@@ -137,13 +141,29 @@
               @click="addProductToCart"
             >
               {{
-                product.is_quantity && product.quantity == 0
-                  ? 'Out of stock'
-                  : cart?.find((p: any) => p.id == product.id) != null
-                  ? 'Added to cart'
-                  : 'Add to cart'
+                $t(
+                  product.is_quantity && product.quantity == 0
+                    ? 'out-of-stock'
+                    : cart?.find((p: any) => p.id == product.id) != null
+                    ? 'added-to-cart'
+                    : 'add-to-cart'
+                )
               }}
             </v-btn>
+            <v-btn
+              v-if="isInCart"
+              elevation="0"
+              variant="outlined"
+              color="secondary"
+              prepend-icon="ri-delete-bin-5-line"
+              @click="
+                cart.splice(
+                  cart.findIndex((e: any) => e.id == product.id),
+                  1
+                )
+              "
+              ><span class="d-none d-md-block">remove from cart</span></v-btn
+            >
           </div>
         </v-card-text>
       </v-card>
@@ -163,8 +183,22 @@ import no_img from '@images/no-img.jpeg'
 const productStore = useProductStore()
 const route = useRoute()
 const cart: any = useCookie('cart')
+const favoriteLoading = ref(false)
+const favoriteStore = useFavoriteStore()
+const token = useCookie('token')
 
 const { product } = storeToRefs(productStore)
+
+const isInFavorite = computed(() => {
+  return (
+    favoriteStore.favorites.find(f => f.product_id === product.value.id) !==
+    undefined
+  )
+})
+
+const favoriteDetails = computed(() => {
+  return favoriteStore.favorites.find(f => f.product_id === product.value.id)
+})
 
 const cartCount = ref(1)
 

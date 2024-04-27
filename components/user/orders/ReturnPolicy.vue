@@ -1,5 +1,5 @@
 <template>
-  <v-banner icon="ri-alert-line" class="mt-4">
+  <v-banner icon="ri-alert-line">
     <v-banner-text>
       <div><strong>Return Policy:</strong></div>
       Orders once placed can't be returned or exchanged

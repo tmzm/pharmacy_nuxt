@@ -56,13 +56,14 @@
       <v-row>
         <v-col v-for="order_item in currentOrder?.order_items" cols="auto">
           <v-img
+            @click="navigateTo(`/products/${order_item.product.slug}`)"
             :src="
               order_item.product.image
                 ? `http://127.0.0.1:8000${order_item.product.image}`
                 : no_img
             "
             width="100"
-            class="rounded-lg"
+            class="rounded-lg cursor-pointer"
             ><div class="text-body-2 pa-1 ma-1 bg-primary w-fit rounded-full">
               X {{ order_item.quantity }}
             </div></v-img

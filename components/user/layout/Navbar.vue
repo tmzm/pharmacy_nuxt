@@ -1,15 +1,23 @@
 <template>
   <v-app-bar
     elevation="0"
-    class="d-flex align-center px-4 bg-secondary"
+    class="d-flex nav-container align-center px-4 bg-secondary"
     height="80"
   >
     <template v-slot:prepend>
-      <v-img @click="navigateTo('/')" :src="logo" width="140"></v-img>
+      <v-img
+        @click="navigateTo('/')"
+        class="cursor-pointer"
+        :src="logo"
+        width="140"
+      ></v-img>
     </template>
 
-    <div class="d-none d-md-flex items-center">
-      <v-btn
+    <div
+      class="d-none d-md-flex items-center"
+      :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
+    >
+      <!-- <v-btn
         :active="$route.path == '/'"
         size="large"
         color="white"
@@ -37,7 +45,7 @@
         @click="navigateTo('/')"
       >
         Contact us
-      </v-btn>
+      </v-btn> -->
 
       <v-form
         @submit.prevent="
@@ -56,7 +64,7 @@
           variant="solo"
           class="ms-2 me-4 w-110"
           bg-color="white"
-          label="Search products..."
+          :label="$t('search-products') + ' ...'"
           v-model="navSearch"
           hide-details
           single-line
@@ -68,11 +76,31 @@
         </v-badge>
       </v-btn>
 
-      <v-divider vertical color="white" class="mx-2" />
-      <!-- <NavbarThemeSwitcher class="me-2" /> -->
+      <IconBtn
+        @click="navigateTo('/notifications')"
+        v-if="token"
+        size="x-large"
+        color="white"
+        class="me-2"
+      >
+        <v-badge
+          v-if="
+            notificationStore.notifications.filter(n => !n.is_read).length > 0
+          "
+          :content="
+            notificationStore.notifications.filter(n => !n.is_read).length
+          "
+        >
+          <v-icon size="22" icon="ri-notification-line" />
+        </v-badge>
+        <v-icon v-else size="22" icon="ri-notification-line" />
+      </IconBtn>
+
+      <LangSwitcher class="me-2" />
     </div>
 
     <div
+      :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
       @click="
         navigateTo('https://wa.me/999999999', { open: { target: '_blank' } })
       "
@@ -88,15 +116,7 @@
       </div>
     </div>
 
-    <div class="d-block d-md-none">
-      <!-- <IconBtn size="x-large" color="white" class="me-2">
-        <v-badge :content="0">
-          <v-icon size="22" icon="ri-notification-line" />
-        </v-badge>
-      </IconBtn> -->
-
-      <!-- <NavbarThemeSwitcher class="me-2" /> -->
-
+    <div :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" class="d-block d-md-none">
       <VAppBarNavIcon @click="$emit('drawer')" />
     </div>
   </v-app-bar>
@@ -109,8 +129,28 @@ import logo from '@images/logos/logoMoafa.webp'
 const cart: any = useCookie('cart')
 const token: any = useCookie('token')
 
+const notificationStore = useNotificationStore()
 const productStore = useProductStore()
 const { search } = storeToRefs(productStore)
 
 const navSearch = ref('')
 </script>
+
+<style>
+@media (min-width: 1280px) {
+  .nav-container .v-toolbar__content {
+    max-inline-size: 1200px !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .nav-container .v-toolbar__content {
+    max-inline-size: 900px;
+  }
+}
+
+.nav-container .v-toolbar__content {
+  inline-size: 100%;
+  margin-inline: auto;
+}
+</style>

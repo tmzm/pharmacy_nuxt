@@ -5,21 +5,13 @@ const { user } = storeToRefs(authStore)
 
 <template>
   <VAvatar class="cursor-pointer" color="primary" variant="tonal">
-    <v-img :src="user?.avatar" />
+    <v-icon>ri-user-line</v-icon>
 
     <!-- SECTION Menu -->
     <VMenu activator="parent" width="230" location="bottom end" offset="14px">
       <v-list>
         <!-- User Avatar & Name -->
         <v-list-item>
-          <template #prepend>
-            <v-list-itemAction start>
-              <VAvatar color="primary" variant="tonal">
-                <v-img :src="user?.avatar" />
-              </VAvatar>
-            </v-list-itemAction>
-          </template>
-
           <v-list-item-title class="font-weight-semibold">
             {{ user?.name }}
           </v-list-item-title>

@@ -1,3 +1,4 @@
+import { InfoCircleFilled } from '@ant-design/icons-vue'
 import { initializeApp } from 'firebase/app'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 
@@ -23,11 +24,12 @@ export default defineNuxtPlugin(nuxtApp => {
   onMessage(messaging, payload => {
     notification.open({
       message: payload.notification?.title,
-      description: payload.notification?.body
+      description: payload.notification?.body,
+      icon: () => h(InfoCircleFilled, { style: 'color: #16B1FF' })
     })
   })
   Notification.requestPermission().then(permission => {
-    if (token && permission === 'granted') {
+    if (token.value && permission === 'granted') {
       getToken(messaging, {
         vapidKey:
           'BJsfvv3By1pNdgjMROUtQacVSOx8k8P3u5jpzEmaat7L8xfAd_rl-UCtDjMfbMpwoyVC8yS1HS0jcL0zOtgRtEQ'

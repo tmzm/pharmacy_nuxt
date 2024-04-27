@@ -122,6 +122,10 @@ watch(selectedCategories, () => refresh())
           </template>
 
           <v-list>
+            <v-list-item @click="navigateTo(`/admin/products/${item.id}`)"
+              ><v-icon>ri-eye-line</v-icon> View full details
+            </v-list-item>
+
             <v-list-item @click="navigateTo(`/admin/products/${item.id}/edit`)"
               ><v-icon>ri-edit-2-fill</v-icon> edit
             </v-list-item>

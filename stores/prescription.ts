@@ -40,7 +40,21 @@ export const usePrescriptionStore = defineStore('prescription', () => {
 
   const getPrescription = async (id: number) => {}
 
-  const deletePrescription = async (id: number) => {}
+  const deletePrescription = async (id: number) => {
+    loading.value = true
+
+    try {
+      await api(`prescriptions/${id}/delete`, {
+        method: 'delete'
+      })
+
+      showSuccessToaster('prescription deleted successfully')
+
+      loading.value = false
+    } catch (e) {
+      loading.value = false
+    }
+  }
 
   return {
     deletePrescription,

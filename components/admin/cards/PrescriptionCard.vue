@@ -5,13 +5,15 @@ const orderStore = useOrderStore()
 const productStore = useProductStore()
 const { productIds, loading, fields, productsImages } = storeToRefs(orderStore)
 
+const pStore = usePrescriptionStore()
+
 // const products : Product[] = computed(()=>{
 //   return productIds.value.forEach((element:any) => {
 //     return productStore.getProduct(element.id)
 //   });
 // })
 
-defineProps<{
+const props = defineProps<{
   prescription: Prescription
 }>()
 
@@ -35,9 +37,23 @@ const getProduct = async (i: number) => {
     productIds.value[i - 1].id as number
   )
 }
+
+const dialogDelete = ref(false)
+
+const deleteP = () => {
+  pStore.deletePrescription(props.prescription.id)
+  pStore.getAllPrescriptions()
+}
 </script>
 
 <template>
+  <delete-modal
+    v-model="dialogDelete"
+    :loading="loading"
+    @close="dialogDelete = false"
+    @delete="deleteP()"
+  />
+
   <v-card>
     <VTabs v-model="navigationTab" align-tabs="center">
       <VTab v-for="item in tabItems" :key="item" :value="item">
@@ -48,8 +64,10 @@ const getProduct = async (i: number) => {
     <!-- tabs content -->
     <VWindow v-model="navigationTab">
       <VWindowItem value="Prescription">
-        <v-img :src="`http://127.0.0.1:8000${prescription.image}`">
-          <v-btn icon class="ma-4"><v-icon>ri-delete-bin-2-line</v-icon></v-btn>
+        <v-img height="200" :src="`http://127.0.0.1:8000${prescription.image}`">
+          <v-btn @click="dialogDelete = true" icon class="ma-4"
+            ><v-icon>ri-delete-bin-2-line</v-icon></v-btn
+          >
         </v-img>
 
         <v-card-item

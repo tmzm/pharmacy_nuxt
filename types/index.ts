@@ -26,6 +26,7 @@ export interface Product {
   category_products: CategoryProduct[]
   description: string
   image: string
+  slug: string
   meta_description: string
   meta_title: string
   meta_subtitle: string
@@ -107,4 +108,14 @@ export interface Favorite {
   user: User
   product_id: number
   product: Product
+}
+
+export interface Notification {
+  created_at: Date
+  updated_at: Date
+  id: number
+  user_id: number
+  title: string
+  body: string
+  is_read: boolean
 }

@@ -70,7 +70,7 @@
         </v-card-text>
       </v-card>
 
-      <ReturnPolicy />
+      <ReturnPolicy class="mt-4" />
 
       <OrderSummary :place-order-disabled="isNoLocation" />
     </v-col>
