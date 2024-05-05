@@ -7,7 +7,7 @@
     }"
   >
     <v-row>
-      <v-col v-for="(c, index) in categoryStore.categories" cols="6" md="3">
+      <v-col v-for="(c, index) in categoryStore.categories" cols="12" md="3">
         <v-card class="rounded-xl">
           <v-img
             height="250"
@@ -23,7 +23,6 @@
               size="small"
               color="white"
               variant="outlined"
-              append-icon="ri-arrow-right-line"
             >
               {{ $t('view-products') }}
             </v-btn>
@@ -35,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import no_img from '@images/no-img.jpeg'
+import no_img from '@/assets/images/no-img.jpeg'
 const categoryStore = useCategoryStore()
 
 const filterProductsByCategory = (index: number) => {

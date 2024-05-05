@@ -26,7 +26,7 @@ import type { App } from 'vue'
  * All you have to do is use this helper function in `main.ts` file like below:
  * ```ts
  * // File: src/main.ts
- * import { registerPlugins } from '@core/utils/plugins'
+ * import { registerPlugins } from '@/@core/utils/plugins'
  * import { createApp } from 'vue'
  * import App from '@/App.vue'
  *
@@ -42,7 +42,10 @@ import type { App } from 'vue'
  */
 
 export const registerPlugins = (app: App) => {
-  const imports = import.meta.glob<{ default: (app: App) => void }>(['../../plugins/*.{ts,js}', '../../plugins/*/index.{ts,js}'], { eager: true })
+  const imports = import.meta.glob<{ default: (app: App) => void }>(
+    ['../../plugins/*.{ts,js}', '../../plugins/*/index.{ts,js}'],
+    { eager: true }
+  )
 
   const importPaths = Object.keys(imports).sort()
 

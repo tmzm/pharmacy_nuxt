@@ -9,8 +9,8 @@
 
       <v-banner v-else icon="ri-information-2-line" lines="one" class="mt-4">
         <v-banner-text class="text-error">
-          you didn't add any product to the cart yet ...
-          <nuxt-link to="/products">go to shopping</nuxt-link>
+          {{ $t('did-not-add-cart') }} ...
+          <nuxt-link to="/products">{{ $t('continue-shopping') }}</nuxt-link>
         </v-banner-text>
       </v-banner>
     </v-col>
@@ -20,21 +20,18 @@
 
       <OrderSummary no-place-order />
 
-      <div class="d-flex mt-4 space-x-4">
+      <div class="d-flex mt-4">
         <v-btn
           variant="outlined"
           color="black"
           append-icon="ri-shopping-cart-2-line"
           @click="navigateTo('/products')"
-          >continue shopping</v-btn
+          >{{ $t('continue-shopping') }}</v-btn
         >
 
-        <v-btn
-          append-icon="ri-arrow-right-s-line"
-          elevation="0"
-          @click="navigateTo('/checkout')"
-          >Checkout</v-btn
-        >
+        <v-btn class="ms-4" elevation="0" @click="navigateTo('/checkout')">{{
+          $t('checkout')
+        }}</v-btn>
       </div>
     </v-col>
   </v-row>

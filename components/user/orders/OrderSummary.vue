@@ -1,8 +1,8 @@
 <template>
-  <v-card title="ORDER SUMMARY" class="mt-4">
+  <v-card :title="$t('order-sum')" class="mt-4">
     <v-list>
       <v-list-item>
-        Order Total
+        {{ $t('order-total') }}
         <template #append
           ><span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
           <v-progress-circular
@@ -14,10 +14,11 @@
           /> </template
       ></v-list-item>
       <v-list-item>
-        Items Discount <template #append>0 SP</template></v-list-item
+        {{ $t('items-discount') }}
+        <template #append>0 {{ $t('sp') }}</template></v-list-item
       >
       <v-list-item>
-        Total Amount (Inclusive of VAT)
+        {{ $t('total-amount') }}
         <template #append
           ><span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
           <v-progress-circular
@@ -29,10 +30,11 @@
       ></v-list-item>
     </v-list>
     <v-card-actions v-if="!noPlaceOrder"
-      ><v-btn :disabled="placeOrderDisabled" @click="orderStore.createByCart()"
-        >place order</v-btn
+      ><v-btn
+        :disabled="placeOrderDisabled"
+        @click="orderStore.createByCart()"
+        >{{ $t('place-order') }}</v-btn
       ><v-chip color="secondary" prepend-icon="ri-wallet-line">
-        TOTAL:
         <span v-if="!loading">{{ orderTotalPrice }} {{ $t('sp') }}</span>
         <v-progress-circular
           width="2"

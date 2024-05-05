@@ -1,5 +1,4 @@
-$font-family-custom: "Inter", sans-serif, -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
-  "Helvetica Neue", arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$font-family-custom: "Cairo";
 /* stylelint-disable length-zero-no-unit */
 @forward "../../../base/libs/vuetify/variables" with (
   $body-font-family: $font-family-custom !default,

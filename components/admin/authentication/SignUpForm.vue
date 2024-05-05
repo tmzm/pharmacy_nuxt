@@ -33,14 +33,13 @@ const { name, number, password } = storeToRefs(signupStore)
 <template>
   <div>
     <v-card-text>
-      <v-card-title class="text-center mb-4"> Welcome To Moafa </v-card-title>
       <VForm>
         <v-row>
           <!-- Name -->
           <v-col cols="12">
             <VTextField
               v-model="name"
-              label="Name"
+              :label="$t('name')"
               placeholder="Johndoe"
               :counter="9"
               required
@@ -50,7 +49,7 @@ const { name, number, password } = storeToRefs(signupStore)
           <v-col cols="12">
             <VTextField
               v-model="number"
-              label="Phune Number"
+              :label="$t('phone')"
               placeholder="xxxxxxxxx"
               :counter="9"
               required
@@ -61,7 +60,7 @@ const { name, number, password } = storeToRefs(signupStore)
           <v-col cols="12">
             <VTextField
               v-model="password"
-              label="Password"
+              :label="$t('password')"
               placeholder="············"
               :type="isPasswordVisible ? 'text' : 'password'"
               :append-inner-icon="
@@ -80,15 +79,15 @@ const { name, number, password } = storeToRefs(signupStore)
               @click="signupStore.signup()"
               :loading="signupStore.loading"
             >
-              Sign Up
+              {{ $t('register') }}
             </v-btn>
           </v-col>
 
           <!-- login instead -->
           <v-col cols="12" class="text-center text-base">
-            <span>Already have an account?</span>
+            <span>{{ $t('have-account') }}</span>
             <NuxtLink class="text-primary ms-2" to="login">
-              Sign in instead
+              {{ $t('log-in-instead') }}
             </NuxtLink>
           </v-col>
         </v-row>

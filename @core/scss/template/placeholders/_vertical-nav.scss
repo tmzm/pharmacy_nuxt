@@ -1,4 +1,4 @@
-@use "@configured-variables" as variables;
+@use "@/assets/styles/variables/_template.scss" as variables;
 
 %nav-header-action {
   color:rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));

@@ -27,14 +27,18 @@
         >
           <div class="absolute mt-3 ms-2" v-if="product.is_offer">
             <span
-              class="pa-2 bg-error text-body-2 rounded-l-1 relative offer-tag"
+              class="pa-2 bg-error text-body-2 rounded-s-1 relative offer-tag"
             >
               {{ product.offer + '% ' + $t('off') }}
               <div class="dot"></div>
             </span>
           </div>
           <div
-            class="pa-1 rounded-full bg-white w-fit float-end ma-2 border-md border-secondary"
+            class="pa-1 rounded-full bg-white w-fit ma-2 border-md border-secondary"
+            :class="{
+              'float-left': $i18n.locale == 'ar',
+              'float-right': $i18n.locale !== 'ar'
+            }"
           >
             <div>
               <v-btn
@@ -166,8 +170,8 @@
 </template>
 
 <script lang="ts" setup>
+import no_img from '@/assets/images/no-img.jpeg'
 import type { Product } from '@/types'
-import no_img from '@images/no-img.jpeg'
 const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const favoriteStore = useFavoriteStore()

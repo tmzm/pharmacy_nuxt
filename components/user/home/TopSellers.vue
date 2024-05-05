@@ -7,7 +7,7 @@
         text: home ? $t('our-products-text') : undefined,
         link: {
           title: $t('view-products'),
-          icon: 'ri-arrow-right-line',
+          icon: '',
           to: '/products'
         }
       }"

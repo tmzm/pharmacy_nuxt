@@ -13,7 +13,7 @@ export const useProductStore = defineStore('product', () => {
   const productsTotalCount = ref(15)
   const paginationOptions = ref({
     groupBy: [],
-    itemsPerPage: 10,
+    itemsPerPage: 16,
     page: 1,
     sortBy: []
   })

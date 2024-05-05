@@ -1,18 +1,18 @@
 import type { IconAliases, IconProps } from 'vuetify'
 
 /* eslint-disable regex/invalid */
-import checkboxChecked from '@images/svg/checkbox-checked.svg'
-import checkboxIndeterminate from '@images/svg/checkbox-indeterminate.svg'
-import checkboxUnchecked from '@images/svg/checkbox-unchecked.svg'
-import radioChecked from '@images/svg/radio-checked.svg'
-import radioUnchecked from '@images/svg/radio-unchecked.svg'
+import checkboxChecked from '@/assets/images/svg/checkbox-checked.svg'
+import checkboxIndeterminate from '@/assets/images/svg/checkbox-indeterminate.svg'
+import checkboxUnchecked from '@/assets/images/svg/checkbox-unchecked.svg'
+import radioChecked from '@/assets/images/svg/radio-checked.svg'
+import radioUnchecked from '@/assets/images/svg/radio-unchecked.svg'
 
 const customIcons: Record<string, unknown> = {
   'mdi-checkbox-blank-outline': checkboxUnchecked,
   'mdi-checkbox-marked': checkboxChecked,
   'mdi-minus-box': checkboxIndeterminate,
   'mdi-radiobox-marked': radioChecked,
-  'mdi-radiobox-blank': radioUnchecked,
+  'mdi-radiobox-blank': radioUnchecked
 }
 
 const aliases: Partial<IconAliases> = {
@@ -47,7 +47,7 @@ const aliases: Partial<IconAliases> = {
   plus: 'ri-add-line',
   minus: 'ri-subtract-line',
   sortAsc: 'ri-arrow-up-line',
-  sortDesc: 'ri-arrow-down-line',
+  sortDesc: 'ri-arrow-down-line'
 }
 /* eslint-enable */
 
@@ -57,30 +57,26 @@ export const iconify = {
     if (typeof props.icon === 'string') {
       const iconComponent = customIcons[props.icon]
 
-      if (iconComponent)
-        return h(iconComponent)
+      if (iconComponent) return h(iconComponent)
     }
 
-    return h(
-      props.tag,
-      {
-        ...props,
+    return h(props.tag, {
+      ...props,
 
-        // As we are using class based icons
-        class: [props.icon],
+      // As we are using class based icons
+      class: [props.icon],
 
-        // Remove used props from DOM rendering
-        tag: undefined,
-        icon: undefined,
-      },
-    )
-  },
+      // Remove used props from DOM rendering
+      tag: undefined,
+      icon: undefined
+    })
+  }
 }
 
 export const icons = {
   defaultSet: 'iconify',
   aliases,
   sets: {
-    iconify,
-  },
+    iconify
+  }
 }

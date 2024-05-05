@@ -25,7 +25,7 @@ const { user } = storeToRefs(authStore)
             <v-icon class="me-2" icon="ri-user-line" size="22" />
           </template>
 
-          <v-list-item-title>My Account</v-list-item-title>
+          <v-list-item-title>{{ $t('my-account') }}</v-list-item-title>
         </v-list-item>
 
         <VDivider class="my-2" />

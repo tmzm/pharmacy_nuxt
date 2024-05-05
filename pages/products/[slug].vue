@@ -10,19 +10,26 @@
         >
           <div class="absolute mt-3 ms-2" v-if="product.is_offer">
             <span
-              class="pa-2 bg-error text-body-2 rounded-l-1 relative offer-tag"
+              class="pa-2 bg-error text-body-2 rounded-s-1 relative offer-tag"
             >
               {{ product.offer + '% ' + $t('off') }}
               <div class="dot"></div>
             </span>
           </div>
-          <div class="text-right">
-            <v-btn
-              v-if="token"
-              :loading="favoriteLoading"
-              :icon="isInFavorite ? 'ri-heart-fill' : 'ri-heart-line'"
-              color="secondary"
-              @click="
+          <div
+            class="pa-1 rounded-full bg-white w-fit ma-2 border-md border-secondary"
+            :class="{
+              'float-left': $i18n.locale == 'ar',
+              'float-right': $i18n.locale !== 'ar'
+            }"
+          >
+            <div>
+              <v-btn
+                v-if="token"
+                :loading="favoriteLoading"
+                :icon="isInFavorite ? 'ri-heart-fill' : 'ri-heart-line'"
+                color="secondary"
+                @click.stop="
                 () => {
                   favoriteLoading = true
                   !isInFavorite
@@ -32,9 +39,9 @@
                   favoriteLoading = false
                 }
               "
-              variant="text"
-              class=""
-            />
+                variant="text"
+              />
+            </div>
           </div>
         </v-img>
       </v-card>
@@ -65,7 +72,7 @@
                     product.price * (product.is_offer ? product.offer / 100 : 0)
                 )
               }}
-              SP</strong
+              {{ $t('sp') }}</strong
             >
             <span
               v-if="product.is_offer"
@@ -76,28 +83,29 @@
           </div>
 
           <div class="my-4">
-            company:
+            {{ $t('company') }}:
             <span class="text-primary">{{ product.company_name }}</span>
           </div>
 
           <div class="my-4">
             <div v-if="!product.is_quantity">
               <span class="text-success"
-                ><v-icon>{{ 'ri-check-line' }}</v-icon> IN STOCK</span
+                ><v-icon>{{ 'ri-check-line' }}</v-icon>
+                {{ $t('in-stock') }}</span
               >
-              - Order Now
+              - {{ $t('order-now') }}
             </div>
             <div v-else-if="product.is_quantity && product.quantity > 0">
               <span class="text-info"
-                ><v-icon>{{ 'ri-information-line' }}</v-icon> IN STOCK with
-                {{ product.quantity }}</span
+                ><v-icon>{{ 'ri-information-line' }}</v-icon>
+                {{ $tc('in-stock-with-only') }} {{ product.quantity }}</span
               >
-              - Order Now
+              - {{ $t('order-now') }}
             </div>
             <div v-else>
               <span class="text-error"
-                ><v-icon>{{ 'ri-error-warning-line' }}</v-icon> OUT OFF
-                STOCK</span
+                ><v-icon>{{ 'ri-error-warning-line' }}</v-icon>
+                {{ $t('out-stock') }}</span
               >
             </div>
           </div>
@@ -143,7 +151,7 @@
               {{
                 $t(
                   product.is_quantity && product.quantity == 0
-                    ? 'out-of-stock'
+                    ? 'out-stock'
                     : cart?.find((p: any) => p.id == product.id) != null
                     ? 'added-to-cart'
                     : 'add-to-cart'
@@ -151,7 +159,7 @@
               }}
             </v-btn>
             <v-btn
-              v-if="isInCart"
+              v-if="cart?.find((p: any) => p.id == product.id) != undefined"
               elevation="0"
               variant="outlined"
               color="secondary"
@@ -162,7 +170,9 @@
                   1
                 )
               "
-              ><span class="d-none d-md-block">remove from cart</span></v-btn
+              ><span class="d-none d-md-block">{{
+                $t('remove-from-cart')
+              }}</span></v-btn
             >
           </div>
         </v-card-text>
@@ -170,7 +180,7 @@
     </v-col>
   </v-row>
 
-  <v-card v-if="product.description" class="mt-8" title="Details">
+  <v-card v-if="product.description" class="mt-8" :title="$t('details') + ':'">
     <v-card-text>
       <div class="mb-2 desc" v-html="product.description"></div>
     </v-card-text>
@@ -178,7 +188,7 @@
 </template>
 
 <script lang="ts" setup>
-import no_img from '@images/no-img.jpeg'
+import no_img from '@/assets/images/no-img.jpeg'
 
 const productStore = useProductStore()
 const route = useRoute()
@@ -208,7 +218,7 @@ const slug = computed(() => {
 
 const isInCart = computed(() => {
   return (
-    cart.value?.find((p: any) => p.id == product.value.id) != null ||
+    cart.value?.find((p: any) => p.id == product.value.id) != undefined ||
     (product.value.is_quantity && product.value.quantity == 0)
   )
 })

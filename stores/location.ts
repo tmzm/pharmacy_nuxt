@@ -8,6 +8,7 @@ export const useLocationStore = defineStore('myLocationStore', () => {
   const flat = ref()
   const name = ref()
   const type = ref('Home')
+  const dialogSelectLocation = ref(false)
   const location = ref<Location>()
   const selectedLocation = useCookie<Location>('location')
 
@@ -53,6 +54,7 @@ export const useLocationStore = defineStore('myLocationStore', () => {
     loading,
     getAllLocations,
     selectedLocation,
-    create
+    create,
+    dialogSelectLocation
   }
 })

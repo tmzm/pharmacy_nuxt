@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'node:url'
 import vuetify from 'vite-plugin-vuetify'
 import svgLoader from 'vite-svg-loader'
 
@@ -6,8 +5,8 @@ import svgLoader from 'vite-svg-loader'
 export default defineNuxtConfig({
   app: {
     head: {
-      titleTemplate: 'Muafa',
-      title: 'Muafa',
+      titleTemplate: 'Moafa',
+      title: 'Moafa',
 
       link: [
         {
@@ -44,15 +43,18 @@ export default defineNuxtConfig({
     langDir: 'locale',
     defaultLocale: 'en',
     strategy: 'no_prefix',
-    detectBrowserLanguage: false
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieCrossOrigin: true
+    }
   },
 
   css: [
-    '@core/main.css',
-    '@core/scss/template/index.scss',
-    '@styles/styles.scss',
+    '@/@core/main.css',
+    '@/@core/scss/template/index.scss',
+    '@/assets/styles/styles.scss',
     '@/plugins/iconify/icons.css',
-    '@layouts/styles/index.scss'
+    '@/@layouts/styles/index.scss'
   ],
 
   components: {
@@ -65,22 +67,6 @@ export default defineNuxtConfig({
   },
 
   plugins: ['@/plugins/vuetify/index.ts', '@/plugins/iconify/index.ts'],
-
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        paths: {
-          '@/*': ['../*'],
-          '@layouts/*': ['../@layouts/*'],
-          '@layouts': ['../@layouts'],
-          '@core/*': ['../@core/*'],
-          '@core': ['../@core'],
-          '@images/*': ['../assets/images/*'],
-          '@styles/*': ['../styles/*']
-        }
-      }
-    }
-  },
 
   // ℹ️ Disable source maps until this is resolved: https://github.com/vuetifyjs/vuetify-loader/issues/290
   sourcemap: {
@@ -97,19 +83,6 @@ export default defineNuxtConfig({
 
   vite: {
     define: { 'process.env': {} },
-
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('.', import.meta.url)),
-        '@core': fileURLToPath(new URL('./@core', import.meta.url)),
-        '@layouts': fileURLToPath(new URL('./@layouts', import.meta.url)),
-        '@images': fileURLToPath(new URL('./assets/images/', import.meta.url)),
-        '@styles': fileURLToPath(new URL('./assets/styles/', import.meta.url)),
-        '@configured-variables': fileURLToPath(
-          new URL('./assets/styles/variables/_template.scss', import.meta.url)
-        )
-      }
-    },
 
     build: {
       chunkSizeWarningLimit: 5000
@@ -149,7 +122,6 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     'dayjs-nuxt',
     '@nuxt/image',
-    'nuxt3-leaflet',
     '@ant-design-vue/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts'

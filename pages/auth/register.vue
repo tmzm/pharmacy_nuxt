@@ -26,5 +26,5 @@ const previous = () => {
 </template>
 
 <style lang="scss">
-@use '@core/scss/pages/page-auth.scss';
+@use '@/@core/scss/pages/page-auth.scss';
 </style>

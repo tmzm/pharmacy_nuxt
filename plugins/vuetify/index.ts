@@ -7,7 +7,7 @@ import { themes } from './theme'
 
 // Styles
 
-import '@core/scss/template/libs/vuetify/index.scss'
+import '@/@core/scss/template/libs/vuetify/index.scss'
 import 'vuetify/styles'
 
 export default defineNuxtPlugin(nuxtApp => {

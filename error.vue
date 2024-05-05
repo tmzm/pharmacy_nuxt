@@ -53,11 +53,5 @@ const handleError = () => clearError({ redirect: '/' })
 </template>
 
 <style lang="scss">
-@use '@core/scss/pages/misc.scss';
-
-.misc-footer-tree {
-  inline-size: 15.625rem;
-  inset-block-end: 3.5rem;
-  inset-inline-start: 0.375rem;
-}
+@use '@/@core/scss/pages/misc.scss';
 </style>

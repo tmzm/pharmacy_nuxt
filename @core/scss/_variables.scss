@@ -10,17 +10,17 @@
 */
 @use "sass:map";
 
-// @forward "@layouts/styles/variables";
+// @forward "@/@layouts/styles/variables";
 @use "utils";
 
 // Default layout
 
 $navbar-high-emphasis-text: true !default;
 
-@forward "@layouts/styles/variables" with (
+@forward "@/@layouts/styles/variables" with (
   $layout-vertical-nav-collapsed-width: 68px !default,
 );
-@use "@layouts/styles/variables" as *;
+@use "@/@layouts/styles/variables" as *;
 
 $theme-colors-name: (
   "primary",

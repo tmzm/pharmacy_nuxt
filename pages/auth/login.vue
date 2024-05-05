@@ -36,10 +36,6 @@ definePageMeta({ layout: 'user-layout' })
 
   <div class="d-flex align-center justify-center pa-4">
     <v-card class="auth-card" max-width="448">
-      <v-card-title class="text-center my-4">
-        Welcome Again! To MOAFA
-      </v-card-title>
-
       <v-card-text>
         <VForm @submit.prevent="loginUser()">
           <v-row>
@@ -47,7 +43,7 @@ definePageMeta({ layout: 'user-layout' })
             <v-col cols="12">
               <VTextField
                 v-model="state.number"
-                label="phone Number"
+                :label="$t('phone')"
                 type="text"
                 :error-messages="v$.number.$errors.map((e:any) => e.$message)"
                 :counter="9"
@@ -61,7 +57,7 @@ definePageMeta({ layout: 'user-layout' })
             <v-col cols="12">
               <VTextField
                 v-model="state.password"
-                label="Password"
+                :label="$t('password')"
                 placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
@@ -79,24 +75,22 @@ definePageMeta({ layout: 'user-layout' })
               <div
                 class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4"
               >
-                <VCheckbox v-model="state.checkbox" label="Remember me" />
-
                 <a class="ms-2 mb-1" href="javascript:void(0)">
-                  Forgot Password?
+                  {{ $t('forget-password') }}
                 </a>
               </div>
 
               <!-- login button -->
               <v-btn block type="submit" :loading="authStore.loading">
-                Login
+                {{ $t('login') }}
               </v-btn>
             </v-col>
 
             <!-- create account -->
             <v-col cols="12" class="text-center text-base">
-              <span>New on our platform?</span>
+              <span>{{ $t('new') }}</span>
               <NuxtLink class="text-primary ms-2" to="/auth/register">
-                Create an account
+                {{ $t('create-account') }}
               </NuxtLink>
             </v-col>
           </v-row>
@@ -107,5 +101,5 @@ definePageMeta({ layout: 'user-layout' })
 </template>
 
 <style lang="scss">
-@use '@core/scss/pages/page-auth.scss';
+@use '@/@core/scss/pages/page-auth.scss';
 </style>

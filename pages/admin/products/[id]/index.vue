@@ -115,7 +115,7 @@
 </template>
 
 <script lang="ts" setup>
-import no_img from '@images/no-img.jpeg'
+import no_img from '@/assets/images/no-img.jpeg'
 
 const productStore = useProductStore()
 const route = useRoute()

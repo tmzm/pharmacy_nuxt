@@ -1,10 +1,14 @@
 <template>
   <v-app-bar
+    order="0"
     elevation="0"
     class="d-flex nav-container align-center px-4 bg-secondary"
     height="80"
   >
     <template v-slot:prepend>
+      <div class="d-block d-md-none">
+        <v-icon :icon="'ri-menu-4-fill'" @click="$emit('drawer')" />
+      </div>
       <v-img
         @click="navigateTo('/')"
         class="cursor-pointer"
@@ -13,40 +17,7 @@
       ></v-img>
     </template>
 
-    <div
-      class="d-none d-md-flex items-center"
-      :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
-    >
-      <!-- <v-btn
-        :active="$route.path == '/'"
-        size="large"
-        color="white"
-        class="me-1"
-        @click="navigateTo('/')"
-      >
-        Home
-      </v-btn>
-
-      <v-btn
-        :active="$route.path == '/about-as'"
-        size="large"
-        color="white"
-        class="me-1"
-        @click="navigateTo('/')"
-      >
-        About Us
-      </v-btn>
-
-      <v-btn
-        :active="$route.path == '/contact'"
-        size="large"
-        color="white"
-        class="me-1"
-        @click="navigateTo('/')"
-      >
-        Contact us
-      </v-btn> -->
-
+    <div class="d-none d-md-flex items-center">
       <v-form
         @submit.prevent="
           () => {
@@ -100,7 +71,6 @@
     </div>
 
     <div
-      :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
       @click="
         navigateTo('https://wa.me/999999999', { open: { target: '_blank' } })
       "
@@ -108,16 +78,14 @@
     >
       <div class="flex flex-column text-start">
         <div class="text-white text-title">
-          <div class="text-white text-body-2">For Home Delivery</div>
+          <div class="text-white text-body-2">
+            {{ $t('for-home-delivery') }}
+          </div>
           <v-icon size="25" color="primary">ri-whatsapp-fill</v-icon
           ><v-icon size="25" color="primary">ri-phone-fill</v-icon>+963 999 999
           999
         </div>
       </div>
-    </div>
-
-    <div :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" class="d-block d-md-none">
-      <VAppBarNavIcon @click="$emit('drawer')" />
     </div>
   </v-app-bar>
 
@@ -125,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@images/logos/logoMoafa.webp'
+import logo from '@/assets/images/logos/logoMoafa.webp'
 const cart: any = useCookie('cart')
 const token: any = useCookie('token')
 

@@ -18,38 +18,23 @@
             </div>
 
             <div class="mt-4">
-              We are looking for your comfort and your access to the necessary
-              medication in the best way...and following up with you and
-              providing medical advice and guidance.
+              {{ $t('site-description') }}
             </div>
           </v-col>
         </v-row>
       </div>
       <div>
-        Devoloped with <v-icon color="error">ri-heart-fill</v-icon> by
-        <strong>Tarek Al Mozayek</strong>
+        {{ $t('dev-with') }} <v-icon color="error">ri-heart-fill</v-icon>
+        {{ $t('by') }}
+        <strong>{{ $t('dev-name') }}</strong>
       </div>
     </v-container>
   </v-card>
 
-  <v-container
-    class="text-body-2 d-md-flex items-center justify-between mb-14 mb-md-0"
-  >
-    <div class="d-md-flex items-center">
-      <div>
-        Corporate Address Al Hudaiba Awards Building, Jumeriah Interchange
-        Street, Dubai, UAE.
-      </div>
-      <div>
-        <v-icon class="mx-2 ms-md-8">ri-phone-line</v-icon> +971-800-700-600
-      </div>
-      <div>
-        <v-icon class="mx-2 ms-md-8">ri-message-3-line</v-icon> Contact Us
-      </div>
-    </div>
-    <div class="space-y-0 flex flex-col items-end">
-      <div>© {{ new Date().getFullYear() }} Moafa. All rights reserved.</div>
-      <div>Advertisement License No:</div>
+  <v-container class="text-body-2 mb-14 mb-md-0">
+    <div class="text-center">
+      © {{ new Date().getFullYear() }} {{ $t('moafa') }}.
+      {{ $t('rights-reserved') }}.
     </div>
   </v-container>
 </template>

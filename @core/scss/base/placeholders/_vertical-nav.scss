@@ -1,5 +1,5 @@
-@use "@core/scss/base/mixins";
-@use "@configured-variables" as variables;
+@use "@/@core/scss/base/mixins";
+@use "@/assets/styles/variables/_template.scss" as variables;
 @use "vuetify/lib/styles/tools/states" as vuetifyStates;
 
 %nav-header-action {
@@ -44,8 +44,7 @@
   $vertical-nav-items-nested-icon-margin-inline: calc((variables.$vertical-nav-items-icon-size - variables.$vertical-nav-items-nested-icon-size) / 2);
 
   font-size: variables.$vertical-nav-items-nested-icon-size;
-  margin-inline-end: $vertical-nav-items-nested-icon-margin-inline + variables.$vertical-nav-items-icon-margin-inline-end;
-  margin-inline-start: $vertical-nav-items-nested-icon-margin-inline;
+  margin-inline: $vertical-nav-items-nested-icon-margin-inline $vertical-nav-items-nested-icon-margin-inline + variables.$vertical-nav-items-icon-margin-inline-end;
 }
 
 %vertical-nav-items-icon-after-2nd-level {

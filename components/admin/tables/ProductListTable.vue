@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import no_img from '@images/no-img.jpeg'
+import no_img from '@/assets/images/no-img.jpeg'
 import { isEqual } from 'radash'
 
 const productStore = useProductStore()

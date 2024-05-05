@@ -1,20 +1,22 @@
 <template>
-  <v-card :border="cardBorder">
+  <v-card :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" :border="cardBorder">
     <v-card-text>
       <v-list-item prepend-icon="ri-user-location-line"
-        >DELIVER TO
+        >{{ $t('deliver-to') }}
         <template #append>
-          <v-btn v-if="changeBtn" density="compact" rounded="x-large"
-            >change</v-btn
-          >
+          <v-btn v-if="changeBtn" density="compact" rounded="x-large">{{
+            $t('change')
+          }}</v-btn>
         </template>
       </v-list-item>
 
-      <v-list-item>Name: {{ location.name }}</v-list-item>
+      <v-list-item>{{ $t('name') }}: {{ location.name }}</v-list-item>
 
-      <v-list-item>Address: {{ location.address }}</v-list-item>
+      <v-list-item>{{ $t('address') }}: {{ location.address }}</v-list-item>
 
-      <v-list-item>Phone: {{ authStore.user?.phone_number }}</v-list-item>
+      <v-list-item
+        >{{ $t('phone') }}: {{ authStore.user?.phone_number }}</v-list-item
+      >
     </v-card-text>
   </v-card>
 </template>

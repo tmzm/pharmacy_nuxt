@@ -3,7 +3,9 @@
     <v-card-subtitle v-if="item.keyword" class="text-primary text-h4 mt-6">{{
       item.keyword
     }}</v-card-subtitle>
-    <v-card-title v-if="item.title" class="text-secondary text-h2 my-4"
+    <v-card-title
+      v-if="item.title"
+      class="text-secondary text-h3 text-md-h2 p-4 py-md-8"
       >{{ item.title }}
 
       <nuxt-link

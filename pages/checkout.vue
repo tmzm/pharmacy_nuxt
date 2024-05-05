@@ -7,7 +7,7 @@
         v-if="locationStore.selectedLocation"
       />
 
-      <v-card title="Delivery Options">
+      <v-card>
         <v-card-text>
           <v-row>
             <v-col v-for="(c, index) in cart" cols="auto">
@@ -31,19 +31,20 @@
           <v-divider class="my-4" />
 
           <div class="d-flex items-center">
-            <v-switch
-              inset
-              :label="
-                !order.is_time ? 'Once the order is ready' : 'Custom Time'
-              "
-              v-model="order.is_time"
-            ></v-switch>
+            <v-checkbox v-model="order.is_time">
+              <template #label>
+                <span :class="{ 'text-gray': !order.is_time }">
+                  {{ $t('custom-d-time') }}
+                </span>
+              </template>
+            </v-checkbox>
             <ClientOnly>
               <a-time-picker
-                v-if="order.is_time"
+                :disabled="!order.is_time"
                 class="ms-4"
                 v-model:value="order.time"
                 format="HH:mm a"
+                :placeholder="$t('select-time')"
               />
             </ClientOnly>
           </div>
@@ -53,18 +54,22 @@
 
     <v-col md="6" cols="12">
       <v-card>
-        <v-card-subtitle class="mt-4">HAVE A COUPON?</v-card-subtitle>
+        <v-card-subtitle class="mt-4">{{
+          $t('have-a-coupon')
+        }}</v-card-subtitle>
         <v-card-text class="d-flex items-center">
-          <v-text-field placeholder="Enter Coupon code"></v-text-field>
-          <v-btn>Apply</v-btn>
+          <v-text-field :placeholder="$t('enter-coupon')"></v-text-field>
+          <v-btn class="ms-4">{{ $t('apply') }}</v-btn>
         </v-card-text>
       </v-card>
 
       <v-card class="mt-4">
-        <v-card-subtitle class="mt-4">DELIVERY INSTRUCTION</v-card-subtitle>
+        <v-card-subtitle class="mt-4">{{
+          $t('delivery-instruction')
+        }}</v-card-subtitle>
         <v-card-text class="d-flex items-center">
           <v-text-field
-            placeholder="Add a note"
+            :placeholder="$t('add-note')"
             prepend-icon="ri-sticky-note-add-line"
           />
         </v-card-text>
@@ -84,16 +89,15 @@
     <v-card
       width="350"
       prepend-icon="ri-error-warning-line"
-      title="Preparing Orders"
+      :title="$t('preparing-order')"
     >
-      <v-card-text
-        >Theres an order still preparing or shipping. Please receive it to place
-        a new order</v-card-text
-      >
+      <v-card-text>{{ $t('preparing-order-text') }}</v-card-text>
       <v-card-actions>
-        <v-btn @click="ordersRefresh" :loading="pending"> refresh </v-btn>
+        <v-btn @click="ordersRefresh" :loading="pending">
+          {{ $t('refresh') }}
+        </v-btn>
         <v-btn @click="navigateTo('/my-account')" variant="outlined">
-          Go to orders
+          {{ $t('go-my-account') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -101,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import no_img from '@images/no-img.jpeg'
+import no_img from '@/assets/images/no-img.jpeg'
 const cart: any = useCookie('cart')
 const productStore = useProductStore()
 const orderStore = useOrderStore()

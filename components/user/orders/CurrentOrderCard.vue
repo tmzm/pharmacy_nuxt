@@ -8,9 +8,9 @@
           "
         >
           <div>
-            <div class="text-h6">Preparing</div>
+            <div class="text-h6">{{ $t('preparing') }}</div>
             <p v-if="currentOrder?.status == 'preparing'">
-              Now your order is being prepared.
+              {{ $t('now-preparing') }}
             </p>
           </div>
         </v-timeline-item>
@@ -21,9 +21,9 @@
           "
         >
           <div>
-            <div class="text-h6">Shipping</div>
+            <div class="text-h6">{{ $t('shipping') }}</div>
             <p v-if="currentOrder?.status == 'shipping'">
-              Now your order will reach you as soon as possible.
+              {{ $t('now-shipping') }}
             </p>
           </div>
         </v-timeline-item>
@@ -31,23 +31,23 @@
 
       <div v-if="currentOrder.is_prescription" class="mb-4">
         <v-icon class="me-1">ri-medicine-bottle-line</v-icon>
-        <strong>Prescription: </strong>
-        this order is on your prescription
+        <strong>{{ $t('prescription') }}: </strong>
+        {{ $t('order-on-your-p') }}
       </div>
 
       <div class="mb-4">
         <v-icon class="me-1">ri-time-line</v-icon>
-        <strong>Delivery AT:</strong>
+        <strong>{{ $t('delivery-at') }}:</strong>
         {{
           currentOrder.is_time
             ? $dayjs(currentOrder.time).format('YYYY/MM/DD hh:mm')
-            : 'as soon as its ready'
+            : $t('as-ready')
         }}
       </div>
 
       <div>
         <v-icon class="me-1">ri-price-tag-3-line</v-icon>
-        <strong>ORDER TOTAL PRICE:</strong>
+        <strong>{{ $t('order-total') }}</strong>
         {{ currentOrder?.total_price }}
       </div>
 
@@ -75,8 +75,8 @@
 </template>
 
 <script lang="ts" setup>
+import no_img from '@/assets/images/no-img.jpeg'
 import type { Order } from '@/types'
-import no_img from '@images/no-img.jpeg'
 
 defineProps<{
   currentOrder: Order

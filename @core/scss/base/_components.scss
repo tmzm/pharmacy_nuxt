@@ -1,8 +1,8 @@
 @use "mixins";
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins" as layoutMixins;
-@use "@configured-variables" as variables;
-@use "@styles/variables/_vuetify.scss" as vuetify;
+@use "@/@layouts/styles/placeholders";
+@use "@/@layouts/styles/mixins" as layoutMixins;
+@use "@/assets/styles/variables/_template.scss" as variables;
+@use "@/assets/styles/variables/_vuetify.scss" as vuetify;
 
 // Avatar group
 .v-avatar-group {

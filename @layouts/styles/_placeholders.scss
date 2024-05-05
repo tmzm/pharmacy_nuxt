@@ -1,5 +1,5 @@
 // placeholders
-@use "@configured-variables" as variables;
+@use "@/assets/styles/variables/_template.scss" as variables;
 
 %boxed-content {
   @at-root #{&}-spacing {
@@ -19,8 +19,8 @@
 %layout-navbar-sticky {
   position: sticky;
   inset-block-start: 0;
-
   will-change: transform;
+
   // inline-size: 100%;
 }
 

@@ -1,6 +1,6 @@
-@use "@styles/variables/_vuetify.scss" as vuetify;
-@use "@layouts/styles/mixins" as layoutsMixins;
-@use "@core/scss/base/mixins";
+@use "@/assets/styles/variables/_vuetify.scss" as vuetify;
+@use "@/@layouts/styles/mixins" as layoutsMixins;
+@use "@/@core/scss/base/mixins";
 
 body .apexcharts-canvas {
   &line[stroke="transparent"] {

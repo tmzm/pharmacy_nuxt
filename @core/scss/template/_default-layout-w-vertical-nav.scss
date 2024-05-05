@@ -1,5 +1,5 @@
-@use "@configured-variables" as variables;
-@use "@core/scss/base/mixins";
+@use "@/assets/styles/variables/_template.scss" as variables;
+@use "@/@core/scss/base/mixins";
 
 $header: ".layout-navbar";
 

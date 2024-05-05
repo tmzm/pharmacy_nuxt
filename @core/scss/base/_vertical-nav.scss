@@ -1,8 +1,8 @@
-@use "@core/scss/base/placeholders" as *;
-@use "@core/scss/template/placeholders" as *;
-@use "@layouts/styles/mixins" as layoutsMixins;
-@use "@configured-variables" as variables;
-@use "@core/scss/base/mixins" as mixins;
+@use "@/@core/scss/base/placeholders" as *;
+@use "@/@core/scss/template/placeholders" as *;
+@use "@/@layouts/styles/mixins" as layoutsMixins;
+@use "@/assets/styles/variables/_template.scss" as variables;
+@use "@/@core/scss/base/mixins" as mixins;
 @use "vuetify/lib/styles/tools/states" as vuetifyStates;
 
 .layout-nav-type-vertical {

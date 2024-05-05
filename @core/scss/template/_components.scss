@@ -1,9 +1,9 @@
 /* stylelint-disable no-descending-specificity */
-@use "@configured-variables" as variables;
+@use "@/assets/styles/variables/_template.scss" as variables;
 @use "sass:map";
-@use "@styles/variables/vuetify";
-@use "@core/scss/base/mixins";
-@use "@core/scss/base/utils";
+@use "@/assets/styles/variables/vuetify";
+@use "@/@core/scss/base/mixins";
+@use "@/@core/scss/base/utils";
 
 // increase the specificity of the selector
 body {

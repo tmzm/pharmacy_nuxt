@@ -22,7 +22,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       // console.log('catch')
       showErrorToaster('Something went wrong!')
     }
-    console.log('end')
+    // console.log('end')
 
     if (to.path.includes('auth')) {
       // console.log("to.path.includes('auth')")

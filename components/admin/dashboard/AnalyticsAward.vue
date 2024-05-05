@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import trophy from '@images/misc/trophy.png'
+import trophy from '@/assets/images/misc/trophy.png'
 </script>
 
 <template>

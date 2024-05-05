@@ -1,8 +1,8 @@
-@use "@configured-variables" as variables;
-@use "@core/scss/base/placeholders" as *;
-@use "@core/scss/template/placeholders" as *;
+@use "@/assets/styles/variables/_template.scss" as variables;
+@use "@/@core/scss/base/placeholders" as *;
+@use "@/@core/scss/template/placeholders" as *;
 @use "misc";
-@use "@core/scss/base/mixins";
+@use "@/@core/scss/base/mixins";
 
 $header: ".layout-navbar";
 

@@ -1,26 +1,20 @@
 <template>
   <v-carousel height="400" show-arrows="hover" cycle hide-delimiter-background>
     <v-carousel-item v-for="n in 3">
-      <div class="w-100 h-100 bg-cover" :style="s">
-        <v-overlay
-          class="d-flex items-center justify-center"
-          persistent
-          contained
-          :model-value="true"
-        >
-          <v-img width="300" class="mx-auto" :src="logo"></v-img>
-          <div class="text-white text-md-h1 text-h4 font-semibold">
-            {{ $t('first-pharmacy') }}
-          </div>
-        </v-overlay>
+      <div
+        class="w-100 h-100 bg-cover rounded-lg d-flex flex-col items-start justify-end"
+        :style="s"
+      >
+        <div class="text-white text-[32px] mb-12 ms-8 font-semibold">
+          {{ $t('first-pharmacy') }}
+        </div>
       </div>
     </v-carousel-item>
   </v-carousel>
 </template>
 
 <script lang="ts" setup>
-import logo from '@images/logos/logoMoafa.webp'
-import image from '@images/pages/ph-baner.jpg'
+import image from '@/assets/images/pages/ph-baner.jpg'
 const s = 'background-image: url(' + image + ');'
 const length = ref(3)
 const onboarding = ref(1)

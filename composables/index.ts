@@ -61,10 +61,10 @@ export const convertToTitleCaseWithSpace = (input: string): string => {
 
 export const showSuccessToaster = (msg: string) => {
   const toasterStore = useToasterStore()
-  toasterStore.showSuccessToaster(msg)
+  toasterStore.showSuccessToaster(msg /*, i18n.locale.value == 'ar'*/)
 }
 
 export const showErrorToaster = (msg: string) => {
   const toasterStore = useToasterStore()
-  toasterStore.showErrorToaster(msg)
+  toasterStore.showErrorToaster(msg /*, i18n.locale.value == 'ar'*/)
 }

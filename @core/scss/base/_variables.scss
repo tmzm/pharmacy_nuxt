@@ -11,18 +11,18 @@
     - You can also use variable for consistency (e.g. mx 1 rem should be applied to both vertical nav items and vertical nav header)
 */
 
-@forward "@layouts/styles/variables" with (
+@forward "@/@layouts/styles/variables" with (
   // Adjust z-index so vertical nav & overlay stays on top of v-layout in v-main. E.g. Email app
   $layout-vertical-nav-z-index: 1003,
   $layout-overlay-z-index: 1002,
 );
-@use "@layouts/styles/variables" as *;
+@use "@/@layouts/styles/variables" as *;
 
 // Default layout
 
 $navbar-high-emphasis-text: true !default;
 
-// @forward "@layouts/styles/variables" with (
+// @forward "@/@layouts/styles/variables" with (
 //   $layout-vertical-nav-width: 350px !default,
 // );
 
@@ -113,7 +113,7 @@ $plugin-ps-thumb-y-dark: rgba(var(--v-theme-surface-variant), 0.35) !default;
 
 // Vuetify
 
-// Used in src/@core/scss/base/libs/vuetify/_overrides.scss
+// Used in src/@/@core/scss/base/libs/vuetify/_overrides.scss
 $vuetify-reduce-default-compact-button-icon-size: true !default;
 
 // Custom variables

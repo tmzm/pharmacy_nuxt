@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import no_avatar from '@images/avatars/avatar-no.png'
+import no_avatar from '@/assets/images/avatars/avatar-no.png'
 
 const orderStore = useOrderStore()
 
